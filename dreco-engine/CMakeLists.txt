@@ -1,7 +1,8 @@
 cmake_minimum_required(VERSION 3.7)
 project(dreco-engine)
 
-add_library(${PROJECT_NAME} STATIC Source/Core/engine.cxx)
+add_library(${PROJECT_NAME} STATIC src/core/engine.cxx
+src/core/engine_properties.hxx)
 
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
 
