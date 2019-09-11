@@ -17,6 +17,11 @@ public:
 	void StopMainLoop();
 
 private:
+
+	float GetNewDeltaTime();
+
+	uint32_t last_tick_time = 0;
+	
 	bool is_engine_initialized = false;
 
 	SDL_Window* window = nullptr;

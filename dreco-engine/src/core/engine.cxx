@@ -8,6 +8,7 @@ using namespace dreco;
 
 engine::engine()
 {
+	last_tick_time = SDL_GetPerformanceCounter();
 }
 
 engine::~engine()
@@ -53,6 +54,8 @@ void engine::StartMainLoop()
 
 	while(keep_main_loop) 
 	{
+		const auto DeltaTime = GetNewDeltaTime();
+
 		SDL_Event event;
 		
 		while(SDL_PollEvent(&event)) 
@@ -80,4 +83,16 @@ void engine::StartMainLoop()
 void engine::StopMainLoop() 
 {
 	keep_main_loop = false;
+}
+
+float engine::GetNewDeltaTime() 
+{
+    const uint32_t now = SDL_GetPerformanceCounter();
+	
+    const float deltatime = static_cast<float>(now - last_tick_time) /
+     static_cast<float>(SDL_GetPerformanceFrequency());
+    
+    last_tick_time = now;
+
+    return deltatime;
 }
