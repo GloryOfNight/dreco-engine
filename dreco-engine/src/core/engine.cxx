@@ -1,5 +1,6 @@
 #include "engine.hxx"
 
+#include <functional>
 #include <iostream>
 #include <stdexcept>
 
@@ -13,9 +14,10 @@ engine::engine()
 
 engine::~engine()
 {
-	if (is_engine_initialized) 
+	if (is_engine_initialized)
 	{
 		SDL_DestroyWindow(window);
+		delete event_manager;
 	}
 }
 
@@ -38,13 +40,17 @@ int engine::Init(engine_properties& properties)
 		return INIT_FAILED;
 	}
 
-	is_engine_initialized= true;
+	event_manager = new sdl_event_manager();
+
+	event_manager->AddKeyBinding(SDLK_ESCAPE, std::bind(&engine::Key_Escape, this, 1));
+
+	is_engine_initialized = true;
 	return INIT_SUCCESS;
 }
 
 void engine::StartMainLoop()
 {
-	if (!is_engine_initialized) 
+	if (!is_engine_initialized)
 	{
 		std::cerr << "StartMainLoop(): Egnine must be initialized!" << std::endl;
 		return;
@@ -52,47 +58,35 @@ void engine::StartMainLoop()
 
 	keep_main_loop = true;
 
-	while(keep_main_loop) 
+	while (keep_main_loop)
 	{
 		const auto DeltaTime = GetNewDeltaTime();
-
-		SDL_Event event;
-		
-		while(SDL_PollEvent(&event)) 
-		{
-			switch(event.type) 
-			{
-				case SDLK_DOWN:
-				switch(event.key.keysym.sym) 
-				{
-					case SDLK_ESCAPE:
-					StopMainLoop();
-					break;
-					
-				}
-				break;
-
-				case SDL_QUIT:
-				StopMainLoop();
-				break;
-			}
-		}
+		Tick(DeltaTime);
 	}
 }
 
-void engine::StopMainLoop() 
+void engine::StopMainLoop()
 {
 	keep_main_loop = false;
 }
 
-float engine::GetNewDeltaTime() 
+void engine::Key_Escape(uint32_t event_type)
 {
-    const uint32_t now = SDL_GetPerformanceCounter();
-	
-    const float deltatime = static_cast<float>(now - last_tick_time) /
-     static_cast<float>(SDL_GetPerformanceFrequency());
-    
-    last_tick_time = now;
+	StopMainLoop();
+}
 
-    return deltatime;
+void engine::Tick(const float& DeltaTime)
+{
+	event_manager->ProcessEvents();
+}
+
+float engine::GetNewDeltaTime()
+{
+	const uint32_t now = SDL_GetPerformanceCounter();
+
+	const float deltatime = static_cast<float>(now - last_tick_time) / static_cast<float>(SDL_GetPerformanceFrequency());
+
+	last_tick_time = now;
+
+	return deltatime;
 }
