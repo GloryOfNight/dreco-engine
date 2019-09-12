@@ -21,7 +21,7 @@ public:
 	void RemoveKeyBinding(uint32_t key_type);
 
 private:
-	inline void ProcessKeyBindindEvent(SDL_Event& event);
+	inline void ProcessKeyBindingEvent(SDL_Event& event);
 	
 	std::map<uint32_t, key_callback_func> key_bindings = {};
 };

@@ -19,10 +19,14 @@ public:
 
 	void Key_Escape(uint32_t event_type);
 
+	inline sdl_event_manager* GetEventManager() const;
+
 private:
 	void Tick(const float& DeltaTime);
 
 	float GetNewDeltaTime();
+
+	sdl_event_manager* CreateEventManager();
 
 	uint32_t last_tick_time = 0;
 

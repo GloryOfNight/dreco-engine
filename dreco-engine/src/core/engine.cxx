@@ -40,7 +40,7 @@ int engine::Init(engine_properties& properties)
 		return INIT_FAILED;
 	}
 
-	event_manager = new sdl_event_manager();
+	event_manager = CreateEventManager();
 
 	event_manager->AddKeyBinding(SDLK_ESCAPE, std::bind(&engine::Key_Escape, this, 1));
 
@@ -75,9 +75,14 @@ void engine::Key_Escape(uint32_t event_type)
 	StopMainLoop();
 }
 
+inline sdl_event_manager* engine::GetEventManager() const
+{
+	return event_manager;
+}
+
 void engine::Tick(const float& DeltaTime)
 {
-	event_manager->ProcessEvents();
+	GetEventManager()->ProcessEvents();
 }
 
 float engine::GetNewDeltaTime()
@@ -89,4 +94,9 @@ float engine::GetNewDeltaTime()
 	last_tick_time = now;
 
 	return deltatime;
+}
+
+sdl_event_manager* engine::CreateEventManager()
+{
+	return new sdl_event_manager;
 }
