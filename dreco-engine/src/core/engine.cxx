@@ -80,8 +80,14 @@ inline sdl_event_manager* engine::GetEventManager() const
 	return event_manager;
 }
 
+void engine::RegisterOwnedGame(game_base* game) 
+{
+	owned_game = game;
+}
+
 void engine::Tick(const float& DeltaTime)
 {
+	owned_game->Tick(DeltaTime);
 	GetEventManager()->ProcessEvents();
 }
 

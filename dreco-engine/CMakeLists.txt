@@ -3,7 +3,8 @@ project(dreco-engine)
 
 add_library(${PROJECT_NAME} STATIC
 src/core/engine.cxx
-src/core/sdl_event_manager.cxx)
+src/core/sdl_event_manager.cxx
+src/game_objects/game_base.cxx)
 
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
 

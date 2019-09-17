@@ -3,6 +3,7 @@
 #include "engine_properties.hxx"
 #include "sdl_event_manager.hxx"
 #include "types.hxx"
+#include "../game_objects/game_base.hxx"
 
 namespace dreco
 {
@@ -21,6 +22,8 @@ public:
 
 	inline sdl_event_manager* GetEventManager() const;
 
+	void RegisterOwnedGame(game_base* game);
+
 private:
 	void Tick(const float& DeltaTime);
 
@@ -37,5 +40,7 @@ private:
 	bool keep_main_loop = false;
 
 	sdl_event_manager* event_manager = nullptr;
+
+	game_base* owned_game = nullptr;
 };
 }	// namespace dreco
