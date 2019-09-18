@@ -43,6 +43,7 @@ int engine::Init(engine_properties& properties)
 	event_manager = CreateEventManager();
 
 	event_manager->AddKeyBinding(SDLK_ESCAPE, std::bind(&engine::Key_Escape, this, 1));
+	event_manager->AddEventBinding(SDL_QUIT, std::bind(&engine::Event_Quit, this));
 
 	is_engine_initialized = true;
 	return INIT_SUCCESS;
@@ -75,12 +76,17 @@ void engine::Key_Escape(uint32_t event_type)
 	StopMainLoop();
 }
 
+void engine::Event_Quit()
+{
+	StopMainLoop();
+}
+
 inline sdl_event_manager* engine::GetEventManager() const
 {
 	return event_manager;
 }
 
-void engine::RegisterOwnedGame(game_base* game) 
+void engine::RegisterOwnedGame(game_base* game)
 {
 	owned_game = game;
 }

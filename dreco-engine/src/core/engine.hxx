@@ -20,6 +20,8 @@ public:
 
 	void Key_Escape(uint32_t event_type);
 
+	void Event_Quit();
+
 	inline sdl_event_manager* GetEventManager() const;
 
 	void RegisterOwnedGame(game_base* game);
