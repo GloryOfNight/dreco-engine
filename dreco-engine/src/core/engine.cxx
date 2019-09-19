@@ -1,5 +1,4 @@
 #include "engine.hxx"
-
 #include <functional>
 #include <iostream>
 #include <stdexcept>
@@ -16,8 +15,9 @@ engine::~engine()
 {
 	if (is_engine_initialized)
 	{
-		SDL_DestroyWindow(window);
+		delete renderer;
 		delete event_manager;
+		SDL_DestroyWindow(window);
 	}
 }
 
@@ -45,6 +45,8 @@ int engine::Init(engine_properties& properties)
 	event_manager->AddKeyBinding(SDLK_ESCAPE, std::bind(&engine::Key_Escape, this, 1));
 	event_manager->AddEventBinding(SDL_QUIT, std::bind(&engine::Event_Quit, this));
 
+	renderer = new opengles2_renderer(*this);
+	
 	is_engine_initialized = true;
 	return INIT_SUCCESS;
 }
@@ -89,6 +91,16 @@ inline sdl_event_manager* engine::GetEventManager() const
 void engine::RegisterOwnedGame(game_base* game)
 {
 	owned_game = game;
+}
+
+SDL_Window* engine::GetWindow() const
+{
+	return window;
+}
+
+opengles2_renderer* engine::GetRenderer() const 
+{
+	return renderer;
 }
 
 void engine::Tick(const float& DeltaTime)

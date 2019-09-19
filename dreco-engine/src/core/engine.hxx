@@ -3,7 +3,8 @@
 #include "engine_properties.hxx"
 #include "sdl_event_manager.hxx"
 #include "types.hxx"
-#include "../game_objects/game_base.hxx"
+#include "renderer/opengles2_renderer.hxx"
+#include "game_objects/game_base.hxx"
 
 namespace dreco
 {
@@ -26,6 +27,10 @@ public:
 
 	void RegisterOwnedGame(game_base* game);
 
+	SDL_Window* GetWindow() const;
+
+	opengles2_renderer* GetRenderer() const;
+
 private:
 	void Tick(const float& DeltaTime);
 
@@ -44,5 +49,7 @@ private:
 	sdl_event_manager* event_manager = nullptr;
 
 	game_base* owned_game = nullptr;
+
+	opengles2_renderer* renderer = nullptr;
 };
 }	// namespace dreco

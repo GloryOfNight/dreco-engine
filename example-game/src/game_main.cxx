@@ -1,5 +1,6 @@
-#include "../../dreco-engine/src/core/engine.hxx"
-#include "../../dreco-engine/src/game_objects/game_base.hxx"
+#include "core/engine.hxx"
+#include "game_objects/game_base.hxx"
+
 #include <iostream>
 
 int main()
