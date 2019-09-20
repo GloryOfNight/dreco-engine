@@ -1,24 +1,27 @@
 #include "game_base.hxx"
+
 #include "../core/engine.hxx"
 
 using namespace dreco;
 
-game_base::game_base(engine& engine_based_on) 
+game_base::game_base(engine& _e)
 {
-    game_engine = &engine_based_on;
+	game_engine = &_e;
 }
 
-void game_base::Init() 
+game_base::~game_base()
 {
-    
-} 
+}
+
+void game_base::Init()
+{
+}
 
 void game_base::Tick(const float& DeltaTime)
 {
-    
 }
 
-engine* game_base::GetEngine() const 
+engine* game_base::GetEngine() const
 {
-    return game_engine;
+	return game_engine;
 }

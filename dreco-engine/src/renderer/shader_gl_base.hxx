@@ -11,7 +11,8 @@ class shader_gl_base
 {
 public:
 	shader_gl_base(const char& _v_src, const char& _f_src, const glShaderAtributes& _a);
-
+	~shader_gl_base();
+	
 	void Use();
 private:
 	GLuint CompileShader(GLenum _s_type, const char* _src);

@@ -18,6 +18,13 @@ shader_gl_base::shader_gl_base(const char& _v_src, const char& _f_src, const glS
     program_id = LinkShaderProgram(_a);
 }
 
+shader_gl_base::~shader_gl_base() 
+{
+    glDeleteShader(vert_shader_id);
+    glDeleteShader(frag_shader_id);
+    glDeleteProgram(program_id);
+}
+
 void shader_gl_base::Use() 
 {
     glUseProgram(program_id);

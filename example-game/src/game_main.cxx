@@ -1,5 +1,5 @@
 #include "core/engine.hxx"
-#include "game_objects/game_base.hxx"
+#include "game_instance.hxx"
 
 #include <iostream>
 
@@ -13,8 +13,8 @@ int main()
 	const auto init_res = engine->Init(engine_properties);
 
 	if (init_res == dreco::INIT_SUCCESS)
-	{
-		dreco::game_base* game = new dreco::game_base(*engine);
+	{	
+		dreco::game_base* game = new game_instance(*engine);
 		game->Init();
 		engine->RegisterOwnedGame(game);
 		engine->StartMainLoop();

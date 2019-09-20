@@ -3,6 +3,9 @@
 #include "SDL2/SDL_opengl.h"
 #include "SDL2/SDL_opengl_glext.h"
 #include "shader_gl_base.hxx"
+#include "vertex.hxx"
+
+#include <vector>
 
 namespace dreco
 {
@@ -14,7 +17,13 @@ public:
 	opengles2_renderer(engine& _e);
 	~opengles2_renderer();
 
+	void DrawVertexArray(const std::vector<vertex>& _v);
+
+	void Tick(const float& DeltaTime);
+
 private:
+	void SwapBuffer();
+
 	engine* engine_owner = nullptr;
 
 	SDL_GLContext gl_context = nullptr;

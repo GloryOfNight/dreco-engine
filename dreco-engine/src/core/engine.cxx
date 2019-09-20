@@ -107,6 +107,8 @@ void engine::Tick(const float& DeltaTime)
 {
 	owned_game->Tick(DeltaTime);
 	GetEventManager()->ProcessEvents();
+
+	renderer->Tick(DeltaTime);
 }
 
 float engine::GetNewDeltaTime()

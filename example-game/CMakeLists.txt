@@ -2,7 +2,8 @@ cmake_minimum_required(VERSION 3.7)
 project(example-game)
 
 add_executable(${PROJECT_NAME} 
-src/game_main.cxx)
+src/game_main.cxx
+src/game_instance.cxx)
 
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
 
