@@ -17,5 +17,5 @@ struct mat2x3
 
     static mat2x3 scale(const float _sx, const float _sy);
 };
-mat2x3 operator* (const mat2x3& _m1, const mat2x3& _m2);
+mat2x3 operator*(const mat2x3& _m1, const mat2x3& _m2);
 }	// namespace dreco

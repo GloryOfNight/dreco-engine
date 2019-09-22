@@ -17,7 +17,7 @@ public:
 	opengles2_renderer(engine& _e);
 	~opengles2_renderer();
 
-	void DrawVertexArray(const std::vector<vertex>& _v);
+	void DrawVertexArray(const std::vector<vertex>& _v, const mat2x3& _m);
 
 	void Tick(const float& DeltaTime);
 

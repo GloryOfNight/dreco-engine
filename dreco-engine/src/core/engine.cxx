@@ -42,7 +42,7 @@ int engine::Init(engine_properties& properties)
 
 	event_manager = CreateEventManager();
 
-	event_manager->AddKeyBinding(SDLK_ESCAPE, std::bind(&engine::Key_Escape, this, 1));
+	event_manager->AddKeyBinding(SDLK_ESCAPE, std::bind(&engine::Key_Escape, this, std::placeholders::_1));
 	event_manager->AddEventBinding(SDL_QUIT, std::bind(&engine::Event_Quit, this));
 
 	renderer = new opengles2_renderer(*this);
@@ -83,7 +83,7 @@ void engine::Event_Quit()
 	StopMainLoop();
 }
 
-inline sdl_event_manager* engine::GetEventManager() const
+sdl_event_manager* engine::GetEventManager() const
 {
 	return event_manager;
 }

@@ -2,6 +2,11 @@
 
 using namespace dreco;
 
+vec2::vec2() 
+{
+	
+}
+
 vec2::vec2(const float _x, const float _y)
 {
 	x = _x;

@@ -32,20 +32,23 @@ opengles2_renderer::~opengles2_renderer()
 	SDL_GL_DeleteContext(gl_context);
 }
 
-void opengles2_renderer::DrawVertexArray(const std::vector<vertex>& _v) 
+void opengles2_renderer::DrawVertexArray(const std::vector<vertex>& _v, const mat2x3& _m)
 {
 	shader->Use();
+	shader->SetUniform("u_matrix", _m);
+
 	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(vertex), &_v[0]);
 	glEnableVertexAttribArray(0);
+
 	glDrawArrays(GL_TRIANGLES, 0, _v.capacity());
 }
 
-void opengles2_renderer::Tick(const float& DeltaTime) 
+void opengles2_renderer::Tick(const float& DeltaTime)
 {
 	SwapBuffer();
 }
 
-void opengles2_renderer::SwapBuffer() 
+void opengles2_renderer::SwapBuffer()
 {
 	SDL_GL_SwapWindow(engine_owner->GetWindow());
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

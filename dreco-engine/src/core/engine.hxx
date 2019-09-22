@@ -23,7 +23,7 @@ public:
 
 	void Event_Quit();
 
-	inline sdl_event_manager* GetEventManager() const;
+	sdl_event_manager* GetEventManager() const;
 
 	void RegisterOwnedGame(game_base* game);
 
