@@ -45,7 +45,7 @@ void game_instance::Tick(const float& DeltaTime)
 	{
 		translation.y += 1 * DeltaTime;
 	}
-	if (bGoDown) 
+	else if (bGoDown) 
 	{
 		translation.y -= 1 * DeltaTime;
 	}
@@ -53,18 +53,19 @@ void game_instance::Tick(const float& DeltaTime)
 	{
 		translation.x -= 1 * DeltaTime;
 	}
-	if (bGoRight) 
+	else if (bGoRight) 
 	{
 		translation.x += 1 * DeltaTime;
 	}
 	if (bRotateForward) 
 	{
-		rotation += 0.5 * DeltaTime;
+		rotation += 0.5f * DeltaTime;
 	}
-	if (bRotateBackward) 
+	else if (bRotateBackward) 
 	{
-		rotation -= 0.5 * DeltaTime;
+		rotation -= 0.5f * DeltaTime;
 	}
+
 	const mat2x3 m_t = mat2x3::translate(translation);
 	const mat2x3 m_r = mat2x3::rotate(rotation);
 	const mat2x3 m_s = mat2x3::scale(1.0f, 1.0f);
