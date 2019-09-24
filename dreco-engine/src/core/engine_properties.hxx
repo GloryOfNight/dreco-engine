@@ -1,10 +1,10 @@
 #pragma once
 #include <string>
 
-namespace dreco 
+namespace dreco
 {
-    struct engine_properties 
-    {
-        std::string window_title = "Title";
-    };
-}
+struct engine_properties
+{
+	std::string window_title = "Title";
+};
+}	// namespace dreco

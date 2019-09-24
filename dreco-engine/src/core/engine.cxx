@@ -1,4 +1,5 @@
 #include "engine.hxx"
+
 #include <functional>
 #include <iostream>
 #include <stdexcept>
@@ -36,7 +37,7 @@ int engine::Init(engine_properties& properties)
 
 	if (!window)
 	{
-		std::cerr << "Init(): Unadble to create window: " << SDL_GetError() << std::endl;
+		std::cerr << "Init(): Unadle to create window: " << SDL_GetError() << std::endl;
 		return INIT_FAILED;
 	}
 
@@ -46,7 +47,7 @@ int engine::Init(engine_properties& properties)
 	event_manager->AddEventBinding(SDL_QUIT, std::bind(&engine::Event_Quit, this));
 
 	renderer = new opengles2_renderer(*this);
-	
+
 	is_engine_initialized = true;
 	return INIT_SUCCESS;
 }
@@ -98,7 +99,7 @@ SDL_Window* engine::GetWindow() const
 	return window;
 }
 
-opengles2_renderer* engine::GetRenderer() const 
+opengles2_renderer* engine::GetRenderer() const
 {
 	return renderer;
 }

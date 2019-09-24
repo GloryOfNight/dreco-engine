@@ -1,6 +1,6 @@
 #pragma once
-#include <iostream>
 #include <cassert>
+#include <iostream>
 
 #define GL_CHECK()                                                                                 \
 	{                                                                                              \

@@ -1,6 +1,7 @@
 #pragma once
 #include "SDL2/SDL_opengl.h"
 #include "math/mat2x3.hxx"
+
 #include <tuple>
 #include <vector>
 
@@ -13,7 +14,7 @@ class shader_gl_base
 public:
 	shader_gl_base(const char& _v_src, const char& _f_src, const glShaderAtributes& _a);
 	~shader_gl_base();
-	
+
 	void Use();
 
 	void SetUniform(const std::string_view uniform_name, const mat2x3& _m);

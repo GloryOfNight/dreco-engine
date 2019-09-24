@@ -20,7 +20,6 @@ void sdl_event_manager::ProcessEvents()
 			default:
 				ProcessEventBinding(event);
 				break;
-
 		}
 	}
 }
@@ -35,12 +34,12 @@ void sdl_event_manager::RemoveKeyBinding(uint32_t key_type)
 	key_bindings.erase(key_type);
 }
 
-void sdl_event_manager::AddEventBinding(uint32_t event_type, event_callback_func callback_func) 
+void sdl_event_manager::AddEventBinding(uint32_t event_type, event_callback_func callback_func)
 {
 	event_bindings.emplace(event_type, callback_func);
 }
 
-void sdl_event_manager::RemoveEventBinding(uint32_t event_type) 
+void sdl_event_manager::RemoveEventBinding(uint32_t event_type)
 {
 	event_bindings.erase(event_type);
 }
@@ -58,13 +57,13 @@ inline void sdl_event_manager::ProcessKeyBindingEvent(SDL_Event& event)
 	}
 }
 
-inline void sdl_event_manager::ProcessEventBinding(const SDL_Event& event) 
+inline void sdl_event_manager::ProcessEventBinding(const SDL_Event& event)
 {
-	if (event_bindings.find(event.type) != event_bindings.end()) 
+	if (event_bindings.find(event.type) != event_bindings.end())
 	{
 		auto binding = event_bindings.at(event.type);
 
-		if (binding) 
+		if (binding)
 		{
 			binding();
 		}

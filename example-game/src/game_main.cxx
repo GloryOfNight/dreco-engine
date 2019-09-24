@@ -13,7 +13,7 @@ int main()
 	const auto init_res = engine->Init(engine_properties);
 
 	if (init_res == dreco::INIT_SUCCESS)
-	{	
+	{
 		dreco::game_base* game = new game_instance(*engine);
 		game->Init();
 		engine->RegisterOwnedGame(game);

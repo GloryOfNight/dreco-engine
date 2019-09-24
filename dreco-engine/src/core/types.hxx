@@ -1,10 +1,10 @@
 #pragma once
 
-namespace dreco 
+namespace dreco
 {
-enum 
+enum
 {
-    INIT_SUCCESS = 0,
-    INIT_FAILED = 1
+	INIT_SUCCESS = 0,
+	INIT_FAILED = 1
 };
 }

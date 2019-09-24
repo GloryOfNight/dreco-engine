@@ -15,7 +15,7 @@ game_instance::~game_instance()
 {
 }
 
-void game_instance::Init() 
+void game_instance::Init()
 {
 	GetEngine()->GetEventManager()->AddKeyBinding(SDLK_UP, std::bind(&game_instance::key_Up, this, std::placeholders::_1));
 	GetEngine()->GetEventManager()->AddKeyBinding(SDLK_DOWN, std::bind(&game_instance::key_Down, this, std::placeholders::_1));
@@ -40,28 +40,27 @@ void game_instance::Tick(const float& DeltaTime)
 	vertexes.push_back(vertex(-0.5f, 0.5f, 0.0f));
 	vertexes.push_back(vertex(0.5f, 0.0f, 0.0f));
 
-
-	if (bGoUp) 
+	if (bGoUp)
 	{
 		translation.y += 1 * DeltaTime;
 	}
-	else if (bGoDown) 
+	else if (bGoDown)
 	{
 		translation.y -= 1 * DeltaTime;
 	}
-	if (bGoLeft) 
+	if (bGoLeft)
 	{
 		translation.x -= 1 * DeltaTime;
 	}
-	else if (bGoRight) 
+	else if (bGoRight)
 	{
 		translation.x += 1 * DeltaTime;
 	}
-	if (bRotateForward) 
+	if (bRotateForward)
 	{
 		rotation += 0.5f * DeltaTime;
 	}
-	else if (bRotateBackward) 
+	else if (bRotateBackward)
 	{
 		rotation -= 0.5f * DeltaTime;
 	}
@@ -75,32 +74,32 @@ void game_instance::Tick(const float& DeltaTime)
 	GetEngine()->GetRenderer()->DrawVertexArray(vertexes, m_f);
 }
 
-void game_instance::key_Up(uint32_t _e_type) 
+void game_instance::key_Up(uint32_t _e_type)
 {
 	bGoUp = _e_type == SDL_KEYDOWN ? true : false;
 }
 
-void game_instance::key_Down(uint32_t _e_type) 
+void game_instance::key_Down(uint32_t _e_type)
 {
 	bGoDown = _e_type == SDL_KEYDOWN ? true : false;
 }
 
-void game_instance::key_Left(uint32_t _e_type) 
+void game_instance::key_Left(uint32_t _e_type)
 {
 	bGoLeft = _e_type == SDL_KEYDOWN ? true : false;
 }
 
-void game_instance::key_Right(uint32_t _e_type) 
+void game_instance::key_Right(uint32_t _e_type)
 {
 	bGoRight = _e_type == SDL_KEYDOWN ? true : false;
 }
 
-void game_instance::key_q(uint32_t _e_type) 
+void game_instance::key_q(uint32_t _e_type)
 {
 	bRotateBackward = _e_type == SDL_KEYDOWN ? true : false;
 }
 
-void game_instance::key_e(uint32_t _e_type) 
+void game_instance::key_e(uint32_t _e_type)
 {
 	bRotateForward = _e_type == SDL_KEYDOWN ? true : false;
 }

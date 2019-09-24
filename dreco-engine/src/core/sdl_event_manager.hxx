@@ -28,9 +28,9 @@ public:
 
 private:
 	inline void ProcessKeyBindingEvent(SDL_Event& event);
-	
+
 	inline void ProcessEventBinding(const SDL_Event& event);
-	
+
 	std::map<uint32_t, key_callback_func> key_bindings = {};
 
 	std::map<uint32_t, event_callback_func> event_bindings = {};

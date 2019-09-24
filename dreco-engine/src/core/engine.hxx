@@ -1,10 +1,10 @@
 #pragma once
 #include "SDL2/SDL.h"
 #include "engine_properties.hxx"
+#include "game_objects/game_base.hxx"
+#include "renderer/opengles2_renderer.hxx"
 #include "sdl_event_manager.hxx"
 #include "types.hxx"
-#include "renderer/opengles2_renderer.hxx"
-#include "game_objects/game_base.hxx"
 
 namespace dreco
 {

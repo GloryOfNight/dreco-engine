@@ -1,7 +1,8 @@
 #pragma once
 #include "game_objects/game_base.hxx"
 #include "math/vec2.hxx"
-#include <stdint.h> 
+
+#include <stdint.h>
 
 class game_instance : public dreco::game_base
 {
@@ -19,10 +20,11 @@ public:
 	void key_Right(uint32_t _e_type);
 	void key_q(uint32_t _e_type);
 	void key_e(uint32_t _e_type);
+
 private:
 	float rotation = 0.0f;
 	dreco::vec2 translation = dreco::vec2();
-	
+
 	bool bGoUp = false;
 	bool bGoDown = false;
 	bool bGoLeft = false;
