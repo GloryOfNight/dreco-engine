@@ -9,7 +9,7 @@ namespace dreco
 {
 typedef std::function<void(uint32_t)> key_callback_func;
 
-typedef std::function<void()> event_callback_func;
+typedef std::function<void(const SDL_Event&)> event_callback_func;
 
 class sdl_event_manager
 {

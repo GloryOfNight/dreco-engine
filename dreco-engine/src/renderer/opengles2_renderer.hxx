@@ -21,6 +21,8 @@ public:
 
 	void Tick(const float& DeltaTime);
 
+	void UpdateViewportSize();
+
 private:
 	void SwapBuffer();
 

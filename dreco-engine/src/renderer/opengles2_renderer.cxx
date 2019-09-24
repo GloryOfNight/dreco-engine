@@ -48,6 +48,16 @@ void opengles2_renderer::Tick(const float& DeltaTime)
 	SwapBuffer();
 }
 
+void opengles2_renderer::UpdateViewportSize() 
+{
+	int w = 0;
+	int h = 0;
+	SDL_GetWindowSize(engine_owner->GetWindow(), &w, &h);
+
+	glViewport(0, 0, w, h);
+	
+}
+
 void opengles2_renderer::SwapBuffer()
 {
 	SDL_GL_SwapWindow(engine_owner->GetWindow());

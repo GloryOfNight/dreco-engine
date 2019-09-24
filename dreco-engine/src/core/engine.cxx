@@ -44,7 +44,8 @@ int engine::Init(engine_properties& properties)
 	event_manager = CreateEventManager();
 
 	event_manager->AddKeyBinding(SDLK_ESCAPE, std::bind(&engine::Key_Escape, this, std::placeholders::_1));
-	event_manager->AddEventBinding(SDL_QUIT, std::bind(&engine::Event_Quit, this));
+	event_manager->AddEventBinding(SDL_QUIT, std::bind(&engine::Event_Quit, this, std::placeholders::_1));
+	event_manager->AddEventBinding(SDL_WINDOWEVENT, std::bind(&engine::Event_Window, this, std::placeholders::_1));
 
 	renderer = new opengles2_renderer(*this);
 
@@ -79,9 +80,17 @@ void engine::Key_Escape(uint32_t event_type)
 	StopMainLoop();
 }
 
-void engine::Event_Quit()
+void engine::Event_Quit(const SDL_Event& _e)
 {
 	StopMainLoop();
+}
+
+void engine::Event_Window(const SDL_Event& _e)
+{
+	if (_e.window.event == SDL_WINDOWEVENT_RESIZED) 
+	{
+		renderer->UpdateViewportSize();
+	}
 }
 
 sdl_event_manager* engine::GetEventManager() const

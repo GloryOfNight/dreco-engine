@@ -65,7 +65,7 @@ inline void sdl_event_manager::ProcessEventBinding(const SDL_Event& event)
 
 		if (binding)
 		{
-			binding();
+			binding(event);
 		}
 	}
 }

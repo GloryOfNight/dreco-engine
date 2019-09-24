@@ -21,7 +21,9 @@ public:
 
 	void Key_Escape(uint32_t event_type);
 
-	void Event_Quit();
+	void Event_Quit(const SDL_Event& _e);
+
+	void Event_Window(const SDL_Event& _e);
 
 	sdl_event_manager* GetEventManager() const;
 
