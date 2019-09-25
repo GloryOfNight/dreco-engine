@@ -22,5 +22,5 @@ std::string shader_utils::LoadShaderSource(const char* _fpath)
 		src << line << '\n';
 	}
 
-	return src.str().c_str();
+	return src.str();
 }

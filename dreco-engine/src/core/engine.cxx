@@ -19,6 +19,7 @@ engine::~engine()
 		delete renderer;
 		delete event_manager;
 		SDL_DestroyWindow(window);
+		SDL_Quit();
 	}
 }
 
