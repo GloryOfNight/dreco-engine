@@ -2,7 +2,7 @@
 
 #include "../core/engine.hxx"
 #include "gl_inline_functions.hxx"
-#include "shader_utils.hxx"
+#include "utils/file_utils.hxx"
 
 using namespace dreco;
 
@@ -18,8 +18,8 @@ opengles2_renderer::opengles2_renderer(engine& _e)
 
 	LoadGlFunctions();
 
-	const auto vert_src = shader_utils::LoadShaderSource("res/shaders/default_shader.vert");
-	const auto frag_src = shader_utils::LoadShaderSource("res/shaders/default_shader.frag");
+	const auto vert_src = file_utils::LoadSourceFromFile("res/shaders/default_shader.vert");
+	const auto frag_src = file_utils::LoadSourceFromFile("res/shaders/default_shader.frag");
 
 	glShaderAtributes s_attr = {{0, "a_position"}, {1, "a_color"}, {2, "a_tex_coord"}};
 

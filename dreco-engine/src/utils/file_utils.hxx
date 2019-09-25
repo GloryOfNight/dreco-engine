@@ -3,9 +3,9 @@
 
 namespace dreco
 {
-class shader_utils
+class file_utils
 {
 public:
-	static std::string LoadShaderSource(const char* _fpath);
+	static std::string LoadSourceFromFile(const char* _fpath);
 };
 }	// namespace dreco
