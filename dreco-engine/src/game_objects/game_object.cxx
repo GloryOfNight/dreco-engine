@@ -2,10 +2,6 @@
 
 using namespace dreco;
 
-game_object::game_object()
-{
-}
-
 void game_object::Init()
 {
 }

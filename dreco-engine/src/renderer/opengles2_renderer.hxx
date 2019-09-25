@@ -29,7 +29,5 @@ private:
 	engine* engine_owner = nullptr;
 
 	SDL_GLContext gl_context = nullptr;
-
-	shader_gl_base* shader = nullptr;
 };
 }	// namespace dreco

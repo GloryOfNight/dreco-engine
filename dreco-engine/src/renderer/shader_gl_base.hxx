@@ -1,18 +1,18 @@
 #pragma once
 #include "SDL2/SDL_opengl.h"
 #include "math/mat2x3.hxx"
+#include "shader_properties.hxx"
 
 #include <tuple>
 #include <vector>
 
 namespace dreco
 {
-typedef std::vector<std::tuple<GLuint, const GLchar*>> glShaderAtributes;
 
 class shader_gl_base
 {
 public:
-	shader_gl_base(const char& _v_src, const char& _f_src, const glShaderAtributes& _a);
+	shader_gl_base(const shader_properties& _p);
 	~shader_gl_base();
 
 	void Use();

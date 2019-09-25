@@ -5,10 +5,10 @@
 
 using namespace dreco;
 
-shader_gl_base::shader_gl_base(const char& _v_src, const char& _f_src, const glShaderAtributes& _a)
+shader_gl_base::shader_gl_base(const shader_properties& _p)
 {
-	vert_shader_id = CompileShader(GL_VERTEX_SHADER, &_v_src);
-	frag_shader_id = CompileShader(GL_FRAGMENT_SHADER, &_f_src);
+	vert_shader_id = CompileShader(GL_VERTEX_SHADER, _p.vert_src);
+	frag_shader_id = CompileShader(GL_FRAGMENT_SHADER, _p.frag_src);
 
 	if (vert_shader_id == 0 || frag_shader_id == 0)
 	{
@@ -16,7 +16,7 @@ shader_gl_base::shader_gl_base(const char& _v_src, const char& _f_src, const glS
 		return;
 	}
 
-	program_id = LinkShaderProgram(_a);
+	program_id = LinkShaderProgram(_p.attributes);
 }
 
 shader_gl_base::~shader_gl_base()

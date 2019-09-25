@@ -4,6 +4,8 @@
 #include "core/sdl_event_manager.hxx"
 #include "math/mat2x3.hxx"
 #include "renderer/vertex.hxx"
+#include "renderer/shader_properties.hxx"
+#include "utils/file_utils.hxx"
 
 #include <vector>
 
@@ -13,6 +15,7 @@ game_instance::game_instance(dreco::engine& _e) : game_base(_e)
 
 game_instance::~game_instance()
 {
+	delete sample_mesh;
 }
 
 void game_instance::Init()
@@ -23,22 +26,30 @@ void game_instance::Init()
 	GetEngine()->GetEventManager()->AddKeyBinding(SDLK_RIGHT, std::bind(&game_instance::key_Right, this, std::placeholders::_1));
 	GetEngine()->GetEventManager()->AddKeyBinding(SDLK_q, std::bind(&game_instance::key_q, this, std::placeholders::_1));
 	GetEngine()->GetEventManager()->AddKeyBinding(SDLK_e, std::bind(&game_instance::key_e, this, std::placeholders::_1));
+
+	const auto vert_src = dreco::file_utils::LoadSourceFromFile("res/shaders/default_shader.vert");
+	const auto frag_src = dreco::file_utils::LoadSourceFromFile("res/shaders/default_shader.frag");
+
+	const dreco::glShaderAtributes s_attr = {{0, "a_position"}, {1, "a_color"}, {2, "a_tex_coord"}};
+
+	dreco::shader_properties p = dreco::shader_properties(vert_src.c_str(), frag_src.c_str(), s_attr);
+
+	std::vector<float> verts = 
+	{
+		-0.5f, 0.5f, 0.0f, 
+		-0.5f, 0.0f, 0.0f,
+		0.5f, 0.0f, 0.0f,
+		0.5f, 0.5f, 0.0f,
+		-0.5f, 0.5f, 0.0f,
+		0.5f, 0.0f, 0.0f
+	};
+	
+	sample_mesh = new dreco::mesh_object(verts, p);	
 }
 
 void game_instance::Tick(const float& DeltaTime)
 {
 	using namespace dreco;
-
-	std::vector<vertex> vertexes = {};
-	vertexes.reserve(3);
-
-	vertexes.push_back(vertex(-0.5f, 0.5f, 0.0f));
-	vertexes.push_back(vertex(-0.5f, 0.0f, 0.0f));
-	vertexes.push_back(vertex(0.5f, 0.0f, 0.0f));
-
-	vertexes.push_back(vertex(0.5f, 0.5f, 0.0f));
-	vertexes.push_back(vertex(-0.5f, 0.5f, 0.0f));
-	vertexes.push_back(vertex(0.5f, 0.0f, 0.0f));
 
 	if (bGoUp)
 	{
@@ -71,7 +82,9 @@ void game_instance::Tick(const float& DeltaTime)
 
 	const mat2x3 m_f = m_r * m_t * m_s;
 
-	GetEngine()->GetRenderer()->DrawVertexArray(vertexes, m_f);
+	sample_mesh->Render(m_f);
+
+	//GetEngine()->GetRenderer()->DrawVertexArray(vertexes, m_f);
 }
 
 void game_instance::key_Up(uint32_t _e_type)

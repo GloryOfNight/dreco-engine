@@ -5,7 +5,7 @@ namespace dreco
 class game_object
 {
 public:
-	game_object();
+	game_object() = default;
 
     virtual void Init();
 

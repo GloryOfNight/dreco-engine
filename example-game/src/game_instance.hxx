@@ -1,7 +1,7 @@
 #pragma once
 #include "game_objects/game_base.hxx"
 #include "math/vec2.hxx"
-
+#include "game_objects/mesh_object.hxx"
 #include <stdint.h>
 
 class game_instance : public dreco::game_base
@@ -24,7 +24,9 @@ public:
 private:
 	float rotation = 0.0f;
 	dreco::vec2 translation = dreco::vec2();
-
+	
+	dreco::mesh_object* sample_mesh = nullptr;
+	
 	bool bGoUp = false;
 	bool bGoDown = false;
 	bool bGoLeft = false;
