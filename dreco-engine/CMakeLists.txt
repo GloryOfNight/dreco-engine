@@ -5,6 +5,7 @@ add_library(${PROJECT_NAME} STATIC
 src/core/engine.cxx
 src/core/sdl_event_manager.cxx
 src/game_objects/game_base.cxx
+src/game_objects/game_world.cxx
 src/game_objects/game_object.cxx
 src/game_objects/mesh_object.cxx
 src/math/mat2x3.cxx

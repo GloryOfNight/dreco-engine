@@ -16,7 +16,6 @@ public:
 	virtual void Tick(const float& DeltaTime);
 
 	engine* GetEngine() const;
-
 private:
 	engine* game_engine = nullptr;
 };

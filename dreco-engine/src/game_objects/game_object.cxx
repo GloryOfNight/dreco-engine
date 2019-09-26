@@ -2,15 +2,16 @@
 
 using namespace dreco;
 
-void game_object::Init()
+void game_object::Init(game_world& _w) 
 {
+    world = &_w;
 }
 
 void game_object::Tick(const float& DeltaTime)
 {
 }
 
-transform game_object::GetObjectTransform() 
+transform game_object::GetObjectTransform() const
 {
     return object_transform;
 }

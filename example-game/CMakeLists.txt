@@ -3,7 +3,8 @@ project(example-game)
 
 add_executable(${PROJECT_NAME} 
 src/game_main.cxx
-src/game_instance.cxx)
+src/game_instance.cxx
+src/world.cxx)
 
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
 

@@ -3,8 +3,8 @@
 #include "core/engine.hxx"
 #include "core/sdl_event_manager.hxx"
 #include "math/mat2x3.hxx"
-#include "renderer/vertex.hxx"
 #include "renderer/shader_properties.hxx"
+#include "renderer/vertex.hxx"
 #include "utils/file_utils.hxx"
 
 #include <vector>
@@ -15,43 +15,42 @@ game_instance::game_instance(dreco::engine& _e) : game_base(_e)
 
 game_instance::~game_instance()
 {
-	delete sample_mesh;
 }
 
 void game_instance::Init()
 {
-	GetEngine()->GetEventManager()->AddKeyBinding(SDLK_UP, std::bind(&game_instance::key_Up, this, std::placeholders::_1));
-	GetEngine()->GetEventManager()->AddKeyBinding(SDLK_DOWN, std::bind(&game_instance::key_Down, this, std::placeholders::_1));
-	GetEngine()->GetEventManager()->AddKeyBinding(SDLK_LEFT, std::bind(&game_instance::key_Left, this, std::placeholders::_1));
-	GetEngine()->GetEventManager()->AddKeyBinding(SDLK_RIGHT, std::bind(&game_instance::key_Right, this, std::placeholders::_1));
-	GetEngine()->GetEventManager()->AddKeyBinding(SDLK_q, std::bind(&game_instance::key_q, this, std::placeholders::_1));
-	GetEngine()->GetEventManager()->AddKeyBinding(SDLK_e, std::bind(&game_instance::key_e, this, std::placeholders::_1));
+	GetEngine()->GetEventManager()->AddKeyBinding(
+		SDLK_UP, std::bind(&game_instance::key_Up, this, std::placeholders::_1));
+	GetEngine()->GetEventManager()->AddKeyBinding(
+		SDLK_DOWN, std::bind(&game_instance::key_Down, this, std::placeholders::_1));
+	GetEngine()->GetEventManager()->AddKeyBinding(
+		SDLK_LEFT, std::bind(&game_instance::key_Left, this, std::placeholders::_1));
+	GetEngine()->GetEventManager()->AddKeyBinding(
+		SDLK_RIGHT, std::bind(&game_instance::key_Right, this, std::placeholders::_1));
+	GetEngine()->GetEventManager()->AddKeyBinding(
+		SDLK_q, std::bind(&game_instance::key_q, this, std::placeholders::_1));
+	GetEngine()->GetEventManager()->AddKeyBinding(
+		SDLK_e, std::bind(&game_instance::key_e, this, std::placeholders::_1));
 
-	const auto vert_src = dreco::file_utils::LoadSourceFromFile("res/shaders/default_shader.vert");
-	const auto frag_src = dreco::file_utils::LoadSourceFromFile("res/shaders/default_shader.frag");
+	GetEngine()->GetEventManager()->AddKeyBinding(
+		SDLK_1, std::bind(&game_instance::key_1, this, std::placeholders::_1));
+	GetEngine()->GetEventManager()->AddKeyBinding(
+		SDLK_2, std::bind(&game_instance::key_2, this, std::placeholders::_1));
+	GetEngine()->GetEventManager()->AddKeyBinding(
+		SDLK_3, std::bind(&game_instance::key_3, this, std::placeholders::_1));
 
-	const dreco::glShaderAtributes s_attr = {{0, "a_position"}, {1, "a_color"}, {2, "a_tex_coord"}};
-
-	dreco::shader_properties p = dreco::shader_properties(vert_src.c_str(), frag_src.c_str(), s_attr);
-
-	std::vector<float> verts = 
-	{
-		-0.5f, 0.5f, 0.0f, 
-		-0.5f, 0.0f, 0.0f,
-		0.5f, 0.0f, 0.0f,
-		0.5f, 0.5f, 0.0f,
-		-0.5f, 0.5f, 0.0f,
-		0.5f, 0.0f, 0.0f
-	};
-	
-	sample_mesh = new dreco::mesh_object(verts, p);	
+	game_world = new world(*this);
+	game_world->Init();
 }
 
 void game_instance::Tick(const float& DeltaTime)
 {
 	using namespace dreco;
 
-	transform t = sample_mesh->GetObjectTransform();
+	auto obj = game_world->GetObject(selected_object);
+
+	transform t = obj->GetObjectTransform();
+
 	if (bGoUp)
 	{
 		t.translation.y += 1 * DeltaTime;
@@ -77,8 +76,9 @@ void game_instance::Tick(const float& DeltaTime)
 		t.rotation -= 0.5f * DeltaTime;
 	}
 
-	sample_mesh->SetObjectTransform(t);
-	sample_mesh->Tick(DeltaTime);
+	obj->SetObjectTransform(t);
+
+	game_world->Tick(DeltaTime);
 }
 
 void game_instance::key_Up(uint32_t _e_type)
@@ -109,4 +109,19 @@ void game_instance::key_q(uint32_t _e_type)
 void game_instance::key_e(uint32_t _e_type)
 {
 	bRotateForward = _e_type == SDL_KEYDOWN ? true : false;
+}
+
+void game_instance::key_1(uint32_t _e_type)
+{
+	selected_object = "1";
+}
+
+void game_instance::key_2(uint32_t _e_type)
+{
+	selected_object = "2";
+}
+
+void game_instance::key_3(uint32_t _e_type)
+{
+	selected_object = "3";
 }

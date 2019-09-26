@@ -1,4 +1,5 @@
 #pragma once
+#include "world.hxx"
 #include "game_objects/game_base.hxx"
 #include "math/vec2.hxx"
 #include "game_objects/mesh_object.hxx"
@@ -21,8 +22,14 @@ public:
 	void key_q(uint32_t _e_type);
 	void key_e(uint32_t _e_type);
 
+	void key_1(uint32_t _e_type);
+	void key_2(uint32_t _e_type);
+	void key_3(uint32_t _e_type);
+	
 private:	
-	dreco::mesh_object* sample_mesh = nullptr;
+	std::string selected_object = "1";
+
+	world* game_world = nullptr;
 	
 	bool bGoUp = false;
 	bool bGoDown = false;
