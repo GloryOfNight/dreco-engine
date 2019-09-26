@@ -17,6 +17,9 @@ public:
 
     void SetObjectTransform(transform& _t);
 
+    game_world* GetWorld() const;
+
+    game_base* GetGameInstance() const;
 private:
     game_world* world = nullptr;
     transform object_transform = transform();

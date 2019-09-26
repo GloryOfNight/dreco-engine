@@ -20,3 +20,13 @@ void game_object::SetObjectTransform(transform& _t)
 {
     object_transform = _t;
 }
+
+game_world* game_object::GetWorld() const
+{
+    return world;
+}
+
+game_base* game_object::GetGameInstance() const
+{
+    return world->GetGameInstance();
+}

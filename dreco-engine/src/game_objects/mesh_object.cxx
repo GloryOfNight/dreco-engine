@@ -28,7 +28,7 @@ void mesh_object::Tick(const float& DeltaTime)
 {
 	if (bIsRendered) 
 	{	
-		UpdateModelTranform();
+		UpdateModelTransform();
 		Render();
 	}
 }
@@ -48,11 +48,12 @@ shader_gl_base* mesh_object::CreateShader(const shader_properties& _p)
 	return new shader_gl_base(_p);
 }
 
-void mesh_object::UpdateModelTranform() 
+void mesh_object::UpdateModelTransform() 
 {
 	GetShader()->Use();
 
 	transform t = GetObjectTransform();
+
 	mat2x3 mat = t.GetRotationMatrix() * t.GetTranslationMatrix() * t.GetScaleMatrix();
 
 	GetShader()->SetUniform("u_matrix", mat);

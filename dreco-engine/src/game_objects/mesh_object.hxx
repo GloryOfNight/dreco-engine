@@ -20,7 +20,7 @@ public:
 
 	void SetIsRendered(const bool _is_render);
 
-	void UpdateModelTranform();
+	void UpdateModelTransform();
 
 	virtual void Render();
 
