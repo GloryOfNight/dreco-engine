@@ -51,40 +51,34 @@ void game_instance::Tick(const float& DeltaTime)
 {
 	using namespace dreco;
 
+	transform t = sample_mesh->GetObjectTransform();
 	if (bGoUp)
 	{
-		translation.y += 1 * DeltaTime;
+		t.translation.y += 1 * DeltaTime;
 	}
 	else if (bGoDown)
 	{
-		translation.y -= 1 * DeltaTime;
+		t.translation.y -= 1 * DeltaTime;
 	}
 	if (bGoLeft)
 	{
-		translation.x -= 1 * DeltaTime;
+		t.translation.x -= 1 * DeltaTime;
 	}
 	else if (bGoRight)
 	{
-		translation.x += 1 * DeltaTime;
+		t.translation.x += 1 * DeltaTime;
 	}
 	if (bRotateForward)
 	{
-		rotation += 0.5f * DeltaTime;
+		t.rotation += 0.5f * DeltaTime;
 	}
 	else if (bRotateBackward)
 	{
-		rotation -= 0.5f * DeltaTime;
+		t.rotation -= 0.5f * DeltaTime;
 	}
 
-	const mat2x3 m_t = mat2x3::translate(translation);
-	const mat2x3 m_r = mat2x3::rotate(rotation);
-	const mat2x3 m_s = mat2x3::scale(1.0f, 1.0f);
-
-	const mat2x3 m_f = m_r * m_t * m_s;
-
-	sample_mesh->Render(m_f);
-
-	//GetEngine()->GetRenderer()->DrawVertexArray(vertexes, m_f);
+	sample_mesh->SetObjectTransform(t);
+	sample_mesh->Tick(DeltaTime);
 }
 
 void game_instance::key_Up(uint32_t _e_type)

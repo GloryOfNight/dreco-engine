@@ -20,7 +20,9 @@ public:
 
 	void SetIsRendered(const bool _is_render);
 
-	virtual void Render(const mat2x3& _m);
+	void UpdateModelTranform();
+
+	virtual void Render();
 
 protected:
 	virtual shader_gl_base* CreateShader(const shader_properties& _p);

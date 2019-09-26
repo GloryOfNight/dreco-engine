@@ -21,10 +21,7 @@ public:
 	void key_q(uint32_t _e_type);
 	void key_e(uint32_t _e_type);
 
-private:
-	float rotation = 0.0f;
-	dreco::vec2 translation = dreco::vec2();
-	
+private:	
 	dreco::mesh_object* sample_mesh = nullptr;
 	
 	bool bGoUp = false;

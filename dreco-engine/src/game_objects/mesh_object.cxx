@@ -26,8 +26,11 @@ mesh_object::~mesh_object()
 
 void mesh_object::Tick(const float& DeltaTime)
 {
-	// if (bIsRendered)
-	// 	Render();
+	if (bIsRendered) 
+	{	
+		UpdateModelTranform();
+		Render();
+	}
 }
 
 void mesh_object::SetIsRendered(const bool _is_render)
@@ -45,11 +48,20 @@ shader_gl_base* mesh_object::CreateShader(const shader_properties& _p)
 	return new shader_gl_base(_p);
 }
 
-void mesh_object::Render(const mat2x3& _m)
+void mesh_object::UpdateModelTranform() 
 {
 	GetShader()->Use();
-	GetShader()->SetUniform("u_matrix", _m);
-	
+
+	transform t = GetObjectTransform();
+	mat2x3 mat = t.GetRotationMatrix() * t.GetTranslationMatrix() * t.GetScaleMatrix();
+
+	GetShader()->SetUniform("u_matrix", mat);
+}
+
+void mesh_object::Render()
+{
+	GetShader()->Use();
+
 	glEnableVertexAttribArray(0);
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
