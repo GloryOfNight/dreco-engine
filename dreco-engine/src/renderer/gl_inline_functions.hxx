@@ -25,6 +25,7 @@ inline PFNGLUNIFORM1IPROC                glUniform1i                = nullptr;
 inline PFNGLACTIVETEXTUREPROC            glActiveTexture_           = nullptr;
 inline PFNGLUNIFORM4FVPROC               glUniform4fv               = nullptr;
 inline PFNGLUNIFORMMATRIX3FVPROC         glUniformMatrix3fv         = nullptr;
+inline PFNGLUNIFORMMATRIX4FVPROC         glUniformMatrix4fv         = nullptr;
 inline PFNGLGENBUFFERSPROC               glGenBuffers               = nullptr;
 inline PFNGLDELETEBUFFERSPROC            glDeleteBuffers            = nullptr;
 inline PFNGLBINDBUFFERPROC               glBindBuffer               = nullptr;
@@ -57,6 +58,7 @@ inline void LoadGlFunctions()
 	load_gl_func("glActiveTexture", glActiveTexture_);
 	load_gl_func("glUniform4fv", glUniform4fv);
 	load_gl_func("glUniformMatrix3fv", glUniformMatrix3fv);
+	load_gl_func("glUniformMatrix4fv", glUniformMatrix4fv);
 	load_gl_func("glGenBuffers", glGenBuffers);
     load_gl_func("glDeleteBuffers", glDeleteBuffers);
 	load_gl_func("glBindBuffer", glBindBuffer);

@@ -22,6 +22,8 @@ public:
 
 	void UpdateModelTransform();
 
+	mat3x4 CreateProjectionMatrix(
+		const float right, const float left, const float top, const float bottom);
 	virtual void Render();
 
 protected:

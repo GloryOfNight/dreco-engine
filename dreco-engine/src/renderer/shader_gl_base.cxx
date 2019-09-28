@@ -49,6 +49,26 @@ void shader_gl_base::SetUniform(const std::string_view uniform_name, const mat2x
 	glUniformMatrix3fv(u_loc, 1, GL_FALSE, mat3x3_array);
 }
 
+void shader_gl_base::SetUniform(const std::string_view uniform_name, const mat3x4& _m) 
+{
+	const int u_loc = glGetUniformLocation(program_id, uniform_name.cbegin());
+
+	if (u_loc == -1)
+	{
+		std::cerr << "SetUniform(): Couldn't get uniform: " << uniform_name << std::endl;
+		return;
+	}
+
+	// clang-format off
+	float mat4x4[] = {_m.mat[0][0], _m.mat[0][1], _m.mat[0][2], _m.mat[0][3],
+						_m.mat[1][0], _m.mat[1][1], _m.mat[1][2], _m.mat[1][3],
+						_m.mat[2][0], _m.mat[2][1], _m.mat[2][2], _m.mat[2][3],
+						0.0f, 0.0f, 0.0f, 1.0f};
+	// clang-format on
+
+	glUniformMatrix4fv(u_loc, 1, GL_FALSE, mat4x4);
+}
+
 GLuint shader_gl_base::CompileShader(GLenum _s_type, const char* _src)
 {
 	GLuint shader_id = glCreateShader(_s_type);

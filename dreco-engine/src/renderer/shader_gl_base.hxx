@@ -1,6 +1,7 @@
 #pragma once
 #include "SDL2/SDL_opengl.h"
 #include "math/mat2x3.hxx"
+#include "math/mat3x4.hpp"
 #include "shader_properties.hxx"
 
 #include <tuple>
@@ -18,6 +19,8 @@ public:
 	void Use();
 
 	void SetUniform(const std::string_view uniform_name, const mat2x3& _m);
+
+	void SetUniform(const std::string_view uniform_name, const mat3x4& _m);
 
 private:
 	GLuint CompileShader(GLenum _s_type, const char* _src);
