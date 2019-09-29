@@ -42,8 +42,8 @@ void shader_gl_base::SetUniform(const std::string_view uniform_name, const mat2x
 	}
 
 	// clang-format off
-	float mat3x3_array[9] = {_m.c00, _m.c01, _m.c20, 
-							_m.c10, _m.c11, _m.c21, 
+	float mat3x3_array[9] = {_m.mat[0][0], _m.mat[0][1], _m.mat[0][2], 
+							_m.mat[1][0], _m.mat[1][1], _m.mat[1][2], 
 							0.0f, 0.0f, 1.0f};
 	// clang-format on
 	glUniformMatrix3fv(u_loc, 1, GL_FALSE, mat3x3_array);
