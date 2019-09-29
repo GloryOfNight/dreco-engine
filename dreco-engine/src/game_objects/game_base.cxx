@@ -25,3 +25,12 @@ engine* game_base::GetEngine() const
 {
 	return game_engine;
 }
+
+void game_base::OnWindowResize()
+{
+}
+
+void game_base::GetViewSize(int& _w, int& _h) const
+{
+	SDL_GetWindowSize(GetEngine()->GetWindow(), &_w, &_h);
+}

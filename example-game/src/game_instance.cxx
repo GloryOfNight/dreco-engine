@@ -6,6 +6,7 @@
 #include "renderer/shader_properties.hxx"
 #include "renderer/vertex.hxx"
 #include "utils/file_utils.hxx"
+#include "game_objects/camera_base.hxx"
 
 #include <vector>
 
@@ -79,6 +80,11 @@ void game_instance::Tick(const float& DeltaTime)
 	obj->SetObjectTransform(t);
 
 	game_world->Tick(DeltaTime);
+}
+
+void game_instance::OnWindowResize() 
+{
+	game_world->GetPlayerCamera()->OnScreenSizeUpdate();
 }
 
 void game_instance::key_Up(uint32_t _e_type)

@@ -91,6 +91,7 @@ void engine::Event_Window(const SDL_Event& _e)
 	if (_e.window.event == SDL_WINDOWEVENT_RESIZED) 
 	{
 		renderer->UpdateViewportSize();
+		owned_game->OnWindowResize();
 	}
 }
 

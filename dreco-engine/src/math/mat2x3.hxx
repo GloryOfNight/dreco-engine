@@ -11,7 +11,9 @@ struct mat2x3
     float c10, c11 = 0.0f;
 	float c20, c21 = 0.0f; 
 
-    static mat2x3 translate(vec2& _v);
+    static mat2x3 identiry();
+
+    static mat2x3 translate(const vec2& _v);
     
     static mat2x3 rotate(const float & _t);
 

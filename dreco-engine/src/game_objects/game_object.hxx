@@ -9,19 +9,22 @@ class game_object
 public:
 	game_object() = default;
 
-    virtual void Init(game_world& _w);
+	virtual void Init(game_world& _w);
 
-    virtual void Tick(const float& DeltaTime);
+	virtual void Tick(const float& DeltaTime);
 
-    transform GetObjectTransform() const;
+	transform GetObjectTransform() const;
 
-    void SetObjectTransform(transform& _t);
+	void SetObjectTransform(transform& _t);
 
-    game_world* GetWorld() const;
+	game_world* GetWorld() const;
 
-    game_base* GetGameInstance() const;
+	game_base* GetGameInstance() const;
+
+protected:
+	transform object_transform = transform();
+
 private:
-    game_world* world = nullptr;
-    transform object_transform = transform();
+	game_world* world = nullptr;
 };
 }	// namespace dreco

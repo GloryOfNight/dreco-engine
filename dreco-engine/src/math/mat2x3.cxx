@@ -8,9 +8,14 @@ mat2x3::mat2x3()
 {
 }
 
-mat2x3 mat2x3::translate(vec2& _v)
+mat2x3 mat2x3::identiry() 
 {
-	mat2x3 r = scale(1.0f, 1.0f);
+	return mat2x3::scale(1.0f, 1.0f);
+}
+
+mat2x3 mat2x3::translate(const vec2& _v)
+{
+	mat2x3 r = mat2x3::identiry();
 
 	r.c20 = _v.x;
 	r.c21 = _v.y;

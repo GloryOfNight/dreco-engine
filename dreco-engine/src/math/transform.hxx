@@ -13,8 +13,8 @@ struct transform
 	float rotation = 0.0f;
 	vec2 scale = vec2(1.0, 1.0f);
 
-    mat2x3 GetTranslationMatrix();
-    mat2x3 GetRotationMatrix();
-    mat2x3 GetScaleMatrix();
+    mat2x3 GetTranslationMatrix() const;
+    mat2x3 GetRotationMatrix() const;
+    mat2x3 GetScaleMatrix() const;
 };
 }	// namespace dreco

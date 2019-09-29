@@ -3,7 +3,9 @@
 #include "utils/file_utils.hxx"
 
 void world::Init() 
-{
+{	
+	game_world::Init();
+	
     const auto vert_src = dreco::file_utils::LoadSourceFromFile("res/shaders/default_shader.vert");
 	const auto frag_src = dreco::file_utils::LoadSourceFromFile("res/shaders/default_shader.frag");
 

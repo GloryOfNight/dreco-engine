@@ -2,7 +2,7 @@
 
 #include "SDL2/SDL_opengl.h"
 #include "core/engine.hxx"
-#include "glm/gtc/matrix_transform.hpp"
+#include "game_objects/camera_base.hxx"
 #include "renderer/gl_check.hxx"
 #include "renderer/gl_inline_functions.hxx"
 
@@ -63,42 +63,9 @@ void mesh_object::UpdateModelTransform()
 
 	GetShader()->SetUniform("u_matrix", mat);
 
-	int w, h;
-	SDL_GetWindowSize(GetGameInstance()->GetEngine()->GetWindow(), &w, &h);
-
-	const float aspect_ratio = static_cast<float>(w) / static_cast<float>(h);
-
-	// TODO BEGIN
-	// Refactor Projection things to special camera class
-	float scale_factor = 1.0f;
-	if (aspect_ratio < 0.5625f)
-	{
-		scale_factor = (aspect_ratio / 0.5625f);
-	}
-
-	mat3x4 proj = CreateProjectionMatrix(aspect_ratio / scale_factor,
-		-aspect_ratio / scale_factor, 1.0f / scale_factor, -1.0f / scale_factor);
-	// TODO END
+	mat3x4 proj = GetWorld()->GetPlayerCamera()->GetProjectionMatrix();
 	
 	GetShader()->SetUniform("u_projection", proj);
-}
-
-mat3x4 mesh_object::CreateProjectionMatrix(
-	const float right, const float left, const float top, const float bottom)
-{
-	const float far = 1.0f;
-	const float near = -1.0f;
-
-	mat3x4 proj = mat3x4();
-
-	proj.mat[0][0] = 2.0f / (right - left);
-	proj.mat[1][1] = 2.0f / (top - bottom);
-	proj.mat[2][2] = 2.0f / (far - near);
-	proj.mat[0][3] = -((right + left) / (right - left));
-	proj.mat[1][3] = -((top + bottom) / (top - bottom));
-	proj.mat[2][3] = -((far + near) / (far - near));
-
-	return proj;
 }
 
 void mesh_object::Render()

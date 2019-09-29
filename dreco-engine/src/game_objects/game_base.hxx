@@ -16,6 +16,11 @@ public:
 	virtual void Tick(const float& DeltaTime);
 
 	engine* GetEngine() const;
+
+	virtual void OnWindowResize();
+
+	void GetViewSize(int& _w, int& _h) const;
+
 private:
 	engine* game_engine = nullptr;
 };

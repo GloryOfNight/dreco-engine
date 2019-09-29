@@ -11,15 +11,15 @@ transform::transform(vec2 _t, float _r, vec2 _s)
 {
 }
 
-mat2x3 transform::GetTranslationMatrix()
+mat2x3 transform::GetTranslationMatrix() const
 {
 	return mat2x3::translate(translation);
 }
-mat2x3 transform::GetRotationMatrix()
+mat2x3 transform::GetRotationMatrix() const
 {
 	return mat2x3::rotate(rotation);
 }
-mat2x3 transform::GetScaleMatrix()
+mat2x3 transform::GetScaleMatrix() const
 {
 	return mat2x3::scale(scale.x, scale.y);
 }

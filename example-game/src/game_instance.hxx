@@ -26,11 +26,13 @@ public:
 	void key_2(uint32_t _e_type);
 	void key_3(uint32_t _e_type);
 	
+	virtual void OnWindowResize() override;
+
 private:	
 	std::string selected_object = "1";
-
-	world* game_world = nullptr;
 	
+	world* game_world = nullptr;
+
 	bool bGoUp = false;
 	bool bGoDown = false;
 	bool bGoLeft = false;
