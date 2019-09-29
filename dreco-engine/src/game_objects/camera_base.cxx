@@ -20,7 +20,6 @@ void camera_base::SetObjectTransform(const transform& _t)
 
 void camera_base::OnScreenSizeUpdate()
 {
-	view = CalculateViewMatrix();
 	projection = CalculateProjectionMatrix();
 }
 

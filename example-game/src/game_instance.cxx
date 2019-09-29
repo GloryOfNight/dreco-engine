@@ -2,11 +2,11 @@
 
 #include "core/engine.hxx"
 #include "core/sdl_event_manager.hxx"
+#include "game_objects/camera_base.hxx"
 #include "math/mat2x3.hxx"
 #include "renderer/shader_properties.hxx"
 #include "renderer/vertex.hxx"
 #include "utils/file_utils.hxx"
-#include "game_objects/camera_base.hxx"
 
 #include <vector>
 
@@ -40,15 +40,17 @@ void game_instance::Init()
 	GetEngine()->GetEventManager()->AddKeyBinding(
 		SDLK_3, std::bind(&game_instance::key_3, this, std::placeholders::_1));
 
-	game_world = new world(*this);
-	game_world->Init();
+	dreco::game_world* new_world = new world(*this);
+	new_world->Init();
+
+	SetCurrentWorld(new_world);
 }
 
 void game_instance::Tick(const float& DeltaTime)
 {
 	using namespace dreco;
 
-	auto obj = game_world->GetObject(selected_object);
+	auto obj = GetCurrentWorld()->GetObject(selected_object);
 
 	transform t = obj->GetObjectTransform();
 
@@ -79,12 +81,7 @@ void game_instance::Tick(const float& DeltaTime)
 
 	obj->SetObjectTransform(t);
 
-	game_world->Tick(DeltaTime);
-}
-
-void game_instance::OnWindowResize() 
-{
-	game_world->GetPlayerCamera()->OnScreenSizeUpdate();
+	GetCurrentWorld()->Tick(DeltaTime);
 }
 
 void game_instance::key_Up(uint32_t _e_type)

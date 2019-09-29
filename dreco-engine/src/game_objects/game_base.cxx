@@ -1,6 +1,8 @@
 #include "game_base.hxx"
 
-#include "../core/engine.hxx"
+#include "core/engine.hxx"
+#include "game_world.hxx"
+#include "camera_base.hxx"
 
 using namespace dreco;
 
@@ -28,9 +30,24 @@ engine* game_base::GetEngine() const
 
 void game_base::OnWindowResize()
 {
+	game_world* world = GetCurrentWorld();
+	if (world) 
+	{
+		world->GetPlayerCamera()->OnScreenSizeUpdate();
+	}
 }
 
 void game_base::GetViewSize(int& _w, int& _h) const
 {
 	SDL_GetWindowSize(GetEngine()->GetWindow(), &_w, &_h);
+}
+
+game_world* game_base::GetCurrentWorld() const 
+{
+	return current_world;
+}
+
+void game_base::SetCurrentWorld(game_world* _w) 
+{
+	current_world = _w;
 }
