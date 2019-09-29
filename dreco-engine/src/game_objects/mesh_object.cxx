@@ -59,12 +59,13 @@ void mesh_object::UpdateModelTransform()
 
 	transform t = GetObjectTransform();
 
-	mat2x3 mat = t.GetRotationMatrix() * t.GetTranslationMatrix() * t.GetScaleMatrix();
+	mat2x3 model = t.GetRotationMatrix() * t.GetTranslationMatrix() * t.GetScaleMatrix();
+	GetShader()->SetUniform("u_model", model);
 
-	GetShader()->SetUniform("u_matrix", mat);
+	mat2x3 view = GetWorld()->GetPlayerCamera()->GetViewMatrix();
+	GetShader()->SetUniform("u_view", view);
 
 	mat3x4 proj = GetWorld()->GetPlayerCamera()->GetProjectionMatrix();
-	
 	GetShader()->SetUniform("u_projection", proj);
 }
 

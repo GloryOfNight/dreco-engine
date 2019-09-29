@@ -9,7 +9,13 @@ camera_base::camera_base()
 void camera_base::Init(game_world& _w)
 {
 	game_object::Init(_w);
-    OnScreenSizeUpdate();
+	OnScreenSizeUpdate();
+}
+
+void camera_base::SetObjectTransform(const transform& _t) 
+{
+	game_object::SetObjectTransform(_t);
+	view = CalculateViewMatrix();
 }
 
 void camera_base::OnScreenSizeUpdate()
@@ -30,7 +36,8 @@ mat3x4 camera_base::GetProjectionMatrix() const
 
 mat2x3 camera_base::CalculateViewMatrix() const
 {
-	return object_transform.GetScaleMatrix() * object_transform.GetTranslationMatrix();
+	return object_transform.GetScaleMatrix() * object_transform.GetRotationMatrix() *
+		   object_transform.GetTranslationMatrix();
 }
 
 mat3x4 camera_base::CalculateProjectionMatrix() const

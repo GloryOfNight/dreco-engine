@@ -12,6 +12,8 @@ public:
 
 	virtual void Init(game_world& _w);
 
+	virtual void SetObjectTransform(const transform& _t) override;
+	
 	virtual void OnScreenSizeUpdate();
 
     mat2x3 GetViewMatrix() const;

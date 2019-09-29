@@ -1,5 +1,6 @@
 #include "world.hxx"
 #include "game_objects/mesh_object.hxx"
+#include "game_objects/camera_base.hxx"
 #include "utils/file_utils.hxx"
 
 void world::Init() 
@@ -29,4 +30,15 @@ void world::Init()
     RegisterObject("2", *obj);
     obj = new dreco::mesh_object(verts, p);	
     RegisterObject("3", *obj);
+}
+
+void world::Tick(const float& DeltaTime) 
+{
+	game_world::Tick(DeltaTime);
+
+	auto t = GetPlayerCamera()->GetObjectTransform();
+	
+	t.translation.y -= 0.1 *DeltaTime;
+
+	GetPlayerCamera()->SetObjectTransform(t);
 }

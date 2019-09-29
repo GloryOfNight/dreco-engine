@@ -15,7 +15,7 @@ public:
 
 	transform GetObjectTransform() const;
 
-	void SetObjectTransform(transform& _t);
+	virtual void SetObjectTransform(const transform& _t);
 
 	game_world* GetWorld() const;
 

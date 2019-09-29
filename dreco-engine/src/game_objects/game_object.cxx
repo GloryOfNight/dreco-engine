@@ -16,7 +16,7 @@ transform game_object::GetObjectTransform() const
     return object_transform;
 }
 
-void game_object::SetObjectTransform(transform& _t) 
+void game_object::SetObjectTransform(const transform& _t) 
 {
     object_transform = _t;
 }

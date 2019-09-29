@@ -8,4 +8,5 @@ class world : public dreco::game_world
 
     virtual void Init() override;
 
+    virtual void Tick(const float& DeltaTime) override;
 };
