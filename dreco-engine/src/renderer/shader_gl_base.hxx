@@ -22,6 +22,10 @@ public:
 
 	void SetUniform(const std::string_view uniform_name, const mat3x4& _m);
 
+	int GetUniformLocation(const std::string_view uniform_name) const;
+
+	int GetAttribLocation(const std::string_view uniform_name) const;
+
 private:
 	GLuint CompileShader(GLenum _s_type, const char* _src);
 	GLuint LinkShaderProgram(const glShaderAtributes& _a);

@@ -21,6 +21,7 @@ inline PFNGLVERTEXATTRIBPOINTERPROC      glVertexAttribPointer      = nullptr;
 inline PFNGLENABLEVERTEXATTRIBARRAYPROC  glEnableVertexAttribArray  = nullptr;
 inline PFNGLDISABLEVERTEXATTRIBARRAYPROC glDisableVertexAttribArray = nullptr;
 inline PFNGLGETUNIFORMLOCATIONPROC       glGetUniformLocation       = nullptr;
+inline PFNGLGETUNIFORMLOCATIONPROC       glGetAttribLocation       	= nullptr;
 inline PFNGLUNIFORM1IPROC                glUniform1i                = nullptr;
 inline PFNGLACTIVETEXTUREPROC            glActiveTexture_           = nullptr;
 inline PFNGLUNIFORM4FVPROC               glUniform4fv               = nullptr;
@@ -54,6 +55,7 @@ inline void LoadGlFunctions()
 	load_gl_func("glEnableVertexAttribArray", glEnableVertexAttribArray);
 	load_gl_func("glDisableVertexAttribArray", glDisableVertexAttribArray);
 	load_gl_func("glGetUniformLocation", glGetUniformLocation);
+	load_gl_func("glGetAttribLocation", glGetAttribLocation);
 	load_gl_func("glUniform1i", glUniform1i);
 	load_gl_func("glActiveTexture", glActiveTexture_);
 	load_gl_func("glUniform4fv", glUniform4fv);

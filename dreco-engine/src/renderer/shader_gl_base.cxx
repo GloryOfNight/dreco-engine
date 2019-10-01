@@ -69,6 +69,16 @@ void shader_gl_base::SetUniform(const std::string_view uniform_name, const mat3x
 	glUniformMatrix4fv(u_loc, 1, GL_FALSE, mat4x4);
 }
 
+int shader_gl_base::GetUniformLocation(const std::string_view uniform_name) const
+{
+	return glGetUniformLocation(program_id, uniform_name.cbegin());
+}
+
+int shader_gl_base::GetAttribLocation(const std::string_view uniform_name) const
+{
+	return glGetAttribLocation(program_id, uniform_name.cbegin());
+}
+
 GLuint shader_gl_base::CompileShader(GLenum _s_type, const char* _src)
 {
 	GLuint shader_id = glCreateShader(_s_type);

@@ -15,6 +15,7 @@ src/math/transform.cxx
 src/math/vec2.cxx
 src/renderer/opengles2_renderer.cxx
 src/renderer/shader_gl_base.cxx
+src/renderer/vertex_properties.hxx
 src/utils/file_utils.cxx)
 
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
@@ -23,6 +24,7 @@ find_package(SDL2 REQUIRED)
 
 target_link_libraries(${PROJECT_NAME}
     SDL2
+    -lSDL2_image
     -lGL)
 
 target_include_directories(${PROJECT_NAME} PUBLIC
