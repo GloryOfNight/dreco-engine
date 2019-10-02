@@ -16,7 +16,7 @@ shader_gl_base::shader_gl_base(const shader_properties& _p)
 		return;
 	}
 
-	program_id = LinkShaderProgram(_p.attributes);
+	program_id = LinkShaderProgram();
 }
 
 shader_gl_base::~shader_gl_base()
@@ -49,7 +49,7 @@ void shader_gl_base::SetUniform(const std::string_view uniform_name, const mat2x
 	glUniformMatrix3fv(u_loc, 1, GL_FALSE, mat3x3_array);
 }
 
-void shader_gl_base::SetUniform(const std::string_view uniform_name, const mat3x4& _m) 
+void shader_gl_base::SetUniform(const std::string_view uniform_name, const mat3x4& _m)
 {
 	const int u_loc = glGetUniformLocation(program_id, uniform_name.cbegin());
 
@@ -102,9 +102,11 @@ GLuint shader_gl_base::CompileShader(GLenum _s_type, const char* _src)
 		GL_CHECK();
 		glDeleteShader(shader_id);
 		GL_CHECK();
-		const std::string shader_type_name = _s_type == GL_VERTEX_SHADER ? "vertex" : "fragment";
+		const std::string shader_type_name =
+			_s_type == GL_VERTEX_SHADER ? "vertex" : "fragment";
 
-		std::cerr << "Error compiling shader: " << shader_type_name << ". With: \n" << info_log.data();
+		std::cerr << "Error compiling shader: " << shader_type_name << ". With: \n"
+				  << info_log.data();
 
 		return 0;
 	}
@@ -112,7 +114,7 @@ GLuint shader_gl_base::CompileShader(GLenum _s_type, const char* _src)
 	return shader_id;
 }
 
-GLuint shader_gl_base::LinkShaderProgram(const glShaderAtributes& _a)
+GLuint shader_gl_base::LinkShaderProgram()
 {
 	GLuint local_program_id = glCreateProgram();
 	GL_CHECK();
@@ -126,14 +128,6 @@ GLuint shader_gl_base::LinkShaderProgram(const glShaderAtributes& _a)
 	GL_CHECK();
 	glAttachShader(local_program_id, frag_shader_id);
 	GL_CHECK();
-
-	for (const auto& attr : _a)
-	{
-		GLuint loc = std::get<0>(attr);
-		const GLchar* name = std::get<1>(attr);
-		glBindAttribLocation(local_program_id, loc, name);
-		GL_CHECK();
-	}
 
 	glLinkProgram(local_program_id);
 

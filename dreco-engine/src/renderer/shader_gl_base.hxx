@@ -9,7 +9,6 @@
 
 namespace dreco
 {
-
 class shader_gl_base
 {
 public:
@@ -28,7 +27,7 @@ public:
 
 private:
 	GLuint CompileShader(GLenum _s_type, const char* _src);
-	GLuint LinkShaderProgram(const glShaderAtributes& _a);
+	GLuint LinkShaderProgram();
 
 	GLuint vert_shader_id = 0;
 	GLuint frag_shader_id = 0;

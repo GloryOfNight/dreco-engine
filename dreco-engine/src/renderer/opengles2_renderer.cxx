@@ -15,7 +15,7 @@ opengles2_renderer::opengles2_renderer(engine& _e)
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_ES);
 
 	gl_context = SDL_GL_CreateContext(engine_owner->GetWindow());
-	
+
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
@@ -32,14 +32,13 @@ void opengles2_renderer::Tick(const float& DeltaTime)
 	SwapBuffer();
 }
 
-void opengles2_renderer::UpdateViewportSize() 
+void opengles2_renderer::UpdateViewportSize()
 {
 	int w = 0;
 	int h = 0;
 	SDL_GetWindowSize(engine_owner->GetWindow(), &w, &h);
 
 	glViewport(0, 0, w, h);
-	
 }
 
 void opengles2_renderer::SwapBuffer()
