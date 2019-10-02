@@ -1,6 +1,8 @@
 #pragma once
 #include "SDL2/SDL.h"
 
+#include <stdexcept>
+
 template <typename T>
 static void load_gl_func(const char* func_name, T& result)
 {

@@ -13,11 +13,8 @@ mesh_object::mesh_object(
 	const vertex_properties& _v, const shader_properties& _shader_prop)
 {
 	GenerateVBO_Vert(_v.vertexes);
-	if (_v.texture_path.length() > 0)
-	{
-		GenerateVBO_TexCoord(_v.texture_coords);
-		GenerateTexture(_v.texture_path);
-	}
+	GenerateVBO_TexCoord(_v.texture_coords);
+	texture_ptr = _v.texture_ptr;
 
 	mesh_shader = CreateShader(_shader_prop);
 }
@@ -26,12 +23,7 @@ mesh_object::~mesh_object()
 {
 	delete mesh_shader;
 	glDeleteBuffers(1, &vbo_vert);
-
-	if (texture_id > 0)
-	{
-		glDeleteBuffers(1, &vbo_tc);
-		glDeleteTextures(1, &texture_id);
-	}
+	glDeleteBuffers(1, &vbo_tc);
 }
 
 void mesh_object::GenerateVBO_Vert(const std::vector<float>& _v)
@@ -51,36 +43,13 @@ void mesh_object::GenerateVBO_TexCoord(const std::vector<float>& _tc)
 		GL_ARRAY_BUFFER, _tc.capacity() * sizeof(float), &_tc.front(), GL_STATIC_DRAW);
 }
 
-void mesh_object::GenerateTexture(const std::string& _path)
-{
-	SDL_Surface* res_texture = IMG_Load(_path.c_str());
-
-	if (!res_texture)
-	{
-		std::cerr << "GenerateTexture(): Invalid path: " << _path << std::endl;
-		return;
-	}
-
-	glGenTextures(1, &texture_id);
-	GL_CHECK();
-
-	glBindTexture(GL_TEXTURE_2D, texture_id);
-	GL_CHECK();
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	GL_CHECK();
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, res_texture->w, res_texture->h, 0, GL_RGBA,
-		GL_UNSIGNED_BYTE, res_texture->pixels);
-	GL_CHECK();
-
-	SDL_FreeSurface(res_texture);
-}
-
 void mesh_object::Tick(const float& DeltaTime)
 {
 	if (bIsRendered)
 	{
 		UpdateModelTransform();
-		Render();
+
+		texture_ptr != nullptr ? RenderTextured() : Render();
 	}
 }
 
@@ -119,38 +88,55 @@ void mesh_object::Render()
 {
 	GetShader()->Use();
 
-	if (texture_id > 0)
-	{
-		glActiveTexture(GL_TEXTURE0 + texture_id);
-		GL_CHECK()
-		glBindTexture(GL_TEXTURE_2D, texture_id);
-		GL_CHECK()
-		int t_loc = GetShader()->GetUniformLocation("s_texture");
-		glUniform1i(t_loc, texture_id);
-		GL_CHECK()
+	int a_pos_loc = GetShader()->GetAttribLocation("a_position");
 
-		int tc_loc = GetShader()->GetAttribLocation("a_tex_coord");
-		glBindBuffer(GL_ARRAY_BUFFER, vbo_tc);
-		GL_CHECK()
-		glEnableVertexAttribArray(tc_loc);
-		GL_CHECK()
-		glVertexAttribPointer(tc_loc, 2, GL_FLOAT, GL_FALSE, 0, 0);
-		GL_CHECK()
-	}
-
-	int pos_loc = GetShader()->GetAttribLocation("a_position");
-
-	glEnableVertexAttribArray(pos_loc);
+	glEnableVertexAttribArray(a_pos_loc);
 	GL_CHECK()
 	glBindBuffer(GL_ARRAY_BUFFER, vbo_vert);
 	GL_CHECK()
-	glVertexAttribPointer(pos_loc, 3, GL_FLOAT, GL_FALSE, 0, 0);
+	glVertexAttribPointer(a_pos_loc, 3, GL_FLOAT, GL_FALSE, 0, 0);
 	GL_CHECK()
 	int size;
 	glGetBufferParameteriv(GL_ARRAY_BUFFER, GL_BUFFER_SIZE, &size);
 	GL_CHECK()
 	glDrawArrays(GL_TRIANGLES, 0, size / sizeof(float));
 	GL_CHECK()
-	glDisableVertexAttribArray(pos_loc);
+	glDisableVertexAttribArray(a_pos_loc);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+}
+
+void mesh_object::RenderTextured()
+{
+	glActiveTexture(GL_TEXTURE0 + texture_ptr->GetTextureId());
+	GL_CHECK()
+	glBindTexture(GL_TEXTURE_2D, texture_ptr->GetTextureId());
+	GL_CHECK()
+	int u_t_loc = GetShader()->GetUniformLocation("s_texture");
+	glUniform1i(u_t_loc, texture_ptr->GetTextureId());
+	GL_CHECK()
+
+	int a_tc_loc = GetShader()->GetAttribLocation("a_tex_coord");
+	glBindBuffer(GL_ARRAY_BUFFER, vbo_tc);
+	GL_CHECK()
+	glEnableVertexAttribArray(a_tc_loc);
+	GL_CHECK()
+	glVertexAttribPointer(a_tc_loc, 2, GL_FLOAT, GL_FALSE, 0, 0);
+	GL_CHECK()
+
+	int a_pos_loc = GetShader()->GetAttribLocation("a_position");
+	glEnableVertexAttribArray(a_pos_loc);
+	GL_CHECK()
+	glBindBuffer(GL_ARRAY_BUFFER, vbo_vert);
+	GL_CHECK()
+	glVertexAttribPointer(a_pos_loc, 3, GL_FLOAT, GL_FALSE, 0, 0);
+	GL_CHECK()
+	int size;
+	glGetBufferParameteriv(GL_ARRAY_BUFFER, GL_BUFFER_SIZE, &size);
+	GL_CHECK()
+	glDrawArrays(GL_TRIANGLES, 0, size / sizeof(float));
+	GL_CHECK()
+
+	glDisableVertexAttribArray(a_tc_loc);
+	glDisableVertexAttribArray(a_pos_loc);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }

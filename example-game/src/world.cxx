@@ -4,6 +4,8 @@
 #include "game_objects/mesh_object.hxx"
 #include "utils/file_utils.hxx"
 
+#include <memory>
+
 void world::Init()
 {
 	game_world::Init();
@@ -43,13 +45,18 @@ void world::Init()
 								};
 	// clang-format on
 
-	vert_prop.texture_path = "res/textures/tank.png";
+	vert_prop.texture_ptr =
+		std::make_shared<dreco::texture>(*(new dreco::texture("res/textures/tank.png")));
+
 	dreco::mesh_object* obj = new dreco::mesh_object(vert_prop, shader_prop);
 	RegisterObject("1", *obj);
-	vert_prop.texture_path = "res/textures/tank1.png";
+
+	vert_prop.texture_ptr =
+		std::make_shared<dreco::texture>(*(new dreco::texture("res/textures/tank1.png")));
+
 	obj = new dreco::mesh_object(vert_prop, shader_prop);
 	RegisterObject("2", *obj);
-	vert_prop.texture_path = "res/textures/tank.png";
+
 	obj = new dreco::mesh_object(vert_prop, shader_prop);
 	RegisterObject("3", *obj);
 }

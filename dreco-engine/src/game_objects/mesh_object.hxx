@@ -2,8 +2,9 @@
 #include "game_object.hxx"
 #include "renderer/shader_gl_base.hxx"
 #include "renderer/shader_properties.hxx"
-#include "renderer/vertex_properties.hxx"
+#include "renderer/texture.hxx"
 #include "renderer/vertex.hxx"
+#include "renderer/vertex_properties.hxx"
 
 #include <vector>
 
@@ -23,22 +24,23 @@ public:
 
 	void UpdateModelTransform();
 
-	virtual void Render();
-
 protected:
+	virtual void Render();
+	virtual void RenderTextured();
+
 	inline void GenerateVBO_Vert(const std::vector<float>& _v);
 	inline void GenerateVBO_TexCoord(const std::vector<float>& _tc);
-	inline void GenerateTexture(const std::string& _path);
 
 	virtual shader_gl_base* CreateShader(const shader_properties& _p);
 
 private:
-	bool bIsRendered = true;
+	std::shared_ptr<texture> texture_ptr = nullptr;
 
 	shader_gl_base* mesh_shader = nullptr;
 
+	bool bIsRendered = true;
+
 	uint32_t vbo_vert = 0;
 	uint32_t vbo_tc = 0;
-	uint32_t texture_id = 0;
 };
 }	// namespace dreco
