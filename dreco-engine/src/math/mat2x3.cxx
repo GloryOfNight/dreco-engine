@@ -34,9 +34,7 @@ mat2x3 mat2x3::rotate(const float& _t)
 	r.mat[0][1] = sin_t;
 	r.mat[1][0] = -sin_t;
 	r.mat[1][1] = cos_t;
-
-	r.mat[0][2] = 0.0f;
-	r.mat[1][2] = 0.0f;
+	
 	return r;
 }
 
