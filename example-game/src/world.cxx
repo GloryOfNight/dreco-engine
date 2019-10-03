@@ -18,25 +18,12 @@ void world::Init()
 		dreco::shader_properties(vert_src.c_str(), frag_src.c_str());
 
 	// clang-format off
-	const std::vector<float> verts = 
-	{
-		-0.5f, 0.5f, 0.0f, 
-		-0.5f, -0.5f, 0.0f,
-		0.5f, -0.5f, 0.0f,
-		0.5f, 0.5f, 0.0f,
-		-0.5f, 0.5f, 0.0f,
-		0.5f, -0.5f, 0.0f
-	};
-
-
 	dreco::vertex_properties vert_prop;
 	vert_prop.vertexes = {
 		-0.5f, 0.5f, 0.0f, 
 		-0.5f, -0.5f, 0.0f,
 		0.5f, -0.5f, 0.0f,
-		0.5f, 0.5f, 0.0f,
-		-0.5f, 0.5f, 0.0f,
-		0.5f, -0.5f, 0.0f
+		0.5f, 0.5f, 0.0f
 	};
 	vert_prop.vert_elem = 
 	{
