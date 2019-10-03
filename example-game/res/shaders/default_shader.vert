@@ -1,6 +1,5 @@
-uniform mat3 u_model;
+uniform mat3 u_modelview;
 uniform mat4 u_projection;
-uniform mat3 u_view;
 
 attribute vec2 a_position;
 attribute vec2 a_tex_coord;
@@ -15,7 +14,7 @@ void main()
     v_tex_coord = a_tex_coord;
     v_color = a_color;
     
-    vec3 pos = vec3(a_position, 1.0f) * u_model * u_view;
+    vec3 pos = vec3(a_position, 1.0f) * u_modelview;
 
     gl_Position = u_projection * vec4(pos, 1.0);
 }

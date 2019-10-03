@@ -22,6 +22,8 @@ public:
 	void key_Right(uint32_t _e_type);
 	void key_q(uint32_t _e_type);
 	void key_e(uint32_t _e_type);
+	void key_r(uint32_t _e);
+	void key_t(uint32_t _e);
 
 	void key_1(uint32_t _e_type);
 	void key_2(uint32_t _e_type);
@@ -37,4 +39,7 @@ private:
 
 	bool bRotateForward = false;
 	bool bRotateBackward = false;
+
+	bool bScaleUp = false; 
+	bool bScaleDown = false;
 };

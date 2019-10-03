@@ -32,6 +32,10 @@ void game_instance::Init()
 		SDLK_q, std::bind(&game_instance::key_q, this, std::placeholders::_1));
 	GetEngine()->GetEventManager()->AddKeyBinding(
 		SDLK_e, std::bind(&game_instance::key_e, this, std::placeholders::_1));
+	GetEngine()->GetEventManager()->AddKeyBinding(
+		SDLK_r, std::bind(&game_instance::key_r, this, std::placeholders::_1));
+	GetEngine()->GetEventManager()->AddKeyBinding(
+		SDLK_t, std::bind(&game_instance::key_t, this, std::placeholders::_1));
 
 	GetEngine()->GetEventManager()->AddKeyBinding(
 		SDLK_1, std::bind(&game_instance::key_1, this, std::placeholders::_1));
@@ -77,6 +81,14 @@ void game_instance::Tick(const float& DeltaTime)
 	else if (bRotateBackward)
 	{
 		t.rotation -= 0.5f * DeltaTime;
+	}
+	if (bScaleUp) 
+	{
+		t.scale += 0.5 * DeltaTime;
+	}
+	if (bScaleDown) 
+	{
+		t.scale -= 0.5 * DeltaTime;
 	}
 
 	obj->SetObjectTransform(t);
@@ -127,4 +139,14 @@ void game_instance::key_2(uint32_t _e_type)
 void game_instance::key_3(uint32_t _e_type)
 {
 	selected_object = "3";
+}
+
+void game_instance::key_r(uint32_t _e)
+{
+	bScaleDown = _e == SDL_KEYDOWN;
+}
+
+void game_instance::key_t(uint32_t _e)
+{
+	bScaleUp = _e == SDL_KEYDOWN;
 }
