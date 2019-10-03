@@ -30,6 +30,7 @@ protected:
 
 	inline void GenerateVBO_Vert(const std::vector<float>& _v);
 	inline void GenerateVBO_TexCoord(const std::vector<float>& _tc);
+	inline void GenerateIBO_Elem(const std::vector<uint32_t>& _e);
 
 	virtual shader_gl_base* CreateShader(const shader_properties& _p);
 
@@ -42,5 +43,6 @@ private:
 
 	uint32_t vbo_vert = 0;
 	uint32_t vbo_tc = 0;
+	uint32_t ibo_elem = 0;
 };
 }	// namespace dreco

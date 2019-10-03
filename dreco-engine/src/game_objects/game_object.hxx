@@ -9,6 +9,8 @@ class game_object
 public:
 	game_object() = default;
 
+	virtual ~game_object();
+
 	virtual void Init(game_world& _w);
 
 	virtual void Tick(const float& DeltaTime);

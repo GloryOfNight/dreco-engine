@@ -30,7 +30,19 @@ void world::Init()
 
 
 	dreco::vertex_properties vert_prop;
-	vert_prop.vertexes = verts;
+	vert_prop.vertexes = {
+		-0.5f, 0.5f, 0.0f, 
+		-0.5f, -0.5f, 0.0f,
+		0.5f, -0.5f, 0.0f,
+		0.5f, 0.5f, 0.0f,
+		-0.5f, 0.5f, 0.0f,
+		0.5f, -0.5f, 0.0f
+	};
+	vert_prop.vert_elem = 
+	{
+		0, 1, 2,
+		0, 2, 3
+	};
 	vert_prop.texture_coords = { 0.0, 1.0,
 								0.0, 0.0,
 								1.0, 0.0,

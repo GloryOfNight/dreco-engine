@@ -2,6 +2,11 @@
 
 using namespace dreco;
 
+game_object::~game_object() 
+{
+    
+}
+
 void game_object::Init(game_world& _w) 
 {
     world = &_w;

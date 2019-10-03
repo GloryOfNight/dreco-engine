@@ -1,9 +1,9 @@
 #pragma once
 #include "renderer/texture.hxx"
 
+#include <memory>
 #include <string>
 #include <vector>
-#include <memory>
 
 namespace dreco
 {
@@ -15,8 +15,10 @@ struct vertex_properties
 
 	std::vector<float> vertexes = {};
 
+	std::vector<uint32_t> vert_elem = {};
+
 	std::vector<float> texture_coords = {};
 
-    std::shared_ptr<texture> texture_ptr = nullptr;
+	std::shared_ptr<texture> texture_ptr = nullptr;
 };
 }	// namespace dreco

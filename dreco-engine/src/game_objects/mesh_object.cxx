@@ -13,6 +13,7 @@ mesh_object::mesh_object(
 	const vertex_properties& _v, const shader_properties& _shader_prop)
 {
 	GenerateVBO_Vert(_v.vertexes);
+	GenerateIBO_Elem(_v.vert_elem);
 	GenerateVBO_TexCoord(_v.texture_coords);
 	texture_ptr = _v.texture_ptr;
 
@@ -22,8 +23,8 @@ mesh_object::mesh_object(
 mesh_object::~mesh_object()
 {
 	delete mesh_shader;
-	glDeleteBuffers(1, &vbo_vert);
-	glDeleteBuffers(1, &vbo_tc);
+	const uint32_t buff[] = {vbo_vert, vbo_tc, ibo_elem};
+	glDeleteBuffers(sizeof(buff) / sizeof(uint32_t), buff);
 }
 
 void mesh_object::GenerateVBO_Vert(const std::vector<float>& _v)
@@ -41,6 +42,13 @@ void mesh_object::GenerateVBO_TexCoord(const std::vector<float>& _tc)
 	glBindBuffer(GL_ARRAY_BUFFER, vbo_tc);
 	glBufferData(
 		GL_ARRAY_BUFFER, _tc.capacity() * sizeof(float), &_tc.front(), GL_STATIC_DRAW);
+}
+
+void mesh_object::GenerateIBO_Elem(const std::vector<uint32_t>& _e) 
+{
+	glGenBuffers(1, &ibo_elem);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo_elem);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, _e.capacity() * sizeof(uint32_t), &_e.front(), GL_STATIC_DRAW);
 }
 
 void mesh_object::Tick(const float& DeltaTime)
@@ -96,13 +104,18 @@ void mesh_object::Render()
 	GL_CHECK()
 	glVertexAttribPointer(a_pos_loc, 3, GL_FLOAT, GL_FALSE, 0, 0);
 	GL_CHECK()
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo_elem);
 	int size;
-	glGetBufferParameteriv(GL_ARRAY_BUFFER, GL_BUFFER_SIZE, &size);
+	glGetBufferParameteriv(GL_ELEMENT_ARRAY_BUFFER, GL_BUFFER_SIZE, &size);
 	GL_CHECK()
-	glDrawArrays(GL_TRIANGLES, 0, size / sizeof(float));
+	glDrawElements(GL_TRIANGLES, size/sizeof(uint32_t), GL_UNSIGNED_INT, 0);
 	GL_CHECK()
+
 	glDisableVertexAttribArray(a_pos_loc);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	GL_CHECK()
 }
 
 void mesh_object::RenderTextured()
@@ -123,20 +136,24 @@ void mesh_object::RenderTextured()
 	glVertexAttribPointer(a_tc_loc, 2, GL_FLOAT, GL_FALSE, 0, 0);
 	GL_CHECK()
 
-	int a_pos_loc = GetShader()->GetAttribLocation("a_position");
-	glEnableVertexAttribArray(a_pos_loc);
-	GL_CHECK()
 	glBindBuffer(GL_ARRAY_BUFFER, vbo_vert);
 	GL_CHECK()
+	int a_pos_loc = GetShader()->GetAttribLocation("a_position");
 	glVertexAttribPointer(a_pos_loc, 3, GL_FLOAT, GL_FALSE, 0, 0);
 	GL_CHECK()
-	int size;
-	glGetBufferParameteriv(GL_ARRAY_BUFFER, GL_BUFFER_SIZE, &size);
+	glEnableVertexAttribArray(a_pos_loc);
 	GL_CHECK()
-	glDrawArrays(GL_TRIANGLES, 0, size / sizeof(float));
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo_elem);
+	int size;
+	glGetBufferParameteriv(GL_ELEMENT_ARRAY_BUFFER, GL_BUFFER_SIZE, &size);
+	GL_CHECK()
+	glDrawElements(GL_TRIANGLES, size/sizeof(uint32_t), GL_UNSIGNED_INT, 0);
 	GL_CHECK()
 
 	glDisableVertexAttribArray(a_tc_loc);
 	glDisableVertexAttribArray(a_pos_loc);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	GL_CHECK()
 }

@@ -10,7 +10,10 @@ game_world::game_world(game_base& _gi) : gi_owner(&_gi)
 
 game_world::~game_world()
 {
-    delete[] &world_objects;
+    for (auto obj : world_objects) 
+    {
+        delete obj.second;
+    }
     delete player_camera;
 }
 
