@@ -6,7 +6,7 @@
         {
             "label": "CMake Build",
             "type": "shell",
-            "command": "cmake -S ${workspaceFolder} -B ${workspaceFolder}/build && /usr/local/bin/cmake --build /${workspaceFolder}/build --config Debug --target all -- -j 10",
+            "command": "cmake -S ${workspaceFolder} -B ${workspaceFolder}/build && /usr/bin/cmake --build /${workspaceFolder}/build --config Debug --target all -- -j 10",
             "group": {
                 "kind": "build",
                 "isDefault": true
