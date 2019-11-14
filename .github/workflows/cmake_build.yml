@@ -1,0 +1,21 @@
+name: CMakeBuild
+
+on:
+  push:
+    branches:
+    - master
+  pull_request:
+    branches:
+    - master
+
+jobs:
+  unbuntu_build:
+    name: ubuntu
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Run cmake
+      run: cmake .
+    - name: Run cmake release build
+      run: cmake --build . --config Release --target all
