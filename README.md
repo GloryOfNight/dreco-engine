@@ -4,3 +4,5 @@ Student project with target of writing game engine and a small example game on i
 Depends on libraries:
 -SDL2 -lGL
 
+# Improtant notes
+A lot of work still Work In Progress state.
