@@ -4,6 +4,9 @@
 #include <iostream>
 #include <stdexcept>
 
+#include "game_objects/game_world.hxx"
+#include "game_objects/camera_base.hxx"
+
 // its ok to use global namespace in cxx
 using namespace dreco;
 
@@ -93,6 +96,32 @@ void engine::Event_Window(const SDL_Event& _e)
 		renderer->UpdateViewportSize();
 		owned_game->OnWindowResize();
 	}
+}
+
+vec2 engine::MouseCoordToWorld() 
+{
+	int x;
+	int y;
+	SDL_GetMouseState(&x, &y);
+
+	const vec2 wincoor = vec2(static_cast<float>(x), static_cast<float>(y));
+
+	int w = 0;
+	int h = 0;
+	SDL_GetWindowSize(this->GetWindow(), &w, &h);
+	const vec2 viewport = vec2(static_cast<float>(w), static_cast<float>(h));
+	auto pm = owned_game->GetCurrentWorld()->GetPlayerCamera()->GetProjectionMatrix();
+	mat2x3 pm2x3 = mat2x3::identiry();
+	pm2x3.mat[0][0] = pm.mat[0][0];
+	pm2x3.mat[0][1] = pm.mat[0][1];
+	pm2x3.mat[0][2] = pm.mat[0][2];
+	pm2x3.mat[1][0] = pm.mat[1][0];
+	pm2x3.mat[1][1] = pm.mat[1][1];
+	pm2x3.mat[1][2] = pm.mat[1][2];
+
+	return renderer->UnProject(wincoor, viewport,
+	 owned_game->GetCurrentWorld()->GetPlayerCamera()->GetViewMatrix(),
+	  pm2x3);
 }
 
 sdl_event_manager* engine::GetEventManager() const

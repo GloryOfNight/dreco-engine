@@ -20,6 +20,11 @@ game_instance::~game_instance()
 
 void game_instance::Init()
 {
+	GetEngine()->GetEventManager()->AddEventBinding(SDL_MOUSEBUTTONDOWN,
+	 std::bind(&game_instance::event_MouseButton, this, std::placeholders::_1));
+	GetEngine()->GetEventManager()->AddEventBinding(SDL_MOUSEBUTTONUP,
+	 std::bind(&game_instance::event_MouseButton, this, std::placeholders::_1));
+	 
 	GetEngine()->GetEventManager()->AddKeyBinding(
 		SDLK_UP, std::bind(&game_instance::key_Up, this, std::placeholders::_1));
 	GetEngine()->GetEventManager()->AddKeyBinding(
@@ -91,9 +96,19 @@ void game_instance::Tick(const float& DeltaTime)
 		t.scale -= 0.5 * DeltaTime;
 	}
 
+	if (bMouseDown) 
+	{
+		t.translation = GetEngine()->MouseCoordToWorld();
+	}
+
 	obj->SetObjectTransform(t);
 
 	GetCurrentWorld()->Tick(DeltaTime);
+}
+
+void game_instance::event_MouseButton(const SDL_Event& _e) 
+{
+	bMouseDown = _e.button.state == SDL_PRESSED ? true : false;
 }
 
 void game_instance::key_Up(uint32_t _e_type)

@@ -25,6 +25,8 @@ public:
 
 	void Event_Window(const SDL_Event& _e);
 
+	vec2 MouseCoordToWorld();
+
 	sdl_event_manager* GetEventManager() const;
 
 	void RegisterOwnedGame(game_base* game);

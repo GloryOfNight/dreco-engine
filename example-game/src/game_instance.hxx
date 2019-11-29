@@ -1,4 +1,5 @@
 #pragma once
+#include "SDL2/SDL.h"
 #include "game_objects/game_base.hxx"
 #include "game_objects/mesh_object.hxx"
 #include "math/vec2.hxx"
@@ -16,6 +17,7 @@ public:
 
 	void Tick(const float& DeltaTime) override;
 
+	void event_MouseButton(const SDL_Event& _e);
 	void key_Up(uint32_t _e_type);
 	void key_Down(uint32_t _e_type);
 	void key_Left(uint32_t _e_type);
@@ -31,6 +33,8 @@ public:
 
 private:
 	std::string selected_object = "1";
+
+	bool bMouseDown = false;
 
 	bool bGoUp = false;
 	bool bGoDown = false;

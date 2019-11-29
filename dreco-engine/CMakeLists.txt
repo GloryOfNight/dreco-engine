@@ -13,6 +13,7 @@ src/math/mat2x3.cxx
 src/math/mat3x4.cxx
 src/math/transform.cxx
 src/math/vec2.cxx
+src/math/vec3.cxx
 src/renderer/opengles2_renderer.cxx
 src/renderer/shader_gl_base.cxx
 src/renderer/texture.cxx
