@@ -48,6 +48,44 @@ mat2x3 mat2x3::scale(const float _sx, const float _sy)
 	return r;
 }
 
+mat2x3 mat2x3::inverse(const mat2x3& _m) 
+{
+	const float m[3][3] = 
+	{
+		_m.mat[0][0], _m.mat[0][1], _m.mat[0][2],
+		_m.mat[1][0], _m.mat[1][1], _m.mat[1][2],	
+		0.0f, 0.0f, 1.0f	
+	};
+
+	double det = m[0][0] * (m[1][1] * m[2][2] - m[2][1] * m[1][2]) -
+				m[0][1] * (m[1][0] * m[2][2] - m[1][2] * m[2][0]) +
+				m[0][2] * (m[1][0] * m[2][1] - m[1][1] * m[2][0]);
+
+	double invdet = 1 / det;
+
+	mat2x3 res = mat2x3();
+	res.mat[0][0] = (m[1][1] * m[2][2] - m[2][1] * m[1][2]) * invdet;
+	res.mat[0][1] = (m[0][2] * m[2][1] - m[0][1] * m[2][2]) * invdet;
+	res.mat[0][2] = (m[0][1] * m[1][2] - m[0][2] * m[1][1]) * invdet;
+	res.mat[1][0] = (m[1][2] * m[2][0] - m[1][0] * m[2][2]) * invdet;
+	res.mat[1][1] = (m[0][0] * m[2][2] - m[0][2] * m[2][0]) * invdet;
+	res.mat[1][2] = (m[1][0] * m[0][2] - m[0][0] * m[1][2]) * invdet;
+
+	return res;
+	
+	/*
+	Matrix33d minv; // inverse of matrix m
+	minv(0, 0) = (m(1, 1) * m(2, 2) - m(2, 1) * m(1, 2)) * invdet;
+	minv(0, 1) = (m(0, 2) * m(2, 1) - m(0, 1) * m(2, 2)) * invdet;
+	minv(0, 2) = (m(0, 1) * m(1, 2) - m(0, 2) * m(1, 1)) * invdet;
+	minv(1, 0) = (m(1, 2) * m(2, 0) - m(1, 0) * m(2, 2)) * invdet;
+	minv(1, 1) = (m(0, 0) * m(2, 2) - m(0, 2) * m(2, 0)) * invdet;
+	minv(1, 2) = (m(1, 0) * m(0, 2) - m(0, 0) * m(1, 2)) * invdet;
+	minv(2, 0) = (m(1, 0) * m(2, 1) - m(2, 0) * m(1, 1)) * invdet;
+	minv(2, 1) = (m(2, 0) * m(0, 1) - m(0, 0) * m(2, 1)) * invdet;
+	minv(2, 2) = (m(0, 0) * m(1, 1) - m(1, 0) * m(0, 1)) * invdet; */
+}
+
 mat2x3 dreco::operator*(const mat2x3& _m1, const mat2x3& _m2)
 {
 	mat2x3 r = mat2x3();
