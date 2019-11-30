@@ -62,6 +62,11 @@ vec2 game_base::GetWindowSize() const
 	return vec2(x, y);
 }
 
+bool game_base::IsWindowInFocus() const 
+{
+	return SDL_GetMouseFocus() == game_engine->GetWindow();
+}
+
 vec2 game_base::GetMouseScreenPos() const
 {
 	int x; 

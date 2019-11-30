@@ -96,7 +96,7 @@ void game_instance::Tick(const float& DeltaTime)
 		t.scale -= 0.5 * DeltaTime;
 	}
 
-	if (bMouseDown) 
+	if (bMouseDown && IsWindowInFocus()) 
 	{
 		vec2 mouse_screen_pos = GetMouseScreenPos();
 		t.translation = ScreenToWorld(mouse_screen_pos);

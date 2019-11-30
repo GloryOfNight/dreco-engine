@@ -30,6 +30,8 @@ public:
 
 	vec2 GetWindowSize() const;
 
+	bool IsWindowInFocus() const;
+
 	vec2 GetMouseScreenPos() const;
  
 	vec2 ScreenToWorld(const vec2& _screen_coor) const;
