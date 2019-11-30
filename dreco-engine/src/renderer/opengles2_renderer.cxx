@@ -43,7 +43,8 @@ void opengles2_renderer::UpdateViewportSize()
 	glViewport(0, 0, w, h);
 }
 
-vec2 opengles2_renderer::UnProject(const vec2& _wincoord, const vec2& _viewport, const mat2x3& _m, const mat2x3& _p) 
+vec2 opengles2_renderer::UnProject(const vec2& _wincoord, const vec2& _viewport, 
+const mat2x3& _m, const mat2x3& _p)
 {
 	mat2x3 pm = _p * _m;
 	pm = mat2x3::inverse(pm);

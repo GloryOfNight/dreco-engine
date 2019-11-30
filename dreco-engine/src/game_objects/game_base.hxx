@@ -1,4 +1,5 @@
 #pragma once
+#include "math/vec2.hxx"
 
 namespace dreco
 {
@@ -26,6 +27,12 @@ public:
 	game_world* GetCurrentWorld() const;
 
 	void SetCurrentWorld(game_world* _w);
+
+	vec2 GetWindowSize() const;
+
+	vec2 GetMouseScreenPos() const;
+ 
+	vec2 ScreenToWorld(const vec2& _screen_coor) const;
 private:
 	engine* game_engine = nullptr;
 

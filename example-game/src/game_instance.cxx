@@ -98,7 +98,8 @@ void game_instance::Tick(const float& DeltaTime)
 
 	if (bMouseDown) 
 	{
-		t.translation = GetEngine()->MouseCoordToWorld();
+		vec2 mouse_screen_pos = GetMouseScreenPos();
+		t.translation = ScreenToWorld(mouse_screen_pos);
 	}
 
 	obj->SetObjectTransform(t);
