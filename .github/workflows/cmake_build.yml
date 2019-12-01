@@ -10,13 +10,13 @@ on:
 
 jobs:
   unbuntu_build:
-    name: ubuntu
-    runs-on: ubuntu-latest
+    name: ubuntu-18.04
+    runs-on: ubuntu-18.04
 
     steps:
     - uses: actions/checkout@v1
     - name: Install dependencies
-      run: sudo apt install libsdl2-dev && sudo apt install libsdl2-image-dev
+      run: sudo apt-get update && sudo apt-get install libsdl2-dev --fix-missing && sudo apt-get install libsdl2-image-dev --fix-missing
     - name: Run cmake
       run: cmake .
     - name: Run cmake release build
