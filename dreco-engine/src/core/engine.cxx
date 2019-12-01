@@ -118,11 +118,15 @@ opengles2_renderer* engine::GetRenderer() const
 	return renderer;
 }
 
+game_base* engine::GetOwnedGame() const 
+{
+	return owned_game;
+}
+
 void engine::Tick(const float& DeltaTime)
 {
-	owned_game->Tick(DeltaTime);
 	GetEventManager()->ProcessEvents();
-
+	owned_game->Tick(DeltaTime);
 	renderer->Tick(DeltaTime);
 }
 

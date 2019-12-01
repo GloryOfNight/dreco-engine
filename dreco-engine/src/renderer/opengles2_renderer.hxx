@@ -24,7 +24,9 @@ public:
 	void UpdateViewportSize();
 
 	static vec2 UnProject(const vec2& _wincoord, const vec2& _viewport, 
-	const mat2x3& _m, const mat2x3& _p);
+			const mat2x3& _m, const mat2x3& _p);
+
+	void DrawScene();
 private:
 	void SwapBuffer();
 

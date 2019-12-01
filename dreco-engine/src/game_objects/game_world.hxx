@@ -8,6 +8,8 @@ namespace dreco
 class game_object;
 class camera_base;
 
+typedef std::map<std::string, game_object*> world_objects_map;
+
 class game_world
 {
 public:
@@ -24,6 +26,8 @@ public:
 
 	camera_base* GetPlayerCamera() const;
 
+	const world_objects_map& GetWorldObjects() const;
+
 protected:
 	virtual void CreatePlayerCamera();
 
@@ -34,6 +38,6 @@ private:
 
 	game_base* gi_owner = nullptr;
 
-	std::map<std::string, game_object*> world_objects = {};
+	world_objects_map world_objects = {};
 };
 }	// namespace dreco

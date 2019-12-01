@@ -51,6 +51,11 @@ void game_world::CreatePlayerCamera()
     player_camera->Init(*this);
 }
 
+const world_objects_map& game_world::GetWorldObjects() const
+{
+    return world_objects;
+} 
+
 void game_world::RegisterObject(const std::string _obj_name, game_object& _obj) 
 {
     world_objects.emplace(_obj_name, &_obj);

@@ -53,12 +53,7 @@ void mesh_object::GenerateIBO_Elem(const std::vector<uint32_t>& _e)
 
 void mesh_object::Tick(const float& DeltaTime)
 {
-	if (bIsRendered)
-	{
-		UpdateModelTransform();
-
-		texture_ptr != nullptr ? RenderTextured() : Render();
-	}
+	
 }
 
 void mesh_object::SetIsRendered(const bool _is_render)
@@ -91,41 +86,27 @@ void mesh_object::UpdateModelTransform()
 	GetShader()->SetUniform("u_projection", proj);
 }
 
-void mesh_object::Render()
+void mesh_object::StartDraw() 
 {
-	GetShader()->Use();
-
-	int a_pos_loc = GetShader()->GetAttribLocation("a_position");
-
-	glEnableVertexAttribArray(a_pos_loc);
-	GL_CHECK()
-	glBindBuffer(GL_ARRAY_BUFFER, vbo_vert);
-	GL_CHECK()
-	glVertexAttribPointer(a_pos_loc, 3, GL_FLOAT, GL_FALSE, 0, 0);
-	GL_CHECK()
-
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo_elem);
-	int size;
-	glGetBufferParameteriv(GL_ELEMENT_ARRAY_BUFFER, GL_BUFFER_SIZE, &size);
-	GL_CHECK()
-	glDrawElements(GL_TRIANGLES, size/sizeof(uint32_t), GL_UNSIGNED_INT, 0);
-	GL_CHECK()
-
-	glDisableVertexAttribArray(a_pos_loc);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-	GL_CHECK()
+	if (bIsRendered) 
+	{
+		UpdateModelTransform();
+		Draw();
+	}
 }
 
-void mesh_object::RenderTextured()
-{
-	glActiveTexture(GL_TEXTURE0 + texture_ptr->GetTextureId());
-	GL_CHECK()
-	glBindTexture(GL_TEXTURE_2D, texture_ptr->GetTextureId());
-	GL_CHECK()
-	int u_t_loc = GetShader()->GetUniformLocation("s_texture");
-	glUniform1i(u_t_loc, texture_ptr->GetTextureId());
-	GL_CHECK()
+void mesh_object::Draw() 
+{	
+	if (texture_ptr) 
+	{
+		glActiveTexture(GL_TEXTURE0 + texture_ptr->GetTextureId());
+		GL_CHECK()
+		glBindTexture(GL_TEXTURE_2D, texture_ptr->GetTextureId());
+		GL_CHECK()
+		int u_t_loc = GetShader()->GetUniformLocation("s_texture");
+		glUniform1i(u_t_loc, texture_ptr->GetTextureId());
+		GL_CHECK()
+	}
 
 	int a_tc_loc = GetShader()->GetAttribLocation("a_tex_coord");
 	glBindBuffer(GL_ARRAY_BUFFER, vbo_tc);

@@ -1,7 +1,8 @@
 #include "opengles2_renderer.hxx"
 
-#include <glm/gtc/matrix_transform.hpp>
-#include "../core/engine.hxx"
+#include "game_objects/game_world.hxx"
+#include "game_objects/mesh_object.hxx"
+#include "core/engine.hxx"
 #include "gl_inline_functions.hxx"
 #include "math/vec3.hxx"
 #include "utils/file_utils.hxx"
@@ -31,6 +32,7 @@ opengles2_renderer::~opengles2_renderer()
 
 void opengles2_renderer::Tick(const float& DeltaTime)
 {
+	DrawScene();
 	SwapBuffer();
 }
 
@@ -59,6 +61,26 @@ const mat2x3& _m, const mat2x3& _p)
     res.y = in.y * pm.mat[0][1] + in.y * pm.mat[1][1] + pm.mat[1][2];
 
 	return res;
+}
+
+void opengles2_renderer::DrawScene() 
+{
+	auto world = engine_owner->GetOwnedGame()->GetCurrentWorld();
+	
+	if (world) 
+	{
+		const world_objects_map& wom = world->GetWorldObjects();
+
+		for (auto i : wom) 
+		{
+			mesh_object* mesh = dynamic_cast<mesh_object*>(i.second);
+
+			if (mesh) 
+			{
+				mesh->StartDraw();
+			}
+		}
+	}
 }
 
 void opengles2_renderer::SwapBuffer()

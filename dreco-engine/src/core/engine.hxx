@@ -33,6 +33,8 @@ public:
 
 	opengles2_renderer* GetRenderer() const;
 
+	game_base* GetOwnedGame() const;
+
 private:
 	void Tick(const float& DeltaTime);
 

@@ -24,9 +24,10 @@ public:
 
 	void UpdateModelTransform();
 
+	virtual void StartDraw();
+
 protected:
-	virtual void Render();
-	virtual void RenderTextured();
+	virtual void Draw();
 
 	inline void GenerateVBO_Vert(const std::vector<float>& _v);
 	inline void GenerateVBO_TexCoord(const std::vector<float>& _tc);
