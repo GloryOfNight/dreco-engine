@@ -10,8 +10,8 @@ on:
 
 jobs:
   unbuntu_build:
-    name: ubuntu
-    runs-on: ubuntu-latest
+    name: ubuntu-18.04
+    runs-on: ubuntu-18.04
 
     steps:
     - uses: actions/checkout@v1
