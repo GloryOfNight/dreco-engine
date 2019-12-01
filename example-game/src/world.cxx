@@ -60,9 +60,12 @@ void world::Tick(const float& DeltaTime)
 {
 	game_world::Tick(DeltaTime);
 
-	// auto t = GetPlayerCamera()->GetObjectTransform();
+	/*
+	 auto t = GetPlayerCamera()->GetObjectTransform();
 
-	// t.translation.y -= 0.1 *DeltaTime;
+		t.translation.y -= 0.1 *DeltaTime;
+		t.translation.x -= 0.1 *DeltaTime;
 
-	// GetPlayerCamera()->SetObjectTransform(t);
+	 GetPlayerCamera()->SetObjectTransform(t); 
+	 */
 }

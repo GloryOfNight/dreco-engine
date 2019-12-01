@@ -5,8 +5,8 @@ using namespace dreco;
 vec2 math_utils::UnProject(const vec2& _screen_coord, const vec2& _viewport_size, 
 			const mat2x3& _v, const mat2x3& _p)
 {
-    mat2x3 pv = _p  *_v;
-	pv = mat2x3::inverse(pv);
+    mat2x3 vp = _v * _p;
+	vp = mat2x3::inverse(vp);
 
 	vec3 in;
 	in.x = 	((_screen_coord.x / _viewport_size.x) * 2) - 1.0f;
@@ -14,8 +14,8 @@ vec2 math_utils::UnProject(const vec2& _screen_coord, const vec2& _viewport_size
 	in.z = 1;
 
 	vec2 res;
-    res.x = in.x *pv.mat[0][0] + in.x *pv.mat[1][0] + pv.mat[0][2];
-    res.y = in.y * pv.mat[0][1] + in.y * pv.mat[1][1] + pv.mat[1][2];
+    res.x = in.x *vp.mat[0][0] + in.x *vp.mat[1][0] + vp.mat[0][2];
+    res.y = in.y * vp.mat[0][1] + in.y * vp.mat[1][1] + vp.mat[1][2];
 
 	return res;
 }
