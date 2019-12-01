@@ -30,7 +30,7 @@ mat2x3 camera_base::GetViewMatrix() const
 	return view;
 }
 
-mat3x4 camera_base::GetProjectionMatrix() const
+mat2x3 camera_base::GetProjectionMatrix() const
 {
 	return projection;
 }
@@ -41,7 +41,7 @@ mat2x3 camera_base::CalculateViewMatrix() const
 		   object_transform.GetTranslationMatrix();
 }
 
-mat3x4 camera_base::CalculateProjectionMatrix() const
+mat2x3 camera_base::CalculateProjectionMatrix() const
 {
 	int w, h;
 	GetGameInstance()->GetViewSize(w, h);

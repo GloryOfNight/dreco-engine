@@ -1,7 +1,6 @@
 #pragma once
 #include "game_object.hxx"
 #include "math/mat2x3.hxx"
-#include "math/mat3x4.hpp"
 
 namespace dreco
 {
@@ -18,15 +17,15 @@ public:
 
     mat2x3 GetViewMatrix() const;
 
-    mat3x4 GetProjectionMatrix() const;
+    mat2x3 GetProjectionMatrix() const;
 
 protected:
 	mat2x3 CalculateViewMatrix() const;
 
-	mat3x4 CalculateProjectionMatrix() const;
+	mat2x3 CalculateProjectionMatrix() const;
 
     mat2x3 view = mat2x3::identiry();
 
-    mat3x4 projection = mat3x4(); 
+    mat2x3 projection = mat2x3::identiry(); 
 };
 }	// namespace dreco

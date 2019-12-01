@@ -82,7 +82,7 @@ void mesh_object::UpdateModelTransform()
 	const mat2x3 modelview = model * view;
 	GetShader()->SetUniform("u_modelview", modelview);
 
-	mat3x4 proj = GetWorld()->GetPlayerCamera()->GetProjectionMatrix();
+	const auto proj = GetWorld()->GetPlayerCamera()->GetProjectionMatrix();
 	GetShader()->SetUniform("u_projection", proj);
 }
 

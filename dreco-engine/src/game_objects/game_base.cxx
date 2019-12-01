@@ -80,21 +80,12 @@ vec2 game_base::GetMouseScreenPos() const
 
 vec2 game_base::ScreenToWorld(const vec2& _screen_coor) const
 {
-	vec2 window_size = GetWindowSize();
-	auto projection_mat = GetCurrentWorld()->GetPlayerCamera()->GetProjectionMatrix();
-	
-	mat2x3 pm2x3;
-	// convert 3x4 mat to 2x3;
-	pm2x3.mat[0][0] = projection_mat.mat[0][0];
-	pm2x3.mat[0][1] = projection_mat.mat[0][1];
-	pm2x3.mat[0][2] = projection_mat.mat[0][2];
-	pm2x3.mat[1][0] = projection_mat.mat[1][0];
-	pm2x3.mat[1][1] = projection_mat.mat[1][1];
-	pm2x3.mat[1][2] = projection_mat.mat[1][2];
+	const vec2 window_size = GetWindowSize();
+	const mat2x3 proj_mat = GetCurrentWorld()->GetPlayerCamera()->GetProjectionMatrix();
 
 	return math_utils::UnProject(_screen_coor, window_size,
 	 GetCurrentWorld()->GetPlayerCamera()->GetViewMatrix(),
-	  pm2x3);
+	  proj_mat);
 } 
 
 game_object* game_base::TryGetObectFromScreen(const vec2& _coor) 

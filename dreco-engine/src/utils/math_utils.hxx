@@ -1,5 +1,4 @@
 #pragma once 
-#include "math/mat3x4.hpp"
 #include "math/mat2x3.hxx"
 #include "math/vec3.hxx"
 #include "math/vec2.hxx"
@@ -14,7 +13,7 @@ namespace dreco
         static vec2 UnProject(const vec2& _screen_coord, const vec2& _viewport_size, 
 			const mat2x3& _v, const mat2x3& _p);
 
-	    static mat3x4 CreateProjectionMatrix2D(
+	    static mat2x3 CreateProjectionMatrix2D(
 		    const float right, const float left, const float top, const float bottom);
     };
 }

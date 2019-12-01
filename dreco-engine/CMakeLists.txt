@@ -10,7 +10,6 @@ src/game_objects/game_world.cxx
 src/game_objects/game_object.cxx
 src/game_objects/mesh_object.cxx
 src/math/mat2x3.cxx
-src/math/mat3x4.cxx
 src/math/transform.cxx
 src/math/vec2.cxx
 src/math/vec3.cxx

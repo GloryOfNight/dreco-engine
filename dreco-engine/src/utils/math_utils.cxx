@@ -20,20 +20,17 @@ vec2 math_utils::UnProject(const vec2& _screen_coord, const vec2& _viewport_size
 	return res;
 }
 
-mat3x4 math_utils::CreateProjectionMatrix2D(
+mat2x3 math_utils::CreateProjectionMatrix2D(
 	const float right, const float left, const float top, const float bottom)
 {
 	const float far = 1.0f;
 	const float near = -1.0f;
 
-	mat3x4 proj = mat3x4();
+	mat2x3 proj = mat2x3::identiry();
 
 	proj.mat[0][0] = 2.0f / (right - left);
 	proj.mat[1][1] = 2.0f / (top - bottom);
 	proj.mat[2][2] = 2.0f / (far - near);
-	proj.mat[0][3] = -((right + left) / (right - left));
-	proj.mat[1][3] = -((top + bottom) / (top - bottom));
-	proj.mat[2][3] = -((far + near) / (far - near));
 
 	return proj;
 }

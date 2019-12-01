@@ -1,5 +1,5 @@
 uniform mat3 u_modelview;
-uniform mat4 u_projection;
+uniform mat3 u_projection;
 
 attribute vec2 a_position;
 attribute vec2 a_tex_coord;
@@ -16,5 +16,5 @@ void main()
     
     vec3 pos = vec3(a_position, 1.0f) * u_modelview;
 
-    gl_Position = u_projection * vec4(pos, 1.0);
+    gl_Position = vec4(u_projection * pos, 1.0);
 }
