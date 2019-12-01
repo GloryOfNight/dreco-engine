@@ -18,6 +18,7 @@ public:
 	void Tick(const float& DeltaTime) override;
 
 	void event_MouseButton(const SDL_Event& _e);
+
 	void key_Up(uint32_t _e_type);
 	void key_Down(uint32_t _e_type);
 	void key_Left(uint32_t _e_type);
@@ -32,9 +33,11 @@ public:
 	void key_3(uint32_t _e_type);
 
 private:
-	std::string selected_object = "1";
+	dreco::game_object* selected_object = nullptr;
+	dreco::vec2 selection_offset = dreco::vec2();
 
 	bool bMouseDown = false;
+	dreco::vec2 LastMousePos;
 
 	bool bGoUp = false;
 	bool bGoDown = false;

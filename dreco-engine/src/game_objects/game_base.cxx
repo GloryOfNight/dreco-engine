@@ -2,7 +2,9 @@
 
 #include "camera_base.hxx"
 #include "core/engine.hxx"
-#include "game_world.hxx"
+#include "game_objects/mesh_object.hxx"
+#include "game_objects/game_object.hxx"
+#include "game_objects/game_world.hxx"
 
 using namespace dreco;
 
@@ -92,4 +94,22 @@ vec2 game_base::ScreenToWorld(const vec2& _screen_coor) const
 	return opengles2_renderer::UnProject(_screen_coor, window_size,
 	 GetCurrentWorld()->GetPlayerCamera()->GetViewMatrix(),
 	  pm2x3);
+} 
+
+game_object* game_base::TryGetObectFromScreen(const vec2& _coor) 
+{
+	int stencil_index = game_engine->GetRenderer()->GetStencilIndexFromScreen(_coor);
+	if (stencil_index != 0 && current_world) 
+	{	
+		const auto wos = current_world->GetWorldObjects();
+		for (auto o : wos) 
+		{
+			mesh_object* mesh = dynamic_cast<mesh_object*>(o.second);
+			if (mesh && mesh->stencil_index == stencil_index) 
+			{
+				return mesh;
+			}
+		}
+	}
+	return nullptr;
 }

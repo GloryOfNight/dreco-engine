@@ -26,6 +26,8 @@ public:
 
 	virtual void StartDraw();
 
+	int stencil_index = 0;
+
 protected:
 	virtual void Draw();
 

@@ -7,6 +7,8 @@ class engine;
 
 class game_world;
 
+class game_object;
+
 class game_base
 {
 public:
@@ -33,8 +35,11 @@ public:
 	bool IsWindowInFocus() const;
 
 	vec2 GetMouseScreenPos() const;
- 
+	
 	vec2 ScreenToWorld(const vec2& _screen_coor) const;
+
+	game_object* TryGetObectFromScreen(const vec2& _coor);
+
 private:
 	engine* game_engine = nullptr;
 

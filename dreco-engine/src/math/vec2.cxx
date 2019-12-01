@@ -21,6 +21,17 @@ const vec2 vec2::operator*(const vec2& _v)
 	return vec2(this->x * _v.x, this->y * _v.y);
 }
 
+const vec2 vec2::operator-(const vec2& _v) 
+{
+	return vec2(this->x - _v.x, this->y - _v.y);
+}
+
+const void vec2::operator+=(const vec2& _v) 
+{
+	this->x += _v.x;
+	this->y += _v.y;
+}
+
 const void vec2::operator-=(const float& _f)
 {
 	this->x -=  _f;
@@ -31,4 +42,9 @@ const void vec2::operator+=(const float& _f)
 {
 	this->x += _f;
 	this->y += _f;
+}
+
+const bool vec2::operator==(const vec2& _v) 
+{
+	return this->x == _v.x && this->y == _v.y;
 }

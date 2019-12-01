@@ -15,8 +15,14 @@ struct vec2
 
 	const vec2 operator*(const vec2& _v);
 
+	const vec2 operator-(const vec2& _v);
+
+	const void operator+=(const vec2& _v);
+	
 	const void operator-=(const float& _f);
 	
 	const void operator+=(const float& _f);
+
+	const bool operator==(const vec2& _v);
 };
 }	// namespace dreco

@@ -59,57 +59,70 @@ void game_instance::Tick(const float& DeltaTime)
 {
 	using namespace dreco;
 
-	auto obj = GetCurrentWorld()->GetObject(selected_object);
+	if (selected_object) 
+	{
+		transform t = selected_object->GetObjectTransform();
 
-	transform t = obj->GetObjectTransform();
+		if (bGoUp)
+		{
+			t.translation.y += 1 * DeltaTime;
+		}
+		else if (bGoDown)
+		{
+			t.translation.y -= 1 * DeltaTime;
+		}
+		if (bGoLeft)
+		{
+			t.translation.x -= 1 * DeltaTime;
+		}
+		else if (bGoRight)
+		{
+			t.translation.x += 1 * DeltaTime;
+		}
+		if (bRotateForward)
+		{
+			t.rotation += 0.5f * DeltaTime;
+		}
+		else if (bRotateBackward)
+		{
+			t.rotation -= 0.5f * DeltaTime;
+		}
+		if (bScaleUp) 
+		{
+			t.scale += 0.5 * DeltaTime;
+		}
+		if (bScaleDown) 
+		{
+			t.scale -= 0.5 * DeltaTime;
+		}
 
-	if (bGoUp)
-	{
-		t.translation.y += 1 * DeltaTime;
-	}
-	else if (bGoDown)
-	{
-		t.translation.y -= 1 * DeltaTime;
-	}
-	if (bGoLeft)
-	{
-		t.translation.x -= 1 * DeltaTime;
-	}
-	else if (bGoRight)
-	{
-		t.translation.x += 1 * DeltaTime;
-	}
-	if (bRotateForward)
-	{
-		t.rotation += 0.5f * DeltaTime;
-	}
-	else if (bRotateBackward)
-	{
-		t.rotation -= 0.5f * DeltaTime;
-	}
-	if (bScaleUp) 
-	{
-		t.scale += 0.5 * DeltaTime;
-	}
-	if (bScaleDown) 
-	{
-		t.scale -= 0.5 * DeltaTime;
-	}
+		if (bMouseDown && IsWindowInFocus()) 
+		{
+			vec2 mouse_screen_pos = GetMouseScreenPos();
+			t.translation = ScreenToWorld(mouse_screen_pos);
+			t.translation += selection_offset;
+		}
 
-	if (bMouseDown && IsWindowInFocus()) 
-	{
-		vec2 mouse_screen_pos = GetMouseScreenPos();
-		t.translation = ScreenToWorld(mouse_screen_pos);
+		selected_object->SetObjectTransform(t);
 	}
-
-	obj->SetObjectTransform(t);
-
 	GetCurrentWorld()->Tick(DeltaTime);
 }
 
 void game_instance::event_MouseButton(const SDL_Event& _e) 
 {
 	bMouseDown = _e.button.state == SDL_PRESSED ? true : false;
+
+	if (bMouseDown) 
+	{
+		LastMousePos = GetMouseScreenPos();
+		selected_object = TryGetObectFromScreen(LastMousePos);
+		if (selected_object) 
+		{
+			auto mouse_world_pos = ScreenToWorld(LastMousePos);
+			auto t = selected_object->GetObjectTransform();
+			selection_offset = t.translation - mouse_world_pos;
+		}
+	}
 }
 
 void game_instance::key_Up(uint32_t _e_type)
@@ -144,17 +157,17 @@ void game_instance::key_e(uint32_t _e_type)
 
 void game_instance::key_1(uint32_t _e_type)
 {
-	selected_object = "1";
+	//selected_object = "1";
 }
 
 void game_instance::key_2(uint32_t _e_type)
 {
-	selected_object = "2";
+	//selected_object = "2";
 }
 
 void game_instance::key_3(uint32_t _e_type)
 {
-	selected_object = "3";
+	//selected_object = "3";
 }
 
 void game_instance::key_r(uint32_t _e)
