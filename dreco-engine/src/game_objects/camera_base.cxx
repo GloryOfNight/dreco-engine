@@ -1,5 +1,7 @@
 #include "camera_base.hxx"
 
+#include "utils/math_utils.hxx"
+
 using namespace dreco;
 
 camera_base::camera_base()
@@ -56,5 +58,5 @@ mat3x4 camera_base::CalculateProjectionMatrix() const
 	const float right_left = aspect_ratio / scale_factor;
 	const float top_down = 1.0f / scale_factor;
 
-	return mat3x4::CreateProjectionMatrix2D(right_left, -right_left, top_down, -top_down);
+	return math_utils::CreateProjectionMatrix2D(right_left, -right_left, top_down, -top_down);
 }

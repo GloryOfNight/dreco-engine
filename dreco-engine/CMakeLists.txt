@@ -17,7 +17,8 @@ src/math/vec3.cxx
 src/renderer/opengles2_renderer.cxx
 src/renderer/shader_gl_base.cxx
 src/renderer/texture.cxx
-src/utils/file_utils.cxx)
+src/utils/file_utils.cxx
+src/utils/math_utils.cxx)
 
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
 

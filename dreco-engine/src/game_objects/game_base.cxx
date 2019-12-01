@@ -2,6 +2,7 @@
 
 #include "camera_base.hxx"
 #include "core/engine.hxx"
+#include "utils/math_utils.hxx"
 #include "game_objects/mesh_object.hxx"
 #include "game_objects/game_object.hxx"
 #include "game_objects/game_world.hxx"
@@ -91,7 +92,7 @@ vec2 game_base::ScreenToWorld(const vec2& _screen_coor) const
 	pm2x3.mat[1][1] = projection_mat.mat[1][1];
 	pm2x3.mat[1][2] = projection_mat.mat[1][2];
 
-	return opengles2_renderer::UnProject(_screen_coor, window_size,
+	return math_utils::UnProject(_screen_coor, window_size,
 	 GetCurrentWorld()->GetPlayerCamera()->GetViewMatrix(),
 	  pm2x3);
 } 
