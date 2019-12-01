@@ -53,9 +53,9 @@ void opengles2_renderer::UpdateViewportSize()
 }
 
 vec2 opengles2_renderer::UnProject(const vec2& _wincoord, const vec2& _viewport, 
-const mat2x3& _m, const mat2x3& _p)
+const mat2x3& _m, const mat2x3& _p_coord)
 {
-	mat2x3 pm = _p  *_m;
+	mat2x3 pm = _p_coord  *_m;
 	pm = mat2x3::inverse(pm);
 
 	vec3 in;
@@ -70,12 +70,12 @@ const mat2x3& _m, const mat2x3& _p)
 	return res;
 }
 
-int opengles2_renderer::GetStencilIndexFromScreen(const vec2& _coord) 
+int opengles2_renderer::GetStencilIndexFromPixel(const vec2& _p_coord) 
 {
 	uint8_t index;
 	int win_h;
 	SDL_GetWindowSize(engine_owner->GetWindow(), nullptr, &win_h);
-	glReadPixels(_coord.x, win_h -_coord.y, 1, 1, GL_STENCIL_INDEX, GL_UNSIGNED_BYTE, &index);
+	glReadPixels(_p_coord.x, win_h -_p_coord.y, 1, 1, GL_STENCIL_INDEX, GL_UNSIGNED_BYTE, &index);
 	GL_CHECK();
 	return index;
 }
@@ -88,16 +88,16 @@ void opengles2_renderer::DrawScene()
 	{
 		const world_objects_map& wom = world->GetWorldObjects();
 
-		int counter = 0;
+		int stencil_counter = 0;
 		for (auto i : wom) 
 		{
 			mesh_object* mesh = dynamic_cast<mesh_object*>(i.second);
 
 			if (mesh) 
 			{
-				glStencilFunc(GL_ALWAYS, ++counter, -1);
+				glStencilFunc(GL_ALWAYS, ++stencil_counter, -1);
 				GL_CHECK();
-				mesh->stencil_index = counter;
+				mesh->stencil_index = stencil_counter;
 				mesh->StartDraw();
 			}
 		}
@@ -113,6 +113,6 @@ void opengles2_renderer::ClearBuffers()
 {
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 	glClearStencil(0);
-	glClear(GL_COLOR_BUFFER_BIT | GL_STENCIL_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 	GL_CHECK();
 }

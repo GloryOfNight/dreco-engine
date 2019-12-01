@@ -82,7 +82,7 @@ vec2 game_base::ScreenToWorld(const vec2& _screen_coor) const
 	vec2 window_size = GetWindowSize();
 	auto projection_mat = GetCurrentWorld()->GetPlayerCamera()->GetProjectionMatrix();
 	
-	mat2x3 pm2x3 = mat2x3::identiry();
+	mat2x3 pm2x3;
 	// convert 3x4 mat to 2x3;
 	pm2x3.mat[0][0] = projection_mat.mat[0][0];
 	pm2x3.mat[0][1] = projection_mat.mat[0][1];
@@ -98,7 +98,7 @@ vec2 game_base::ScreenToWorld(const vec2& _screen_coor) const
 
 game_object* game_base::TryGetObectFromScreen(const vec2& _coor) 
 {
-	int stencil_index = game_engine->GetRenderer()->GetStencilIndexFromScreen(_coor);
+	int stencil_index = game_engine->GetRenderer()->GetStencilIndexFromPixel(_coor);
 	if (stencil_index != 0 && current_world) 
 	{	
 		const auto wos = current_world->GetWorldObjects();

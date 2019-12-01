@@ -26,7 +26,7 @@ public:
 	static vec2 UnProject(const vec2& _wincoord, const vec2& _viewport, 
 			const mat2x3& _m, const mat2x3& _p);
 
-	int GetStencilIndexFromScreen(const vec2& _coord);
+	int GetStencilIndexFromPixel(const vec2& _p_coord);
 
 	void DrawScene();
 
