@@ -23,7 +23,7 @@ public:
 
 	void UpdateViewportSize();
 
-	int GetStencilIndexFromPixel(const vec2& _p_coord);
+	uint8_t GetStencilIndexFromPixel(const vec2& _p_coord);
 
 	void DrawScene();
 

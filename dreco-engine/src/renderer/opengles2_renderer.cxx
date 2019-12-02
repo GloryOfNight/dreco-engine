@@ -52,7 +52,7 @@ void opengles2_renderer::UpdateViewportSize()
 	glViewport(0, 0, w, h);
 }
 
-int opengles2_renderer::GetStencilIndexFromPixel(const vec2& _p_coord) 
+uint8_t opengles2_renderer::GetStencilIndexFromPixel(const vec2& _p_coord) 
 {
 	uint8_t index;
 	int win_h;
@@ -68,12 +68,12 @@ void opengles2_renderer::DrawScene()
 	
 	if (world) 
 	{
-		const world_objects_map& wom = world->GetWorldObjects();
+		const world_objects_map& wos = world->GetWorldObjects();
 
 		int stencil_counter = 0;
-		for (auto i : wom) 
+		for (auto o : wos) 
 		{
-			mesh_object* mesh = dynamic_cast<mesh_object*>(i.second);
+			mesh_object* mesh = dynamic_cast<mesh_object*>(o.second);
 
 			if (mesh) 
 			{

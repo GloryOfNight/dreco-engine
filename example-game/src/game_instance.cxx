@@ -57,6 +57,8 @@ void game_instance::Init()
 
 void game_instance::Tick(const float& DeltaTime)
 {
+	game_base::Tick(DeltaTime);
+
 	using namespace dreco;
 
 	if (selected_object) 
@@ -105,7 +107,6 @@ void game_instance::Tick(const float& DeltaTime)
 
 		selected_object->SetObjectTransform(t);
 	}
-	GetCurrentWorld()->Tick(DeltaTime);
 }
 
 void game_instance::event_MouseButton(const SDL_Event& _e) 

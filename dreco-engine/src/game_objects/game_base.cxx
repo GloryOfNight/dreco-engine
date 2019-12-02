@@ -26,6 +26,10 @@ void game_base::Init()
 
 void game_base::Tick(const float& DeltaTime)
 {
+	if (current_world) 
+	{
+		current_world->Tick(DeltaTime);
+	}
 }
 
 engine* game_base::GetEngine() const
@@ -90,7 +94,7 @@ vec2 game_base::ScreenToWorld(const vec2& _screen_coor) const
 
 game_object* game_base::TryGetObectFromScreen(const vec2& _coor) 
 {
-	int stencil_index = game_engine->GetRenderer()->GetStencilIndexFromPixel(_coor);
+	uint8_t stencil_index = game_engine->GetRenderer()->GetStencilIndexFromPixel(_coor);
 	if (stencil_index != 0 && current_world) 
 	{	
 		const auto wos = current_world->GetWorldObjects();
