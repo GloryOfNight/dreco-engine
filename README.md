@@ -4,7 +4,7 @@ Student project with target of writing game engine and a small example game on i
 # Improtant notes
 Please note, a lot of work still Work In Progress state.
 
-# Dependencies install Ubuntu
+# Install dependencies - Debian/Ubuntu and etc
 > sudo apt-get update
 
 > sudo apt-get install libsdl2-dev
@@ -22,5 +22,5 @@ Please note, a lot of work still Work In Progress state.
 
 > cmake .. && make
 
-> cd example-game/ && /example-game
+> cd example-game/ && ./example-game
 
