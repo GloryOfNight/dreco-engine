@@ -34,7 +34,7 @@ mat2x3 mat2x3::rotate(const float& _t)
 	r.mat[0][1] = sin_t;
 	r.mat[1][0] = -sin_t;
 	r.mat[1][1] = cos_t;
-	
+
 	return r;
 }
 
@@ -48,18 +48,14 @@ mat2x3 mat2x3::scale(const float _sx, const float _sy)
 	return r;
 }
 
-mat2x3 mat2x3::inverse(const mat2x3& _m) 
+mat2x3 mat2x3::inverse(const mat2x3& _m)
 {
-	const float m[3][3] = 
-	{
-		_m.mat[0][0], _m.mat[0][1], _m.mat[0][2],
-		_m.mat[1][0], _m.mat[1][1], _m.mat[1][2],	
-		0.0f, 0.0f, 1.0f	
-	};
+	const float m[3][3] = {_m.mat[0][0], _m.mat[0][1], _m.mat[0][2], _m.mat[1][0],
+		_m.mat[1][1], _m.mat[1][2], 0.0f, 0.0f, 1.0f};
 
 	double det = m[0][0] * (m[1][1] * m[2][2] - m[2][1] * m[1][2]) -
-				m[0][1] * (m[1][0] * m[2][2] - m[1][2] * m[2][0]) +
-				m[0][2] * (m[1][0] * m[2][1] - m[1][1] * m[2][0]);
+				 m[0][1] * (m[1][0] * m[2][2] - m[1][2] * m[2][0]) +
+				 m[0][2] * (m[1][0] * m[2][1] - m[1][1] * m[2][0]);
 
 	double invdet = 1 / det;
 
@@ -84,10 +80,9 @@ mat2x3 dreco::operator*(const mat2x3& _m1, const mat2x3& _m2)
 	r.mat[1][1] = _m1.mat[0][1] * _m2.mat[1][0] + _m1.mat[1][1] * _m2.mat[1][1];
 
 	r.mat[0][2] =
-		_m1.mat[0][2] * _m2.mat[0][0] + _m1.mat[1][2] * _m2.mat[0][1] + _m2.mat[0][2];
+		_m1.mat[0][0] * _m2.mat[0][2] + _m1.mat[0][1] * _m2.mat[1][2] + _m1.mat[0][2];
 	r.mat[1][2] =
-		_m1.mat[0][2] * _m2.mat[1][0] + _m1.mat[1][2] * _m2.mat[1][1] + _m2.mat[1][2];
+		_m1.mat[1][0] * _m2.mat[0][2] + _m1.mat[1][1] * _m2.mat[1][2] + _m1.mat[1][2];
 
 	return r;
 }
-
