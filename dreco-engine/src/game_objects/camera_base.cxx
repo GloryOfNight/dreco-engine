@@ -14,7 +14,7 @@ void camera_base::Init(game_world& _w)
 	OnScreenSizeUpdate();
 }
 
-void camera_base::SetObjectTransform(const transform& _t) 
+void camera_base::SetObjectTransform(const transform& _t)
 {
 	game_object::SetObjectTransform(_t);
 	view = CalculateViewMatrix();
@@ -37,8 +37,8 @@ mat2x3 camera_base::GetProjectionMatrix() const
 
 mat2x3 camera_base::CalculateViewMatrix() const
 {
-	return object_transform.GetScaleMatrix() * object_transform.GetRotationMatrix() *
-		   object_transform.GetTranslationMatrix();
+	return object_transform.GetTranslationMatrix() *
+		   object_transform.GetRotationMatrix() * object_transform.GetScaleMatrix();
 }
 
 mat2x3 camera_base::CalculateProjectionMatrix() const
@@ -58,5 +58,6 @@ mat2x3 camera_base::CalculateProjectionMatrix() const
 	const float right_left = aspect_ratio / scale_factor;
 	const float top_down = 1.0f / scale_factor;
 
-	return math_utils::CreateProjectionMatrix2D(right_left, -right_left, top_down, -top_down);
+	return math_utils::CreateProjectionMatrix2D(
+		right_left, -right_left, top_down, -top_down);
 }
