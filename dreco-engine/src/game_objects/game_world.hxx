@@ -28,10 +28,9 @@ public:
 
 	const world_objects_map& GetWorldObjects() const;
 
+	void RegisterObject(const std::string _obj_name, game_object& _obj);
 protected:
 	virtual void CreatePlayerCamera();
-
-	void RegisterObject(const std::string _obj_name, game_object& _obj);
 
 private:
 	camera_base* player_camera = nullptr;
