@@ -6,7 +6,9 @@ src/game_main.cxx
 src/game_instance.cxx
 src/world.cxx
 src/game/game_board.cxx
-src/game/gem.cxx)
+src/game/gem.cxx
+src/game/board_cell.cxx
+src/game/gem_fall_component.cxx)
 
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
 

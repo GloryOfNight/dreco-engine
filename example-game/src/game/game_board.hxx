@@ -1,4 +1,5 @@
 #pragma once
+#include "board_cell.hxx"
 #include "game_objects/game_object.hxx"
 #include "gem_types.hxx"
 #include "renderer/texture.hxx"
@@ -21,7 +22,7 @@ class game_board : public dreco::game_object
 {
 public:
 	game_board();
-	
+
 	virtual ~game_board() override;
 
 	virtual void Init(dreco::game_world& _w) override;
@@ -33,7 +34,9 @@ public:
 private:
 	void LoadGemTextures();
 
-	gem* gems[BOARD_WIDTH][BOARD_HEIGHT] = {};
+	board_cell* cells[BOARD_WIDTH * BOARD_HEIGHT] = {};
+
+	gem* gems[BOARD_WIDTH * BOARD_HEIGHT] = {};
 
 	// temporal solution for handling gem textures
 	std::map<gem_types, dreco::texture*> gem_textures;

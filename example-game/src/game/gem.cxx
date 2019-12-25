@@ -11,3 +11,9 @@ void gem::SetGemType(gem_types _t)
 	type = _t;
 	SetTexture(*board.GetGemTexture(type));
 }
+
+void gem::SetCurrentCell(board_cell* _c) 
+{
+	current_cell = _c;
+	current_cell->SetCurrentGem(this);
+}

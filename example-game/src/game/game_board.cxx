@@ -13,11 +13,16 @@ game_board::game_board()
 {
 }
 
-game_board::~game_board() 
+game_board::~game_board()
 {
-	for (auto t : gem_textures) 
+	for (auto t : gem_textures)
 	{
 		delete t.second;
+	}
+
+	for (auto cell : cells) 
+	{
+		delete cell;
 	}
 }
 
@@ -43,24 +48,27 @@ void game_board::CreateBoard()
 
 	dreco::transform gem_trans = dreco::transform();
 	gem_trans.scale = dreco::vec2(0.15f, 0.15f);
-	uint16_t gem_counter = 0;
 
-	for (uint8_t w = 0; w < BOARD_WIDTH; ++w)
-	{
-		for (uint8_t h = 0; h < BOARD_HEIGHT; ++h)
-		{
-			gem* cur_gem = gems[w][h];
-			cur_gem = new gem(vert_prop, shader_prop, *this);
-			++gem_counter;
+	const uint16_t TOTAL_GEMS = BOARD_WIDTH * BOARD_HEIGHT;
 
-			const std::string obj_name = "gem_" + std::to_string(gem_counter);
-			GetWorld()->RegisterObject(obj_name, *cur_gem);
-			gem_trans.translation =
-				dreco::vec2(BOARD_TILE_SPACE * w - BOARD_CENTER_OFFSET_WIDTH,
-					BOARD_TILE_SPACE * h - BOARD_CENTER_OFFSET_HEIGHT);
-			cur_gem->SetObjectTransform(gem_trans); 
-			cur_gem->SetGemType(static_cast<gem_types>(rand() % 5));
-		}
+	for (uint8_t i = 0; i < TOTAL_GEMS; ++i)
+	{	
+		const uint8_t x = i % BOARD_WIDTH;
+		const uint8_t y = i % BOARD_HEIGHT;
+		cells[i] = new board_cell(*this, dreco::uint8_vec2(x, y));
+
+		gem* cur_gem = new gem(vert_prop, shader_prop, *this);
+		gems[i] = cur_gem;
+
+		const std::string obj_name = "gem_" + std::to_string(i);
+		GetWorld()->RegisterObject(obj_name, *cur_gem);
+		gem_trans.translation =
+			dreco::vec2(BOARD_TILE_SPACE * x - BOARD_CENTER_OFFSET_WIDTH,
+				BOARD_TILE_SPACE * y - BOARD_CENTER_OFFSET_HEIGHT);
+
+		cur_gem->SetObjectTransform(gem_trans);
+		cur_gem->SetGemType(static_cast<gem_types>(rand() % 5));
+		cur_gem->SetCurrentCell(cells[i]);
 	}
 }
 
