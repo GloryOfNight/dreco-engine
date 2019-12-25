@@ -13,6 +13,14 @@ game_board::game_board()
 {
 }
 
+game_board::~game_board() 
+{
+	for (auto t : gem_textures) 
+	{
+		delete t.second;
+	}
+}
+
 void game_board::Init(dreco::game_world& _w)
 {
 	game_object::Init(_w);
@@ -31,8 +39,7 @@ void game_board::CreateBoard()
 
 	dreco::vertex_properties vert_prop = dreco::vertex_properties::ModelPlane();
 
-	vert_prop.texture_ptr =
-		std::make_shared<dreco::texture>(*(new dreco::texture("res/textures/tank.png")));
+	LoadGemTextures();
 
 	dreco::transform gem_trans = dreco::transform();
 	gem_trans.scale = dreco::vec2(0.15f, 0.15f);
@@ -43,15 +50,34 @@ void game_board::CreateBoard()
 		for (uint8_t h = 0; h < BOARD_HEIGHT; ++h)
 		{
 			gem* cur_gem = gems[w][h];
-			cur_gem = new gem(vert_prop, shader_prop);
+			cur_gem = new gem(vert_prop, shader_prop, *this);
 			++gem_counter;
 
 			const std::string obj_name = "gem_" + std::to_string(gem_counter);
 			GetWorld()->RegisterObject(obj_name, *cur_gem);
 			gem_trans.translation =
-				dreco::vec2(BOARD_TILE_SPACE * w - BOARD_CENTER_OFFSET,
-					BOARD_TILE_SPACE * h - BOARD_CENTER_OFFSET);
-			cur_gem->SetObjectTransform(gem_trans);
+				dreco::vec2(BOARD_TILE_SPACE * w - BOARD_CENTER_OFFSET_WIDTH,
+					BOARD_TILE_SPACE * h - BOARD_CENTER_OFFSET_HEIGHT);
+			cur_gem->SetObjectTransform(gem_trans); 
+			cur_gem->SetGemType(static_cast<gem_types>(rand() % 5));
 		}
 	}
+}
+
+dreco::texture* game_board::GetGemTexture(const gem_types& _t) const
+{
+	return gem_textures.at(_t);
+}
+
+void game_board::LoadGemTextures()
+{
+	gem_textures.emplace(gem_types::red, new dreco::texture("res/textures/gem_red.png"));
+	gem_textures.emplace(
+		gem_types::blue, new dreco::texture("res/textures/gem_blue.png"));
+	gem_textures.emplace(
+		gem_types::green, new dreco::texture("res/textures/gem_green.png"));
+	gem_textures.emplace(
+		gem_types::purple, new dreco::texture("res/textures/gem_purple.png"));
+	gem_textures.emplace(
+		gem_types::yellow, new dreco::texture("res/textures/gem_yellow.png"));
 }
