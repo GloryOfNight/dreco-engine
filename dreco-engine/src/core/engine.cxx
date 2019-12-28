@@ -21,27 +21,30 @@ engine::~engine()
 	{
 		delete renderer;
 		delete event_manager;
-		SDL_DestroyWindow(window);
 		SDL_Quit();
 	}
 }
 
-int engine::Init(engine_properties& properties)
+int engine::Init(engine_properties& _p)
 {
 	const int sdl_init_result = SDL_Init(SDL_INIT_AUDIO | SDL_INIT_VIDEO);
 
-	if (sdl_init_result != INIT_SUCCESS)
+	if (sdl_init_result == INIT_FAILED)
 	{
 		std::cerr << "Init(): Unable to initialize SDL: " << SDL_GetError() << std::endl;
+		delete this;
+		std::runtime_error("Failed to initialize SDL");
 		return INIT_FAILED;
 	}
 
-	window = SDL_CreateWindow(properties.window_title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 640, 640,
-		SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
-
-	if (!window)
+	renderer = new opengles2_renderer(*this);
+	int renderer_init_res = renderer->Init(_p.window_title);
+	
+	if (renderer_init_res == INIT_FAILED)
 	{
-		std::cerr << "Init(): Unadle to create window: " << SDL_GetError() << std::endl;
+		std::cerr << "Init(): Renderer initialize failed: " << SDL_GetError() << std::endl;
+		delete this;
+		std::runtime_error("Failed to initialize renderer");
 		return INIT_FAILED;
 	}
 
@@ -51,9 +54,8 @@ int engine::Init(engine_properties& properties)
 	event_manager->AddEventBinding(SDL_QUIT, std::bind(&engine::Event_Quit, this, std::placeholders::_1));
 	event_manager->AddEventBinding(SDL_WINDOWEVENT, std::bind(&engine::Event_Window, this, std::placeholders::_1));
 
-	renderer = new opengles2_renderer(*this);
-
 	is_engine_initialized = true;
+
 	return INIT_SUCCESS;
 }
 
@@ -110,7 +112,7 @@ void engine::RegisterOwnedGame(game_base* game)
 
 SDL_Window* engine::GetWindow() const
 {
-	return window;
+	return renderer->GetWindow();
 }
 
 opengles2_renderer* engine::GetRenderer() const

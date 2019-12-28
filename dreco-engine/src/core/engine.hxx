@@ -13,7 +13,7 @@ class engine
 public:
 	engine();
 	~engine();
-	int Init(engine_properties& properties);
+	int Init(engine_properties& _p);
 
 	void StartMainLoop();
 
@@ -45,8 +45,6 @@ private:
 	uint32_t last_tick_time = 0;
 
 	bool is_engine_initialized = false;
-
-	SDL_Window* window = nullptr;
 
 	bool keep_main_loop = false;
 
