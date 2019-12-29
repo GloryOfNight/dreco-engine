@@ -9,9 +9,8 @@
 
 using namespace dreco;
 
-game_base::game_base(engine& _e)
+game_base::game_base(engine& _e) : game_engine(&_e)
 {
-	game_engine = &_e;
 }
 
 game_base::~game_base()
@@ -39,8 +38,7 @@ engine* game_base::GetEngine() const
 
 void game_base::OnWindowResize()
 {
-	game_world* world = GetCurrentWorld();
-	if (world)
+	if (const game_world* world = GetCurrentWorld(); world)
 	{
 		world->GetPlayerCamera()->OnScreenSizeUpdate();
 	}
@@ -94,7 +92,7 @@ vec2 game_base::ScreenToWorld(const vec2& _screen_coor) const
 
 game_object* game_base::TryGetObectFromScreen(const vec2& _coor) 
 {
-	uint8_t stencil_index = game_engine->GetRenderer()->GetStencilIndexFromPixel(_coor);
+	const uint8_t stencil_index = game_engine->GetRenderer()->GetStencilIndexFromPixel(_coor);
 	if (stencil_index != 0 && current_world) 
 	{	
 		const auto wos = current_world->GetWorldObjects();

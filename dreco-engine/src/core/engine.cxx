@@ -38,7 +38,7 @@ int engine::Init(engine_properties& _p)
 	}
 
 	renderer = new opengles2_renderer(*this);
-	int renderer_init_res = renderer->Init(_p.window_title);
+	const int renderer_init_res = renderer->Init(_p.window_title);
 	
 	if (renderer_init_res == INIT_FAILED)
 	{
@@ -61,18 +61,20 @@ int engine::Init(engine_properties& _p)
 
 void engine::StartMainLoop()
 {
-	if (!is_engine_initialized)
+	if (is_engine_initialized)
+	{
+		keep_main_loop = true;
+
+		while (keep_main_loop)
+		{
+			const auto DeltaTime = GetNewDeltaTime();
+			Tick(DeltaTime);
+		}
+	}
+	else 
 	{
 		std::cerr << "StartMainLoop(): Egnine must be initialized!" << std::endl;
 		return;
-	}
-
-	keep_main_loop = true;
-
-	while (keep_main_loop)
-	{
-		const auto DeltaTime = GetNewDeltaTime();
-		Tick(DeltaTime);
 	}
 }
 
@@ -136,7 +138,8 @@ float engine::GetNewDeltaTime()
 {
 	const uint32_t now = SDL_GetPerformanceCounter();
 
-	const float deltatime = static_cast<float>(now - last_tick_time) / static_cast<float>(SDL_GetPerformanceFrequency());
+	const float deltatime = static_cast<float>(now - last_tick_time) 
+	/ static_cast<float>(SDL_GetPerformanceFrequency());
 
 	last_tick_time = now;
 
