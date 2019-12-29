@@ -3,20 +3,14 @@
 #include "game_objects/game_object.hxx"
 #include "gem_types.hxx"
 #include "renderer/texture.hxx"
+#include "board_constants.hxx"
 
 #include <map>
-
-constexpr uint8_t BOARD_WIDTH = 7;
-constexpr uint8_t BOARD_HEIGHT = 10;
-constexpr float BOARD_TILE_SPACE = 0.15f;
-constexpr float BOARD_CENTER_OFFSET_WIDTH =
-	BOARD_WIDTH % 2 == 0 ? (BOARD_WIDTH * BOARD_TILE_SPACE) / 2
-						 : (BOARD_WIDTH * BOARD_TILE_SPACE) / 2 - (BOARD_TILE_SPACE / 2);
-constexpr float BOARD_CENTER_OFFSET_HEIGHT =
-	BOARD_WIDTH % 2 == 0 ? (BOARD_HEIGHT * BOARD_TILE_SPACE) / 2
-						 : (BOARD_HEIGHT * BOARD_TILE_SPACE) / 2 - (BOARD_TILE_SPACE / 2);
+#include <vector>
 
 class gem;
+
+class game_instance;
 
 class game_board : public dreco::game_object
 {
@@ -27,6 +21,8 @@ public:
 
 	virtual void Init(dreco::game_world& _w) override;
 
+	virtual void Tick(const float& DeltaTime) override;
+
 	void CreateBoard();
 
 	dreco::texture* GetGemTexture(const gem_types& _t) const;
@@ -34,9 +30,13 @@ public:
 private:
 	void LoadGemTextures();
 
+	game_instance* gi;
+
 	board_cell* cells[BOARD_WIDTH * BOARD_HEIGHT] = {};
 
 	gem* gems[BOARD_WIDTH * BOARD_HEIGHT] = {};
+
+	std::vector<gem*> selected_gems = {};
 
 	// temporal solution for handling gem textures
 	std::map<gem_types, dreco::texture*> gem_textures;

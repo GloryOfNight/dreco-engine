@@ -58,7 +58,7 @@ void mesh_object::Tick(const float& DeltaTime)
 
 void mesh_object::SetIsRendered(const bool _is_render)
 {
-	bIsRendered = !_is_render;
+	bIsRendered = _is_render;
 }
 
 inline shader_gl_base* mesh_object::GetShader() const

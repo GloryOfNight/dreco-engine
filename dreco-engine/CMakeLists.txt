@@ -12,7 +12,7 @@ src/game_objects/mesh_object.cxx
 src/math/mat2x3.cxx
 src/math/transform.cxx
 src/math/vec2.cxx
-src/math/uint8_vec2.cxx
+src/math/int_vec2.cxx
 src/math/vec3.cxx
 src/renderer/opengles2_renderer.cxx
 src/renderer/vertex_properties.cxx

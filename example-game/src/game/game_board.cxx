@@ -1,5 +1,6 @@
 #include "game_board.hxx"
 
+#include "../game_instance.hxx"
 #include "game_objects/game_world.hxx"
 #include "gem.hxx"
 #include "math/transform.hxx"
@@ -20,7 +21,7 @@ game_board::~game_board()
 		delete t.second;
 	}
 
-	for (auto cell : cells) 
+	for (auto cell : cells)
 	{
 		delete cell;
 	}
@@ -29,7 +30,49 @@ game_board::~game_board()
 void game_board::Init(dreco::game_world& _w)
 {
 	game_object::Init(_w);
+	gi = dynamic_cast<game_instance*>(GetWorld()->GetGameInstance());
 	CreateBoard();
+}
+
+void game_board::Tick(const float& DeltaTime)
+{
+	gem* selected_gem = dynamic_cast<gem*>(gi->GetSelectedObject());
+	const bool is_mouse_down = gi->GetIsMouseButtonDown();
+
+	if (is_mouse_down && selected_gem && !selected_gem->GetIsSelected())
+	{
+		if (selected_gems.size() == 0)
+		{
+			selected_gems.push_back(selected_gem);
+			selected_gem->SetIsSelected(true);
+		}
+		else
+		{
+			gem* last_selected_gem = selected_gems[selected_gems.size() - 1];
+			dreco::int_vec2 pos_offset = last_selected_gem->GetCell()->GetPosition() -
+										 selected_gem->GetCell()->GetPosition();
+
+			const bool can_be_selected = (pos_offset.x <= 1 && pos_offset.x >= -1) &&
+										  (pos_offset.y <= 1 && pos_offset.y >= -1);
+			
+			if (last_selected_gem != selected_gem &&
+				last_selected_gem->GetGemType() == selected_gem->GetGemType() &&
+				can_be_selected)
+			{
+				selected_gems.push_back(selected_gem);
+				selected_gem->SetIsSelected(true);
+			}
+		}
+	}
+	else if (!is_mouse_down)
+	{
+		for (auto gem : selected_gems)
+		{
+			gem->SetIsRendered(!(selected_gems.size() > 2));
+			gem->SetIsSelected(false);
+		}
+		selected_gems.clear();
+	}
 }
 
 void game_board::CreateBoard()
@@ -52,10 +95,10 @@ void game_board::CreateBoard()
 	const uint16_t TOTAL_GEMS = BOARD_WIDTH * BOARD_HEIGHT;
 
 	for (uint8_t i = 0; i < TOTAL_GEMS; ++i)
-	{	
+	{
 		const uint8_t x = i % BOARD_WIDTH;
 		const uint8_t y = i % BOARD_HEIGHT;
-		cells[i] = new board_cell(*this, dreco::uint8_vec2(x, y));
+		cells[i] = new board_cell(*this, dreco::int_vec2(x, y));
 
 		gem* cur_gem = new gem(vert_prop, shader_prop, *this);
 		gems[i] = cur_gem;
