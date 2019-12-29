@@ -10,15 +10,33 @@
 
 using namespace dreco;
 
-opengles2_renderer::opengles2_renderer(engine& _e)
+opengles2_renderer::opengles2_renderer(engine& _e) : engine_owner(&_e)
 {
-	engine_owner = &_e;
-	
+}
+
+opengles2_renderer::~opengles2_renderer()
+{
+	SDL_GL_DeleteContext(gl_context);
+	SDL_DestroyWindow(window);
+}
+
+int opengles2_renderer::Init(const std::string& _window_title)
+{
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_ES);
+	SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
+	
+	window = SDL_CreateWindow(_window_title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 640, 640,
+		SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
 
-	gl_context = SDL_GL_CreateContext(engine_owner->GetWindow());
+	if (!window)
+	{
+		std::cerr << "Init(): SDL_Create_Window():  " << SDL_GetError() << std::endl;
+		return INIT_FAILED;
+	}
+
+	gl_context = SDL_GL_CreateContext(window);
 
 	LoadGlFunctions();
 
@@ -29,11 +47,14 @@ opengles2_renderer::opengles2_renderer(engine& _e)
 	glEnable(GL_STENCIL_TEST);
 	glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
 	GL_CHECK();
-}
+	
+	if (!gl_context)
+	{
+		std::cerr << "Renderer->Init(): SDL_Create_Window():  " << SDL_GetError() << std::endl;
+		return INIT_FAILED;
+	}
 
-opengles2_renderer::~opengles2_renderer()
-{
-	SDL_GL_DeleteContext(gl_context);
+	return INIT_SUCCESS;
 }
 
 void opengles2_renderer::Tick(const float& DeltaTime)
@@ -97,4 +118,9 @@ void opengles2_renderer::ClearBuffers()
 	glClearStencil(0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 	GL_CHECK();
+}
+
+SDL_Window* opengles2_renderer::GetWindow() const 
+{
+	return window;
 }

@@ -1,4 +1,5 @@
 #include "mat2x3.hxx"
+#include "transform.hxx"
 
 #include <cmath>
 
@@ -85,4 +86,19 @@ mat2x3 dreco::operator*(const mat2x3& _m1, const mat2x3& _m2)
 		_m1.mat[1][0] * _m2.mat[0][2] + _m1.mat[1][1] * _m2.mat[1][2] + _m1.mat[1][2];
 
 	return r;
+}
+
+mat2x3 mat2x3::GetTranslationMatrix(const transform& _t)
+{
+	return mat2x3::translate(_t.translation);
+}
+
+mat2x3 mat2x3::GetRotationMatrix(const transform& _t)
+{
+	return mat2x3::rotate(_t.rotation);
+}
+
+mat2x3 mat2x3::GetScaleMatrix(const transform& _t)
+{
+	return mat2x3::scale(_t.scale.x, _t.scale.y);
 }

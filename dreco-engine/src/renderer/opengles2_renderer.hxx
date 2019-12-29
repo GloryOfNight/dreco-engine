@@ -6,6 +6,7 @@
 #include "vertex.hxx"
 
 #include <vector>
+#include <string>
 
 namespace dreco
 {
@@ -17,6 +18,8 @@ public:
 	opengles2_renderer(engine& _e);
 	~opengles2_renderer();
 
+	int Init(const std::string& _window_title);
+
 	void DrawVertexArray(const std::vector<vertex>& _v, const mat2x3& _m);
 
 	void Tick(const float& DeltaTime);
@@ -27,6 +30,7 @@ public:
 
 	void DrawScene();
 
+	SDL_Window* GetWindow() const;
 private:
 	void SwapBuffer();
 
@@ -35,5 +39,7 @@ private:
 	engine* engine_owner = nullptr;
 
 	SDL_GLContext gl_context = nullptr;
+
+	SDL_Window* window = nullptr;
 };
 }	// namespace dreco

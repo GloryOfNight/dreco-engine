@@ -37,8 +37,8 @@ mat2x3 camera_base::GetProjectionMatrix() const
 
 mat2x3 camera_base::CalculateViewMatrix() const
 {
-	return object_transform.GetTranslationMatrix() *
-		   object_transform.GetRotationMatrix() * object_transform.GetScaleMatrix();
+	return mat2x3::GetTranslationMatrix(object_transform) * 
+	mat2x3::GetRotationMatrix(object_transform) * mat2x3::GetScaleMatrix(object_transform);
 }
 
 mat2x3 camera_base::CalculateProjectionMatrix() const

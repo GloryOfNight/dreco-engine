@@ -75,9 +75,9 @@ void mesh_object::UpdateModelTransform()
 {
 	GetShader()->Use();
 
-	transform t = GetObjectTransform();
+	const transform t = GetObjectTransform();
 
-	const mat2x3 model = t.GetTranslationMatrix() * t.GetRotationMatrix() * t.GetScaleMatrix();
+	const mat2x3 model = mat2x3::GetTranslationMatrix(t) * mat2x3::GetRotationMatrix(t) * mat2x3::GetScaleMatrix(t);
 	const mat2x3 view = GetWorld()->GetPlayerCamera()->GetViewMatrix();
 	const mat2x3 modelview = view * model;
 	GetShader()->SetUniform("u_modelview", modelview);
