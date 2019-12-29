@@ -21,9 +21,9 @@ game_board::~game_board()
 		delete t.second;
 	}
 
-	for (uint8_t w = 0; w < BOARD_WIDTH; ++w) 
+	for (uint8_t w = 0; w < BOARD_WIDTH; ++w)
 	{
-		for (uint8_t h = 0; h < BOARD_HEIGHT; ++h) 
+		for (uint8_t h = 0; h < BOARD_HEIGHT; ++h)
 		{
 			delete cells[w][h];
 		}
@@ -56,8 +56,8 @@ void game_board::Tick(const float& DeltaTime)
 										 selected_gem->GetCell()->GetPosition();
 
 			const bool can_be_selected = (pos_offset.x <= 1 && pos_offset.x >= -1) &&
-										  (pos_offset.y <= 1 && pos_offset.y >= -1);
-			
+										 (pos_offset.y <= 1 && pos_offset.y >= -1);
+
 			if (last_selected_gem != selected_gem &&
 				last_selected_gem->GetGemType() == selected_gem->GetGemType() &&
 				can_be_selected)
@@ -69,11 +69,41 @@ void game_board::Tick(const float& DeltaTime)
 	}
 	else if (!is_mouse_down)
 	{
+		const bool can_be_collected = selected_gems.size() > 2;
 		for (auto gem : selected_gems)
 		{
-			selected_gems.size() <= 2 ? gem->SetIsSelected(false) : gem->OnCollected();
+			if (can_be_collected)
+			{
+				gem->OnCollected();
+				collected_gems.push_back(gem);
+			}
+			else
+			{
+				gem->SetIsSelected(false);
+			}
 		}
 		selected_gems.clear();
+	}
+	if (collected_gems.size() > 0)
+	{
+		for (uint8_t w = 0; w < BOARD_HEIGHT; ++w)
+		{
+			board_cell* cell_to_spawn_in = cells[w][BOARD_HEIGHT - 1];
+			if (cell_to_spawn_in->GetCellState() == cell_states::empty && collected_gems.size() > 0)
+			{
+				gem* gem_to_spawn = collected_gems.back();
+				collected_gems.pop_back();
+
+				gem_to_spawn->SetGemType(static_cast<gem_types>(rand() % 5));
+				gem_to_spawn->SetCurrentCell(cell_to_spawn_in);
+				cell_to_spawn_in->SetCurrentGem(gem_to_spawn);
+				auto t = gem_to_spawn->GetObjectTransform();
+				t.translation = cell_to_spawn_in->translation;
+				t.translation.y += BOARD_TILE_SPACE;
+				gem_to_spawn->SetObjectTransform(t);
+				gem_to_spawn->OnReturn();
+			}
+		}
 	}
 }
 
@@ -140,4 +170,3 @@ void game_board::LoadGemTextures()
 	gem_textures.emplace(
 		gem_types::yellow, new dreco::texture("res/textures/gem_yellow.png"));
 }
-

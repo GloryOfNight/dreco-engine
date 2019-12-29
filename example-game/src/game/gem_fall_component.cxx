@@ -43,6 +43,7 @@ void gem_fall_component::TryFall(const bool _set_delay)
 		{
 			previos_cell = owner.GetCell();
 			next_cell = down_cell;
+            next_cell->SetCellState(cell_states::recieving);
 			is_in_fall = true;
 
 			if (_set_delay)
@@ -57,9 +58,19 @@ void gem_fall_component::TryFall(const bool _set_delay)
 	}
 }
 
+void gem_fall_component::FallToCurrentCell() 
+{
+    previos_cell = nullptr;
+    next_cell = owner.GetCell();
+    next_cell->SetCellState(cell_states::recieving);
+    is_in_fall = true;
+    delay_before_fall = GEM_DELAY_BEFORE_FALL;
+}
+
 void gem_fall_component::OnStartFall()
 {
-	previos_cell->SetCurrentGem(nullptr);
+	if (previos_cell)
+		previos_cell->SetCurrentGem(nullptr);
 	owner.SetCurrentCell(next_cell);
 	next_cell->SetCurrentGem(&owner);
 	next_cell->SetCellState(cell_states::recieving);

@@ -72,3 +72,9 @@ void gem::OnCollected()
 	SetIsSelected(false);
 	SetIsRendered(false);
 }
+
+void gem::OnReturn() 
+{
+	SetIsRendered(true);
+	fall_component.FallToCurrentCell();
+}

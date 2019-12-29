@@ -32,6 +32,8 @@ public:
 	game_board* GetBoard() const;
 	
 	void OnCollected();
+
+	void OnReturn();
 private:
 	bool selected = false;
 

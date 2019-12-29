@@ -14,6 +14,7 @@ public:
 
     void TryFall(const bool _set_delay);
 
+    void FallToCurrentCell();
 private:
     void OnStartFall();
 

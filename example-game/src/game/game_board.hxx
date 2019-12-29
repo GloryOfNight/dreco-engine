@@ -40,6 +40,7 @@ private:
 
 	std::vector<gem*> selected_gems = {};
 
+	std::vector<gem*> collected_gems = {};
 	// temporal solution for handling gem textures
 	std::map<gem_types, dreco::texture*> gem_textures;
 };
