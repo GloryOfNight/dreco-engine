@@ -1,26 +1,45 @@
 #include "gem.hxx"
-#include "game_board.hxx"
 
-gem::gem(const dreco::vertex_properties& _v, const dreco::shader_properties& _shader_prop, game_board& _b)
-	: dreco::mesh_object(_v, _shader_prop), board(_b)
+#include "game_board.hxx"
+#include "gem_fall_component.hxx"
+
+gem::gem(const dreco::vertex_properties& _v, const dreco::shader_properties& _shader_prop,
+	game_board& _b)
+	: dreco::mesh_object(_v, _shader_prop)
+	, board(_b)
+	, fall_component(*(new gem_fall_component(*this)))
 {
 }
 
-void gem::SetGemType(gem_types _t) 
+gem::~gem()
+{
+	delete &fall_component;
+}
+
+void gem::Tick(const float& DeltaTime)
+{
+	fall_component.Tick(DeltaTime);
+}
+
+void gem::SetGemType(gem_types _t)
 {
 	type = _t;
 	SetTexture(*board.GetGemTexture(type));
 }
 
-gem_types gem::GetGemType() const 
+gem_types gem::GetGemType() const
 {
 	return type;
 }
 
-void gem::SetCurrentCell(board_cell* _c) 
+void gem::SetCurrentCell(board_cell* _c)
 {
+	if (current_cell) 
+	{
+		current_cell->SetCurrentGem(_c == nullptr ? nullptr : this);
+	}
+
 	current_cell = _c;
-	current_cell->SetCurrentGem(this);
 }
 
 board_cell* gem::GetCell() const
@@ -28,7 +47,7 @@ board_cell* gem::GetCell() const
 	return current_cell;
 }
 
-void gem::SetIsSelected(const bool _v) 
+void gem::SetIsSelected(const bool _v)
 {
 	selected = _v;
 
@@ -37,7 +56,19 @@ void gem::SetIsSelected(const bool _v)
 	SetObjectTransform(t);
 }
 
-bool gem::GetIsSelected() const 
+bool gem::GetIsSelected() const
 {
 	return selected;
+}
+
+game_board* gem::GetBoard() const 
+{
+	return &board;
+}
+
+void gem::OnCollected()
+{
+	SetCurrentCell(nullptr);
+	SetIsSelected(false);
+	SetIsRendered(false);
 }

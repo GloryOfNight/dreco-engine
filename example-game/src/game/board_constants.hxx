@@ -10,3 +10,7 @@ constexpr float BOARD_CENTER_OFFSET_WIDTH =
 constexpr float BOARD_CENTER_OFFSET_HEIGHT =
 	BOARD_WIDTH % 2 == 0 ? (BOARD_HEIGHT * BOARD_TILE_SPACE) / 2
 						 : (BOARD_HEIGHT * BOARD_TILE_SPACE) / 2 - (BOARD_TILE_SPACE / 2);
+
+constexpr float GEM_FALL_SPEED = 1.0f;
+
+constexpr float GEM_DELAY_BEFORE_FALL = 0.11f;

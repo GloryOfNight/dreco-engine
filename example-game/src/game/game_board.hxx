@@ -27,12 +27,14 @@ public:
 
 	dreco::texture* GetGemTexture(const gem_types& _t) const;
 
+	board_cell* GetCellFromPosition(const dreco::int_vec2& _p) const;
+
 private:
 	void LoadGemTextures();
 
 	game_instance* gi;
 
-	board_cell* cells[BOARD_WIDTH * BOARD_HEIGHT] = {};
+	board_cell* cells[BOARD_WIDTH][BOARD_HEIGHT] = {};
 
 	gem* gems[BOARD_WIDTH * BOARD_HEIGHT] = {};
 

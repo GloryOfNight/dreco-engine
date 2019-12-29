@@ -21,9 +21,12 @@ game_board::~game_board()
 		delete t.second;
 	}
 
-	for (auto cell : cells)
+	for (uint8_t w = 0; w < BOARD_WIDTH; ++w) 
 	{
-		delete cell;
+		for (uint8_t h = 0; h < BOARD_HEIGHT; ++h) 
+		{
+			delete cells[w][h];
+		}
 	}
 }
 
@@ -68,8 +71,7 @@ void game_board::Tick(const float& DeltaTime)
 	{
 		for (auto gem : selected_gems)
 		{
-			gem->SetIsRendered(!(selected_gems.size() > 2));
-			gem->SetIsSelected(false);
+			selected_gems.size() <= 2 ? gem->SetIsSelected(false) : gem->OnCollected();
 		}
 		selected_gems.clear();
 	}
@@ -96,9 +98,9 @@ void game_board::CreateBoard()
 
 	for (uint8_t i = 0; i < TOTAL_GEMS; ++i)
 	{
-		const uint8_t x = i % BOARD_WIDTH;
-		const uint8_t y = i % BOARD_HEIGHT;
-		cells[i] = new board_cell(*this, dreco::int_vec2(x, y));
+		const uint8_t x = i >= BOARD_WIDTH ? i - ((i / BOARD_WIDTH) * BOARD_WIDTH) : i;
+		const uint8_t y = i >= BOARD_WIDTH ? i / BOARD_WIDTH : 0;
+		cells[x][y] = new board_cell(*this, dreco::int_vec2(x, y));
 
 		gem* cur_gem = new gem(vert_prop, shader_prop, *this);
 		gems[i] = cur_gem;
@@ -111,13 +113,19 @@ void game_board::CreateBoard()
 
 		cur_gem->SetObjectTransform(gem_trans);
 		cur_gem->SetGemType(static_cast<gem_types>(rand() % 5));
-		cur_gem->SetCurrentCell(cells[i]);
+		cur_gem->SetCurrentCell(cells[x][y]);
+		cells[x][y]->SetCurrentGem(cur_gem);
 	}
 }
 
 dreco::texture* game_board::GetGemTexture(const gem_types& _t) const
 {
 	return gem_textures.at(_t);
+}
+
+board_cell* game_board::GetCellFromPosition(const dreco::int_vec2& _p) const
+{
+	return cells[_p.x][_p.y];
 }
 
 void game_board::LoadGemTextures()
@@ -132,3 +140,4 @@ void game_board::LoadGemTextures()
 	gem_textures.emplace(
 		gem_types::yellow, new dreco::texture("res/textures/gem_yellow.png"));
 }
+
