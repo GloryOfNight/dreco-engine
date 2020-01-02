@@ -21,33 +21,9 @@ game_instance::~game_instance()
 void game_instance::Init()
 {
 	GetEngine()->GetEventManager()->AddEventBinding(SDL_MOUSEBUTTONDOWN,
-	 std::bind(&game_instance::event_MouseButton, this, std::placeholders::_1));
+		std::bind(&game_instance::event_MouseButton, this, std::placeholders::_1));
 	GetEngine()->GetEventManager()->AddEventBinding(SDL_MOUSEBUTTONUP,
-	 std::bind(&game_instance::event_MouseButton, this, std::placeholders::_1));
-	 
-	GetEngine()->GetEventManager()->AddKeyBinding(
-		SDLK_UP, std::bind(&game_instance::key_Up, this, std::placeholders::_1));
-	GetEngine()->GetEventManager()->AddKeyBinding(
-		SDLK_DOWN, std::bind(&game_instance::key_Down, this, std::placeholders::_1));
-	GetEngine()->GetEventManager()->AddKeyBinding(
-		SDLK_LEFT, std::bind(&game_instance::key_Left, this, std::placeholders::_1));
-	GetEngine()->GetEventManager()->AddKeyBinding(
-		SDLK_RIGHT, std::bind(&game_instance::key_Right, this, std::placeholders::_1));
-	GetEngine()->GetEventManager()->AddKeyBinding(
-		SDLK_q, std::bind(&game_instance::key_q, this, std::placeholders::_1));
-	GetEngine()->GetEventManager()->AddKeyBinding(
-		SDLK_e, std::bind(&game_instance::key_e, this, std::placeholders::_1));
-	GetEngine()->GetEventManager()->AddKeyBinding(
-		SDLK_r, std::bind(&game_instance::key_r, this, std::placeholders::_1));
-	GetEngine()->GetEventManager()->AddKeyBinding(
-		SDLK_t, std::bind(&game_instance::key_t, this, std::placeholders::_1));
-
-	GetEngine()->GetEventManager()->AddKeyBinding(
-		SDLK_1, std::bind(&game_instance::key_1, this, std::placeholders::_1));
-	GetEngine()->GetEventManager()->AddKeyBinding(
-		SDLK_2, std::bind(&game_instance::key_2, this, std::placeholders::_1));
-	GetEngine()->GetEventManager()->AddKeyBinding(
-		SDLK_3, std::bind(&game_instance::key_3, this, std::placeholders::_1));
+		std::bind(&game_instance::event_MouseButton, this, std::placeholders::_1));
 
 	dreco::game_world* new_world = new world(*this);
 	new_world->Init();
@@ -59,124 +35,28 @@ void game_instance::Tick(const float& DeltaTime)
 {
 	game_base::Tick(DeltaTime);
 
-	using namespace dreco;
-
-	if (selected_object) 
-	{
-		transform t = selected_object->GetObjectTransform();
-
-		if (bGoUp)
-		{
-			t.translation.y += 1 * DeltaTime;
-		}
-		else if (bGoDown)
-		{
-			t.translation.y -= 1 * DeltaTime;
-		}
-		if (bGoLeft)
-		{
-			t.translation.x -= 1 * DeltaTime;
-		}
-		else if (bGoRight)
-		{
-			t.translation.x += 1 * DeltaTime;
-		}
-		if (bRotateForward)
-		{
-			t.rotation += 0.5f * DeltaTime;
-		}
-		else if (bRotateBackward)
-		{
-			t.rotation -= 0.5f * DeltaTime;
-		}
-		if (bScaleUp) 
-		{
-			t.scale += 0.5 * DeltaTime;
-		}
-		if (bScaleDown) 
-		{
-			t.scale -= 0.5 * DeltaTime;
-		}
-
-		if (bMouseDown && IsWindowInFocus()) 
-		{
-			vec2 mouse_screen_pos = GetMouseScreenPos();
-			t.translation = ScreenToWorld(mouse_screen_pos);
-			t.translation += selection_offset;
-		}
-
-		selected_object->SetObjectTransform(t);
-	}
-}
-
-void game_instance::event_MouseButton(const SDL_Event& _e) 
-{
-	bMouseDown = _e.button.state == SDL_PRESSED ? true : false;
-
-	if (bMouseDown) 
+	if (bMouseDown)
 	{
 		LastMousePos = GetMouseScreenPos();
 		selected_object = TryGetObectFromScreen(LastMousePos);
-		if (selected_object) 
-		{
-			auto mouse_world_pos = ScreenToWorld(LastMousePos);
-			auto t = selected_object->GetObjectTransform();
-			selection_offset = t.translation - mouse_world_pos;
-		}
+	}
+	else 
+	{
+		selected_object = nullptr;
 	}
 }
 
-void game_instance::key_Up(uint32_t _e_type)
+void game_instance::event_MouseButton(const SDL_Event& _e)
 {
-	bGoUp = _e_type == SDL_KEYDOWN ? true : false;
+	bMouseDown = _e.button.state == SDL_PRESSED ? true : false;
 }
 
-void game_instance::key_Down(uint32_t _e_type)
+dreco::game_object* game_instance::GetSelectedObject() const
 {
-	bGoDown = _e_type == SDL_KEYDOWN ? true : false;
+	return selected_object;
 }
 
-void game_instance::key_Left(uint32_t _e_type)
+bool game_instance::GetIsMouseButtonDown() const
 {
-	bGoLeft = _e_type == SDL_KEYDOWN ? true : false;
-}
-
-void game_instance::key_Right(uint32_t _e_type)
-{
-	bGoRight = _e_type == SDL_KEYDOWN ? true : false;
-}
-
-void game_instance::key_q(uint32_t _e_type)
-{
-	bRotateBackward = _e_type == SDL_KEYDOWN ? true : false;
-}
-
-void game_instance::key_e(uint32_t _e_type)
-{
-	bRotateForward = _e_type == SDL_KEYDOWN ? true : false;
-}
-
-void game_instance::key_1(uint32_t _e_type)
-{
-	//selected_object = "1";
-}
-
-void game_instance::key_2(uint32_t _e_type)
-{
-	//selected_object = "2";
-}
-
-void game_instance::key_3(uint32_t _e_type)
-{
-	//selected_object = "3";
-}
-
-void game_instance::key_r(uint32_t _e)
-{
-	bScaleDown = _e == SDL_KEYDOWN;
-}
-
-void game_instance::key_t(uint32_t _e)
-{
-	bScaleUp = _e == SDL_KEYDOWN;
+	return bMouseDown;
 }

@@ -28,6 +28,7 @@ public:
 
 	int stencil_index = 0;
 
+	void SetTexture(texture& _t);
 protected:
 	virtual void Draw();
 
@@ -38,7 +39,7 @@ protected:
 	virtual shader_gl_base* CreateShader(const shader_properties& _p);
 
 private:
-	std::shared_ptr<texture> texture_ptr = nullptr;
+	texture* texture_ptr = nullptr;
 
 	shader_gl_base* mesh_shader = nullptr;
 

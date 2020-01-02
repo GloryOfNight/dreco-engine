@@ -15,7 +15,7 @@ mesh_object::mesh_object(
 	GenerateVBO_Vert(_v.vertexes);
 	GenerateIBO_Elem(_v.vert_elem);
 	GenerateVBO_TexCoord(_v.texture_coords);
-	texture_ptr = _v.texture_ptr;
+	texture_ptr = _v.texture_ptr.get();
 
 	mesh_shader = CreateShader(_shader_prop);
 }
@@ -58,7 +58,7 @@ void mesh_object::Tick(const float& DeltaTime)
 
 void mesh_object::SetIsRendered(const bool _is_render)
 {
-	bIsRendered = !_is_render;
+	bIsRendered = _is_render;
 }
 
 inline shader_gl_base* mesh_object::GetShader() const
@@ -84,6 +84,11 @@ void mesh_object::UpdateModelTransform()
 
 	const auto proj = GetWorld()->GetPlayerCamera()->GetProjectionMatrix();
 	GetShader()->SetUniform("u_projection", proj);
+}
+
+void mesh_object::SetTexture(texture& _t) 
+{
+	texture_ptr = &_t;
 }
 
 void mesh_object::StartDraw() 
