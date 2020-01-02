@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.7)
 project(dreco-engine)
 
-add_library(${PROJECT_NAME} STATIC
+add_library(${PROJECT_NAME} SHARED
 src/core/engine.cxx
 src/core/sdl_event_manager.cxx
 src/game_objects/camera_base.cxx

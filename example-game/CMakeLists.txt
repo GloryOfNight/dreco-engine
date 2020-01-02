@@ -10,8 +10,6 @@ src/game/gem.cxx
 src/game/board_cell.cxx
 src/game/gem_fall_component.cxx)
 
-set(CMAKE_BUILD_TYPE Debug)
-
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
 
 target_link_libraries(${PROJECT_NAME} dreco-engine)
