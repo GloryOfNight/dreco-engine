@@ -21,14 +21,14 @@ src/renderer/texture.cxx
 src/utils/file_utils.cxx
 src/utils/math_utils.cxx)
 
-target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17 ")
 
 find_package(SDL2 REQUIRED)
 
 target_link_libraries(${PROJECT_NAME}
     SDL2
-    -lSDL2_image
-    -lGL)
+    SDL2_image
+    GL)
 
 target_include_directories(${PROJECT_NAME} PUBLIC
 ${CMAKE_CURRENT_SOURCE_DIR}/src/)

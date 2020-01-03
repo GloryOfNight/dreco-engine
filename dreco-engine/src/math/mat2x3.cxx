@@ -1,7 +1,8 @@
 #include "mat2x3.hxx"
+
 #include "transform.hxx"
 
-#include <cmath>
+#include <math.h>
 
 using namespace dreco;
 
@@ -28,8 +29,8 @@ mat2x3 mat2x3::rotate(const float& _t)
 {
 	mat2x3 r = mat2x3::identiry();
 
-	const float cos_t = std::cos(_t);
-	const float sin_t = std::sin(_t);
+	const float cos_t = cos(_t);
+	const float sin_t = sin(_t);
 
 	r.mat[0][0] = cos_t;
 	r.mat[0][1] = sin_t;

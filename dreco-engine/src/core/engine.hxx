@@ -6,6 +6,8 @@
 #include "sdl_event_manager.hxx"
 #include "types.hxx"
 
+#include <stdint.h>
+
 namespace dreco
 {
 class engine
@@ -54,4 +56,4 @@ private:
 
 	opengles2_renderer* renderer = nullptr;
 };
-}	// namespace dreco
+}	 // namespace dreco

@@ -1,5 +1,6 @@
 #pragma once
-#include "SDL2/SDL.h"
+#include <SDL2/SDL.h>
+#include <stdint.h>
 
 #include <functional>
 #include <map>
@@ -35,4 +36,4 @@ private:
 
 	std::map<uint32_t, event_callback_func> event_bindings = {};
 };
-}	// namespace dreco
+}	 // namespace dreco

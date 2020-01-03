@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.7)
 project(example-game)
 
-add_executable(${PROJECT_NAME} 
+set (SOURCE_LIST 
 src/game_main.cxx
 src/game_instance.cxx
 src/world.cxx
@@ -10,7 +10,17 @@ src/game/gem.cxx
 src/game/board_cell.cxx
 src/game/gem_fall_component.cxx)
 
-target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
+
+if (${Android}) 
+add_library(${PROJECT_NAME} SHARED ${SOURCE_LIST})
+
+else()
+add_executable(${PROJECT_NAME} ${SOURCE_LIST})
+
+endif()
+
+
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17 ")
 
 target_link_libraries(${PROJECT_NAME} dreco-engine)
 
