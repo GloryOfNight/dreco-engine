@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.7)
 project(example-game)
 
+#set(Android true)
+
 set (SOURCE_LIST 
 src/game_main.cxx
 src/game_instance.cxx
@@ -18,7 +20,6 @@ else()
 add_executable(${PROJECT_NAME} ${SOURCE_LIST})
 
 endif()
-
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17 ")
 

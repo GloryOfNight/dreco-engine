@@ -1,7 +1,15 @@
 #pragma once
+
+#ifdef __ANDROID__
+#include "SDL.h"
+#include "SDL_opengl.h"
+#include "SDL_opengl_glext.h"
+#else
 #include "SDL2/SDL.h"
 #include "SDL2/SDL_opengl.h"
 #include "SDL2/SDL_opengl_glext.h"
+#endif
+
 #include "shader_gl_base.hxx"
 #include "vertex.hxx"
 

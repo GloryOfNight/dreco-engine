@@ -1,5 +1,11 @@
 #pragma once
+
+#ifdef __ANDROID__
+#include "SDL.h"
+#else
 #include "SDL2/SDL.h"
+#endif
+
 #include "engine_properties.hxx"
 #include "game_objects/game_base.hxx"
 #include "renderer/opengles2_renderer.hxx"

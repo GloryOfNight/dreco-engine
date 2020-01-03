@@ -1,5 +1,9 @@
 #pragma once
+#ifdef __ANDROID__
+#include "SDL.h"
+#else
 #include "SDL2/SDL.h"
+#endif
 #include "game_objects/game_base.hxx"
 #include "game_objects/mesh_object.hxx"
 #include "math/vec2.hxx"

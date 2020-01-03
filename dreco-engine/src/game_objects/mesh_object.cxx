@@ -1,7 +1,9 @@
 #include "mesh_object.hxx"
-
-#include "SDL2/SDL_image.h"
+#ifdef __ANDROID__
+#include "SDL_opengl.h"
+#else
 #include "SDL2/SDL_opengl.h"
+#endif
 #include "core/engine.hxx"
 #include "game_objects/camera_base.hxx"
 #include "renderer/gl_check.hxx"

@@ -1,5 +1,10 @@
 #pragma once
+
+#ifdef __ANDROID__
+#include "SDL_opengl.h"
+#else
 #include "SDL2/SDL_opengl.h"
+#endif
 #include "load_gl_func.hxx"
 
 // clang-format off
@@ -33,6 +38,7 @@ inline PFNGLBINDBUFFERPROC               glBindBuffer               = nullptr;
 inline PFNGLBUFFERDATAPROC               glBufferData               = nullptr;
 inline PFNGLBUFFERSUBDATAPROC            glBufferSubData            = nullptr;
 inline PFNGLGETBUFFERPARAMETERIVPROC	 glGetBufferParameteriv 	= nullptr;
+//inline PFNGLDELETETEXTURESEXTPROC		 glDeleteTextures		 	= nullptr;
 // clang-format on
 
 inline void LoadGlFunctions()
@@ -67,4 +73,5 @@ inline void LoadGlFunctions()
 	load_gl_func("glBufferData", glBufferData);
 	load_gl_func("glBufferSubData", glBufferSubData);
 	load_gl_func("glGetBufferParameteriv", glGetBufferParameteriv);
+	//load_gl_func("glDeleteTextures", glDeleteTextures);
 }

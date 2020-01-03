@@ -1,6 +1,9 @@
 #pragma once
+#ifdef __ANDROID__
+#include "SDL_opengl.h"
+#else
 #include "SDL2/SDL_opengl.h"
-
+#endif
 #include <tuple>
 #include <vector>
 

@@ -23,12 +23,23 @@ src/utils/math_utils.cxx)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17 ")
 
-find_package(SDL2 REQUIRED)
+set_target_properties(${PROJECT_NAME} PROPERTIES ENABLE_EXPORTS TRUE)
 
+if(${Android})
+target_include_directories(${PROJECT_NAME} PUBLIC /home/siarheidziki/GitHub/SDL2/SDL2-2.0.10/include)
+target_include_directories(${PROJECT_NAME} PUBLIC /home/siarheidziki/GitHub/SDL2/SDL2_image-2.0.5)
+
+set(ANDROID_SDL_DIR ${CMAKE_SOURCE_DIR}/android/SDL2/build/intermediates/ndkBuild/debug/obj/local/armeabi-v7a)
+
+target_link_libraries(${PROJECT_NAME}
+    ${ANDROID_SDL_DIR}/libSDL2.so
+    ${ANDROID_SDL_DIR}/libSDL2_image.so
+    /home/siarheidziki/Android/sdk/ndk/20.1.5948944/platforms/android-29/arch-arm/usr/lib/libGLESv2.so)
+else()
 target_link_libraries(${PROJECT_NAME}
     SDL2
     SDL2_image
     GL)
-
+endif()
 target_include_directories(${PROJECT_NAME} PUBLIC
 ${CMAKE_CURRENT_SOURCE_DIR}/src/)

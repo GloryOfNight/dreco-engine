@@ -1,7 +1,11 @@
 #pragma once
-#include <SDL2/SDL.h>
-#include <stdint.h>
+#ifdef __ANDROID__
+#include "SDL.h"
+#else
+#include "SDL2/SDL.h"
+#endif
 
+#include <stdint.h>
 #include <functional>
 #include <map>
 #include <string>
