@@ -4,23 +4,21 @@
 #include <iostream>
 #include <sstream>
 
+
+#ifdef __ANDROID__
+#include "SDL_image.h"
+#else
+#include "SDL2/SDL_image.h"
+#endif
 using namespace dreco;
 
 std::string file_utils::LoadSourceFromFile(const char* _fpath)
 {
-	std::fstream file(_fpath);
+	char* data = static_cast<char*>(SDL_LoadFile(_fpath, nullptr));
 
-	if (!file.is_open())
-	{
-		std::cerr << "LoadSourceFromFile(): Failed to load file with location: " << _fpath << std::endl;
-	}
-	std::string line;
-	std::stringstream src;
+	std::string data_string(data);
 
-	while (getline(file, line))
-	{
-		src << line << '\n';
-	}
+	SDL_free(data);
 
-	return src.str();
+	return data_string;
 }
