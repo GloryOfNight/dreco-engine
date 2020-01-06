@@ -1,4 +1,1 @@
-/build
-
-/app/build
-/SDL2/build
+/build/*
