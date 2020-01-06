@@ -107,6 +107,7 @@ int mesh_object::GetObjectIndex() const
 
 void mesh_object::DrawObjPickColor()
 {
+	UpdateModelTransform();
 	if (bIsRendered)
 	{	
 		GetShader()->Use();

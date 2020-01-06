@@ -39,6 +39,6 @@ int main()
 #ifdef __ANDROID__
 int android_main()
 {
-	main();
+	return main();
 }
 #endif
