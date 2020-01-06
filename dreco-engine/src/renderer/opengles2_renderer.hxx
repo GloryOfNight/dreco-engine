@@ -34,9 +34,9 @@ public:
 
 	void UpdateViewportSize();
 
-	uint8_t GetStencilIndexFromPixel(const vec2& _p_coord);
+	int GetStencilIndexFromPixel(const vec2& _p_coord);
 
-	void DrawScene();
+	void DrawScene(const bool _is_color_pass);
 
 	SDL_Window* GetWindow() const;
 private:

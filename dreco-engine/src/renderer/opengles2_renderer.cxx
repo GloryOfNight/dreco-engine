@@ -60,8 +60,9 @@ int opengles2_renderer::Init(const std::string& _window_title)
 void opengles2_renderer::Tick(const float& DeltaTime)
 {
 	ClearBuffers();
-	DrawScene();
+	DrawScene(false);
 	SwapBuffer();
+	DrawScene(true);
 }
 
 void opengles2_renderer::UpdateViewportSize()
@@ -73,17 +74,18 @@ void opengles2_renderer::UpdateViewportSize()
 	glViewport(0, 0, w, h);
 }
 
-uint8_t opengles2_renderer::GetStencilIndexFromPixel(const vec2& _p_coord) 
+int opengles2_renderer::GetStencilIndexFromPixel(const vec2& _p_coord) 
 {
-	uint8_t index;
+	uint8_t rgb[4];
 	int win_h;
 	SDL_GetWindowSize(engine_owner->GetWindow(), nullptr, &win_h);
-	glReadPixels(_p_coord.x, win_h -_p_coord.y, 1, 1, GL_STENCIL_INDEX, GL_UNSIGNED_BYTE, &index);
+	glReadPixels(_p_coord.x, win_h -_p_coord.y, 1, 1, GL_RGBA, GL_UNSIGNED_BYTE, &rgb);
 	GL_CHECK();
-	return index;
+
+	return rgb[0] + rgb[1] * 256 + rgb[2] * 65536;
 }
 
-void opengles2_renderer::DrawScene() 
+void opengles2_renderer::DrawScene(const bool _is_color_pass) 
 {
 	auto world = engine_owner->GetOwnedGame()->GetCurrentWorld();
 	
@@ -91,17 +93,15 @@ void opengles2_renderer::DrawScene()
 	{
 		const world_objects_map& wos = world->GetWorldObjects();
 
-		int stencil_counter = 0;
+		int index = 1;
 		for (auto o : wos) 
 		{
 			mesh_object* mesh = dynamic_cast<mesh_object*>(o.second);
-
 			if (mesh) 
-			{
-				glStencilFunc(GL_ALWAYS, ++stencil_counter, -1);
-				GL_CHECK();
-				mesh->stencil_index = stencil_counter;
-				mesh->StartDraw();
+			{	
+				mesh->SetObjectIndex(index);
+				++index;
+				!_is_color_pass ? mesh->StartDraw() : mesh->DrawObjPickColor();
 			}
 		}
 	}
@@ -114,6 +114,7 @@ void opengles2_renderer::SwapBuffer()
 
 void opengles2_renderer::ClearBuffers() 
 {
+	glStencilMask(0xFF);
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 	glClearStencil(0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
