@@ -12,10 +12,10 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         externalNativeBuild {
             cmake {
-                arguments ('-DAndroid=true', '-DANDROID_STL=c++_shared', '-DANDROID_ABI=armeabi-v7a', '-DANDROID_NDK=/home/siarheidziki/Android/sdk/ndk/20.1.5948944'
+                arguments ('-DANDROID_STL=c++_shared', '-DANDROID_NDK=/home/siarheidziki/Android/sdk/ndk/20.1.5948944'
                 , '-DANDROID_PLATFORM=19')
                 cppFlags ""
-                abiFilters "armeabi-v7a"
+                abiFilters("arm64-v8a", "armeabi-v7a", "x86")
             }
         }
     }
