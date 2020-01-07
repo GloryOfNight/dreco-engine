@@ -20,8 +20,10 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17 ")
 
 target_link_libraries(${PROJECT_NAME} dreco-engine)
 
-if(UNIX) 
+if(ANDROID) 
+set(ANDROID_RES_DIR ${PROJECT_SOURCE_DIR}/../android/app/src/main/assets/res)
+file(REMOVE_RECURSE ${ANDROID_RES_DIR})
+file(COPY res/ DESTINATION ${ANDROID_RES_DIR})
+elseif (UNIX)
 file(COPY res/ DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/res)
-elseif (ANDROID)
-file(COPY res/ DESTINATION ${CMAKE_HOME_DIRECTORY/android/app/src/main/assets)
 endif()
