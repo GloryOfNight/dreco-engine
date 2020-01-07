@@ -9,6 +9,8 @@ class game_world;
 
 class game_object;
 
+class resource_manager;
+
 class game_base
 {
 public:
@@ -40,6 +42,7 @@ public:
 
 	game_object* TryGetObectFromScreen(const vec2& _coor);
 
+	resource_manager* GetResourceManager() const;
 private:
 	engine* game_engine = nullptr;
 

@@ -1,11 +1,13 @@
 #pragma once
+#include "core/resource_manager/resource.hxx"
+
 #include <stdint.h>
 
 #include <string_view>
 
 namespace dreco
 {
-class texture
+class texture : public resource
 {
 public:
 	texture(const std::string_view _path);

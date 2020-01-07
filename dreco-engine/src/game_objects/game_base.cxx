@@ -110,3 +110,8 @@ game_object* game_base::TryGetObectFromScreen(const vec2& _coor)
 	
 	return nullptr;
 }
+
+resource_manager* game_base::GetResourceManager() const 
+{
+	return GetEngine()->GetResourceManager();
+}

@@ -4,6 +4,8 @@ project(dreco-engine)
 add_library(${PROJECT_NAME} SHARED
 src/core/engine.cxx
 src/core/sdl_event_manager.cxx
+src/core/resource_manager/resource_manager.cxx
+src/core/resource_manager/resource.cxx
 src/game_objects/camera_base.cxx
 src/game_objects/game_base.cxx
 src/game_objects/game_world.cxx

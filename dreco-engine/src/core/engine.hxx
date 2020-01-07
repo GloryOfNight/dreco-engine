@@ -7,6 +7,7 @@
 #endif
 
 #include "engine_properties.hxx"
+#include "resource_manager/resource_manager.hxx"
 #include "game_objects/game_base.hxx"
 #include "renderer/opengles2_renderer.hxx"
 #include "sdl_event_manager.hxx"
@@ -43,12 +44,16 @@ public:
 
 	game_base* GetOwnedGame() const;
 
+	resource_manager* GetResourceManager() const;
+
 private:
 	void Tick(const float& DeltaTime);
 
 	float GetNewDeltaTime();
 
 	sdl_event_manager* CreateEventManager();
+
+	resource_manager* CreateResourceManager();
 
 	uint32_t last_tick_time = 0;
 
@@ -61,5 +66,7 @@ private:
 	game_base* owned_game = nullptr;
 
 	opengles2_renderer* renderer = nullptr;
+
+	resource_manager* res_manager = nullptr;
 };
 }	 // namespace dreco

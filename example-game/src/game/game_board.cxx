@@ -1,6 +1,7 @@
 #include "game_board.hxx"
 
 #include "../game_instance.hxx"
+#include "core/resource_manager/resource_manager.hxx"
 #include "game_objects/game_world.hxx"
 #include "gem.hxx"
 #include "math/transform.hxx"
@@ -16,11 +17,6 @@ game_board::game_board()
 
 game_board::~game_board()
 {
-	for (auto t : gem_textures)
-	{
-		delete t.second;
-	}
-
 	for (uint8_t w = 0; w < BOARD_WIDTH; ++w)
 	{
 		for (uint8_t h = 0; h < BOARD_HEIGHT; ++h)
@@ -89,7 +85,8 @@ void game_board::Tick(const float& DeltaTime)
 		for (uint8_t w = 0; w < BOARD_HEIGHT; ++w)
 		{
 			board_cell* cell_to_spawn_in = cells[w][BOARD_HEIGHT - 1];
-			if (cell_to_spawn_in->GetCellState() == cell_states::empty && collected_gems.size() > 0)
+			if (cell_to_spawn_in->GetCellState() == cell_states::empty &&
+				collected_gems.size() > 0)
 			{
 				gem* gem_to_spawn = collected_gems.back();
 				collected_gems.pop_back();
@@ -150,7 +147,31 @@ void game_board::CreateBoard()
 
 dreco::texture* game_board::GetGemTexture(const gem_types& _t) const
 {
-	return gem_textures.at(_t);
+	dreco::resource_manager* res_man = GetGameInstance()->GetResourceManager();
+	std::string tex_path = "res/textures/";
+
+	switch (_t)
+	{
+		case gem_types::blue:
+			tex_path.append("gem_blue.png");
+			break;
+		case gem_types::red:
+			tex_path.append("gem_red.png");
+			break;
+		case gem_types::yellow:
+			tex_path.append("gem_yellow.png");
+			break;
+		case gem_types::green:
+			tex_path.append("gem_green.png");
+			break;
+		case gem_types::purple:
+			tex_path.append("gem_purple.png");
+			break;
+	}
+
+	auto res = res_man->GetResource(tex_path);
+
+	return dynamic_cast<dreco::texture*>(res);
 }
 
 board_cell* game_board::GetCellFromPosition(const dreco::int_vec2& _p) const
@@ -160,13 +181,11 @@ board_cell* game_board::GetCellFromPosition(const dreco::int_vec2& _p) const
 
 void game_board::LoadGemTextures()
 {
-	gem_textures.emplace(gem_types::red, new dreco::texture("res/textures/gem_red.png"));
-	gem_textures.emplace(
-		gem_types::blue, new dreco::texture("res/textures/gem_blue.png"));
-	gem_textures.emplace(
-		gem_types::green, new dreco::texture("res/textures/gem_green.png"));
-	gem_textures.emplace(
-		gem_types::purple, new dreco::texture("res/textures/gem_purple.png"));
-	gem_textures.emplace(
-		gem_types::yellow, new dreco::texture("res/textures/gem_yellow.png"));
+	dreco::resource_manager* res_man = GetGameInstance()->GetResourceManager();
+
+	res_man->LoadResource("res/textures/gem_red.png", dreco::resource_type::TEXTURE);
+	res_man->LoadResource("res/textures/gem_blue.png", dreco::resource_type::TEXTURE);
+	res_man->LoadResource("res/textures/gem_green.png", dreco::resource_type::TEXTURE);
+	res_man->LoadResource("res/textures/gem_purple.png", dreco::resource_type::TEXTURE);
+	res_man->LoadResource("res/textures/gem_yellow.png", dreco::resource_type::TEXTURE);
 }

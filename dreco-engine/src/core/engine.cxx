@@ -21,6 +21,7 @@ engine::~engine()
 	{
 		delete renderer;
 		delete event_manager;
+		delete res_manager;
 		SDL_Quit();
 	}
 }
@@ -53,6 +54,8 @@ int engine::Init(engine_properties& _p)
 	event_manager->AddKeyBinding(SDLK_ESCAPE, std::bind(&engine::Key_Escape, this, std::placeholders::_1));
 	event_manager->AddEventBinding(SDL_QUIT, std::bind(&engine::Event_Quit, this, std::placeholders::_1));
 	event_manager->AddEventBinding(SDL_WINDOWEVENT, std::bind(&engine::Event_Window, this, std::placeholders::_1));
+
+	res_manager = CreateResourceManager();
 
 	is_engine_initialized = true;
 
@@ -127,6 +130,11 @@ game_base* engine::GetOwnedGame() const
 	return owned_game;
 }
 
+resource_manager* engine::GetResourceManager() const 
+{
+	return res_manager;
+}
+
 void engine::Tick(const float& DeltaTime)
 {
 	GetEventManager()->ProcessEvents();
@@ -149,4 +157,9 @@ float engine::GetNewDeltaTime()
 sdl_event_manager* engine::CreateEventManager()
 {
 	return new sdl_event_manager;
+}
+
+resource_manager* engine::CreateResourceManager() 
+{
+	return new resource_manager(*this);
 }
