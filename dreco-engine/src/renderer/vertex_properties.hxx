@@ -13,7 +13,7 @@ struct vertex_properties
 
 	std::vector<float> vertexes = {};
 
-	std::vector<uint32_t> vert_elem = {};
+	std::vector<uint8_t> vert_elem = {};
 
 	std::vector<float> texture_coords = {};
 

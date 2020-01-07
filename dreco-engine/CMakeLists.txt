@@ -21,14 +21,42 @@ src/renderer/texture.cxx
 src/utils/file_utils.cxx
 src/utils/math_utils.cxx)
 
-target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17 ")
 
-find_package(SDL2 REQUIRED)
+set_target_properties(${PROJECT_NAME} PROPERTIES ENABLE_EXPORTS TRUE)
+
+if(ANDROID)
+target_include_directories(${PROJECT_NAME} PUBLIC /home/siarheidziki/GitHub/SDL2/SDL2-2.0.10/include)
+target_include_directories(${PROJECT_NAME} PUBLIC /home/siarheidziki/GitHub/SDL2/SDL2_image-2.0.5)
+
+set(ANDROID_SDL_DIR "")
+
+if(${CMAKE_BUILD_TYPE} MATCHES "Debug")
+set(ANDROID_SDL_DIR ${CMAKE_SOURCE_DIR}/android/SDL2/build/intermediates/ndkBuild/debug/obj/local/${CMAKE_ANDROID_ARCH_ABI})
+elseif(${CMAKE_BUILD_TYPE} MATCHES "Release")
+set(ANDROID_SDL_DIR ${CMAKE_SOURCE_DIR}/android/SDL2/build/intermediates/ndkBuild/release/obj/local/${CMAKE_ANDROID_ARCH_ABI})
+endif()
+
+set(ANDROID_GLES_DIR "")
+if (${CMAKE_ANDROID_ARCH_ABI} MATCHES "arm64-v8a")
+set(ANDROID_GLES_DIR ${CMAKE_ANDROID_NDK}/platforms/android-29/arch-arm64/usr/lib/)
+elseif (${CMAKE_ANDROID_ARCH_ABI} MATCHES "armeabi-v7a")
+set(ANDROID_GLES_DIR ${CMAKE_ANDROID_NDK}/platforms/android-29/arch-arm/usr/lib/)
+elseif (${CMAKE_ANDROID_ARCH_ABI} MATCHES "x86")
+set(ANDROID_GLES_DIR ${CMAKE_ANDROID_NDK}/platforms/android-29/arch-x86/usr/lib/)
+elseif (${CMAKE_ANDROID_ARCH_ABI} MATCHES "x86_64")
+set(ANDROID_GLES_DIR ${CMAKE_ANDROID_NDK}/platforms/android-29/arch-x86_64/usr/lib64/)
+endif()
 
 target_link_libraries(${PROJECT_NAME}
+    ${ANDROID_SDL_DIR}/libSDL2.so
+    ${ANDROID_SDL_DIR}/libSDL2_image.so
+    ${ANDROID_GLES_DIR}/libGLESv2.so)
+elseif(UNIX)
+target_link_libraries(${PROJECT_NAME}
     SDL2
-    -lSDL2_image
-    -lGL)
-
+    SDL2_image
+    GL)
+endif()
 target_include_directories(${PROJECT_NAME} PUBLIC
 ${CMAKE_CURRENT_SOURCE_DIR}/src/)

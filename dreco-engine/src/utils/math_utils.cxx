@@ -30,7 +30,7 @@ mat2x3 math_utils::CreateProjectionMatrix2D(
 
 	proj.mat[0][0] = 2.0f / (right - left);
 	proj.mat[1][1] = 2.0f / (top - bottom);
-	proj.mat[2][2] = 2.0f / (far - near);
+	//proj.mat[2][2] = 2.0f / (far - near);
 
 	return proj;
 }

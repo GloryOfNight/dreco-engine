@@ -92,18 +92,21 @@ vec2 game_base::ScreenToWorld(const vec2& _screen_coor) const
 
 game_object* game_base::TryGetObectFromScreen(const vec2& _coor) 
 {
+	
 	const uint8_t stencil_index = game_engine->GetRenderer()->GetStencilIndexFromPixel(_coor);
+	
 	if (stencil_index != 0 && current_world) 
 	{	
 		const auto wos = current_world->GetWorldObjects();
 		for (auto o : wos) 
 		{
 			mesh_object* mesh = dynamic_cast<mesh_object*>(o.second);
-			if (mesh && mesh->stencil_index == stencil_index) 
+			if (mesh && mesh->GetObjectIndex() == stencil_index) 
 			{
 				return mesh;
 			}
 		}
 	}
+	
 	return nullptr;
 }

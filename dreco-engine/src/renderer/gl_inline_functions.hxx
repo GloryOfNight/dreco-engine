@@ -1,5 +1,10 @@
 #pragma once
+
+#ifdef __ANDROID__
+#include "SDL_opengl.h"
+#else
 #include "SDL2/SDL_opengl.h"
+#endif
 #include "load_gl_func.hxx"
 
 // clang-format off
@@ -23,7 +28,10 @@ inline PFNGLDISABLEVERTEXATTRIBARRAYPROC glDisableVertexAttribArray = nullptr;
 inline PFNGLGETUNIFORMLOCATIONPROC       glGetUniformLocation       = nullptr;
 inline PFNGLGETUNIFORMLOCATIONPROC       glGetAttribLocation       	= nullptr;
 inline PFNGLUNIFORM1IPROC                glUniform1i                = nullptr;
+inline PFNGLUNIFORM1FPROC                glUniform1f                = nullptr;
+inline PFNGLUNIFORM3FPROC                glUniform3f                = nullptr;
 inline PFNGLACTIVETEXTUREPROC            glActiveTexture_           = nullptr;
+inline PFNGLUNIFORM3FVPROC               glUniform3fv               = nullptr;
 inline PFNGLUNIFORM4FVPROC               glUniform4fv               = nullptr;
 inline PFNGLUNIFORMMATRIX3FVPROC         glUniformMatrix3fv         = nullptr;
 inline PFNGLUNIFORMMATRIX4FVPROC         glUniformMatrix4fv         = nullptr;
@@ -57,7 +65,10 @@ inline void LoadGlFunctions()
 	load_gl_func("glGetUniformLocation", glGetUniformLocation);
 	load_gl_func("glGetAttribLocation", glGetAttribLocation);
 	load_gl_func("glUniform1i", glUniform1i);
+	load_gl_func("glUniform1f", glUniform1f);
+	load_gl_func("glUniform3f", glUniform3f);
 	load_gl_func("glActiveTexture", glActiveTexture_);
+	load_gl_func("glUniform3fv", glUniform3fv);
 	load_gl_func("glUniform4fv", glUniform4fv);
 	load_gl_func("glUniformMatrix3fv", glUniformMatrix3fv);
 	load_gl_func("glUniformMatrix4fv", glUniformMatrix4fv);

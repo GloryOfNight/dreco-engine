@@ -26,27 +26,36 @@ public:
 
 	virtual void StartDraw();
 
-	int stencil_index = 0;
-
 	void SetTexture(texture& _t);
+
+	void SetObjectIndex(const int& _c);
+
+	int GetObjectIndex() const;
+
+	void DrawObjPickColor();
+
 protected:
 	virtual void Draw();
 
 	inline void GenerateVBO_Vert(const std::vector<float>& _v);
 	inline void GenerateVBO_TexCoord(const std::vector<float>& _tc);
-	inline void GenerateIBO_Elem(const std::vector<uint32_t>& _e);
+	inline void GenerateIBO_Elem(const std::vector<uint8_t>& _e);
 
 	virtual shader_gl_base* CreateShader(const shader_properties& _p);
 
 private:
+	int obj_index = 0;
+
 	texture* texture_ptr = nullptr;
 
 	shader_gl_base* mesh_shader = nullptr;
 
 	bool bIsRendered = true;
 
-	uint32_t vbo_vert = 0;
-	uint32_t vbo_tc = 0;
-	uint32_t ibo_elem = 0;
+	GLuint vbo_vert = 0;
+	GLuint vbo_tc = 0;
+	GLuint ibo_elem = 0;
+
+	GLubyte ibo_elem_indexes = 0;
 };
 }	// namespace dreco

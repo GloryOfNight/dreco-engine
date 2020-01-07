@@ -2,6 +2,7 @@
 #include "game_base.hxx"
 
 #include <map>
+#include <string>
 
 namespace dreco
 {
@@ -14,7 +15,7 @@ class game_world
 {
 public:
 	game_world(game_base& _gi);
-	~game_world();
+	virtual ~game_world();
 
 	virtual void Init();
 
@@ -29,6 +30,7 @@ public:
 	const world_objects_map& GetWorldObjects() const;
 
 	void RegisterObject(const std::string _obj_name, game_object& _obj);
+
 protected:
 	virtual void CreatePlayerCamera();
 
@@ -39,4 +41,4 @@ private:
 
 	world_objects_map world_objects = {};
 };
-}	// namespace dreco
+}	 // namespace dreco

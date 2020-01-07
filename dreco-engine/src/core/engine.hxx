@@ -1,10 +1,18 @@
 #pragma once
+
+#ifdef __ANDROID__
+#include "SDL.h"
+#else
 #include "SDL2/SDL.h"
+#endif
+
 #include "engine_properties.hxx"
 #include "game_objects/game_base.hxx"
 #include "renderer/opengles2_renderer.hxx"
 #include "sdl_event_manager.hxx"
 #include "types.hxx"
+
+#include <stdint.h>
 
 namespace dreco
 {
@@ -54,4 +62,4 @@ private:
 
 	opengles2_renderer* renderer = nullptr;
 };
-}	// namespace dreco
+}	 // namespace dreco

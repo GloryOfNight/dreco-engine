@@ -9,7 +9,7 @@ class camera_base : public game_object
 public:
 	camera_base();
 
-	virtual void Init(game_world& _w);
+	virtual void Init(game_world& _w) override;
 
 	virtual void SetObjectTransform(const transform& _t) override;
 	

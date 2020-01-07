@@ -1,0 +1,2 @@
+include ':app', ':SDL2'
+rootProject.name='example game'

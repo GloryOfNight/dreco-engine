@@ -10,41 +10,41 @@ vec2::vec2(const float _x, const float _y) : x(_x), y(_y)
 {
 }
 
-const void vec2::operator*=(const vec2& _v)
+void vec2::operator*=(const vec2& _v)
 {
 	this->x *= _v.x;
 	this->y *= _v.y;
 }
 
-const vec2 vec2::operator*(const vec2& _v)
+vec2 vec2::operator*(const vec2& _v)
 {
 	return vec2(this->x * _v.x, this->y * _v.y);
 }
 
-const vec2 vec2::operator-(const vec2& _v) 
+vec2 vec2::operator-(const vec2& _v)
 {
 	return vec2(this->x - _v.x, this->y - _v.y);
 }
 
-const void vec2::operator+=(const vec2& _v) 
+void vec2::operator+=(const vec2& _v)
 {
 	this->x += _v.x;
 	this->y += _v.y;
 }
 
-const void vec2::operator-=(const float& _f)
+void vec2::operator-=(const float& _f)
 {
-	this->x -=  _f;
-	this->y -=  _f;
+	this->x -= _f;
+	this->y -= _f;
 }
 
-const void vec2::operator+=(const float& _f)
+void vec2::operator+=(const float& _f)
 {
 	this->x += _f;
 	this->y += _f;
 }
 
-const bool vec2::operator==(const vec2& _v) 
+bool vec2::operator==(const vec2& _v)
 {
 	return this->x == _v.x && this->y == _v.y;
 }

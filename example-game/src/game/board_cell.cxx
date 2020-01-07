@@ -3,10 +3,10 @@
 #include "board_constants.hxx"
 
 board_cell::board_cell(game_board& _b, const dreco::int_vec2 _pos)
-	: board(&_b)
-	, position(_pos)
-	, translation(dreco::vec2(BOARD_TILE_SPACE * _pos.x - BOARD_CENTER_OFFSET_WIDTH,
+	: translation(dreco::vec2(BOARD_TILE_SPACE * _pos.x - BOARD_CENTER_OFFSET_WIDTH,
 		  BOARD_TILE_SPACE * _pos.y - BOARD_CENTER_OFFSET_HEIGHT))
+	, position(_pos)
+	, board(&_b)
 {
 }
 

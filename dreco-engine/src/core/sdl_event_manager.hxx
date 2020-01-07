@@ -1,6 +1,11 @@
 #pragma once
+#ifdef __ANDROID__
+#include "SDL.h"
+#else
 #include "SDL2/SDL.h"
+#endif
 
+#include <stdint.h>
 #include <functional>
 #include <map>
 #include <string>
@@ -35,4 +40,4 @@ private:
 
 	std::map<uint32_t, event_callback_func> event_bindings = {};
 };
-}	// namespace dreco
+}	 // namespace dreco

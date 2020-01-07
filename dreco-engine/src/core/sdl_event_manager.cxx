@@ -15,8 +15,10 @@ void sdl_event_manager::ProcessEvents()
 		{
 			case SDL_KEYDOWN:
 				ProcessKeyBindingEvent(event);
+				break;
 			case SDL_KEYUP:
 				ProcessKeyBindingEvent(event);
+				break;
 			default:
 				ProcessEventBinding(event);
 				break;
@@ -34,7 +36,8 @@ void sdl_event_manager::RemoveKeyBinding(uint32_t key_type)
 	key_bindings.erase(key_type);
 }
 
-void sdl_event_manager::AddEventBinding(uint32_t event_type, event_callback_func callback_func)
+void sdl_event_manager::AddEventBinding(
+	uint32_t event_type, event_callback_func callback_func)
 {
 	event_bindings.emplace(event_type, callback_func);
 }

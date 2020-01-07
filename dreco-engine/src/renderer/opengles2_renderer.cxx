@@ -1,10 +1,10 @@
 #include "opengles2_renderer.hxx"
 
+#include "core/engine.hxx"
 #include "game_objects/game_world.hxx"
 #include "game_objects/mesh_object.hxx"
-#include "core/engine.hxx"
-#include "gl_inline_functions.hxx"
 #include "gl_check.hxx"
+#include "gl_inline_functions.hxx"
 #include "math/vec3.hxx"
 #include "utils/file_utils.hxx"
 
@@ -26,9 +26,13 @@ int opengles2_renderer::Init(const std::string& _window_title)
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_ES);
 	SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
-	
-	window = SDL_CreateWindow(_window_title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 640, 640,
-		SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
+	SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
+	SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
+	SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8);
+	SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE, 8);
+
+	window = SDL_CreateWindow(_window_title.c_str(), SDL_WINDOWPOS_CENTERED,
+		SDL_WINDOWPOS_CENTERED, 540, 960, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
 
 	if (!window)
 	{
@@ -44,13 +48,10 @@ int opengles2_renderer::Init(const std::string& _window_title)
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	GL_CHECK();
 
-	glEnable(GL_STENCIL_TEST);
-	glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
-	GL_CHECK();
-	
 	if (!gl_context)
 	{
-		std::cerr << "Renderer->Init(): SDL_Create_Window():  " << SDL_GetError() << std::endl;
+		std::cerr << "Renderer->Init(): SDL_Create_Window():  " << SDL_GetError()
+				  << std::endl;
 		return INIT_FAILED;
 	}
 
@@ -60,8 +61,9 @@ int opengles2_renderer::Init(const std::string& _window_title)
 void opengles2_renderer::Tick(const float& DeltaTime)
 {
 	ClearBuffers();
-	DrawScene();
+	DrawScene(false);
 	SwapBuffer();
+	DrawScene(true);
 }
 
 void opengles2_renderer::UpdateViewportSize()
@@ -73,35 +75,34 @@ void opengles2_renderer::UpdateViewportSize()
 	glViewport(0, 0, w, h);
 }
 
-uint8_t opengles2_renderer::GetStencilIndexFromPixel(const vec2& _p_coord) 
+int opengles2_renderer::GetStencilIndexFromPixel(const vec2& _p_coord)
 {
-	uint8_t index;
+	uint8_t rgb[4];
 	int win_h;
 	SDL_GetWindowSize(engine_owner->GetWindow(), nullptr, &win_h);
-	glReadPixels(_p_coord.x, win_h -_p_coord.y, 1, 1, GL_STENCIL_INDEX, GL_UNSIGNED_BYTE, &index);
+	glReadPixels(_p_coord.x, win_h - _p_coord.y, 1, 1, GL_RGBA, GL_UNSIGNED_BYTE, &rgb);
 	GL_CHECK();
-	return index;
+
+	return rgb[0] + rgb[1] * 256 + rgb[2] * 65536;
 }
 
-void opengles2_renderer::DrawScene() 
+void opengles2_renderer::DrawScene(const bool _is_color_pass)
 {
 	auto world = engine_owner->GetOwnedGame()->GetCurrentWorld();
-	
-	if (world) 
+
+	if (world)
 	{
 		const world_objects_map& wos = world->GetWorldObjects();
 
-		int stencil_counter = 0;
-		for (auto o : wos) 
+		int index = 1;
+		for (auto o : wos)
 		{
 			mesh_object* mesh = dynamic_cast<mesh_object*>(o.second);
-
-			if (mesh) 
+			if (mesh)
 			{
-				glStencilFunc(GL_ALWAYS, ++stencil_counter, -1);
-				GL_CHECK();
-				mesh->stencil_index = stencil_counter;
-				mesh->StartDraw();
+				mesh->SetObjectIndex(index);
+				++index;
+				!_is_color_pass ? mesh->StartDraw() : mesh->DrawObjPickColor();
 			}
 		}
 	}
@@ -112,15 +113,14 @@ void opengles2_renderer::SwapBuffer()
 	SDL_GL_SwapWindow(engine_owner->GetWindow());
 }
 
-void opengles2_renderer::ClearBuffers() 
+void opengles2_renderer::ClearBuffers()
 {
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-	glClearStencil(0);
-	glClear(GL_COLOR_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT);
 	GL_CHECK();
 }
 
-SDL_Window* opengles2_renderer::GetWindow() const 
+SDL_Window* opengles2_renderer::GetWindow() const
 {
 	return window;
 }

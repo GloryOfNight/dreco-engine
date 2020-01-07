@@ -1,4 +1,6 @@
 #pragma once
+#include <stdint.h>
+
 #include <string_view>
 
 namespace dreco
@@ -14,4 +16,4 @@ public:
 private:
 	uint32_t texture_id = 0;
 };
-}	// namespace dreco
+}	 // namespace dreco

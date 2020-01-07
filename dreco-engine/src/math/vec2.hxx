@@ -11,18 +11,18 @@ struct vec2
 	float x = 0.0f;
 	float y = 0.0f;
 
-	const void operator*=(const vec2& _v);
+	void operator*=(const vec2& _v);
 
-	const vec2 operator*(const vec2& _v);
+	vec2 operator*(const vec2& _v);
 
-	const vec2 operator-(const vec2& _v);
+	vec2 operator-(const vec2& _v);
 
-	const void operator+=(const vec2& _v);
-	
-	const void operator-=(const float& _f);
-	
-	const void operator+=(const float& _f);
+	void operator+=(const vec2& _v);
 
-	const bool operator==(const vec2& _v);
+	void operator-=(const float& _f);
+
+	void operator+=(const float& _f);
+
+	bool operator==(const vec2& _v);
 };
-}	// namespace dreco
+}	 // namespace dreco
