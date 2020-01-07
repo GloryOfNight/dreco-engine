@@ -15,7 +15,7 @@ class game_world
 {
 public:
 	game_world(game_base& _gi);
-	~game_world();
+	virtual ~game_world();
 
 	virtual void Init();
 

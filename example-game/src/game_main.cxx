@@ -2,12 +2,6 @@
 #include "game_instance.hxx"
 
 #ifdef __ANDROID__
-
-#endif
-
-#include <iostream>
-
-#ifdef __ANDROID__
 extern "C" int android_main();
 #endif
 
