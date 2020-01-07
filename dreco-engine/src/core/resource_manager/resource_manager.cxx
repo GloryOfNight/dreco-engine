@@ -27,14 +27,34 @@ void resource_manager::LoadResource(std::string _fpath, resource_type _t)
 		switch (_t)
 		{
 			case resource_type::TEXTURE:
-				new_res = dynamic_cast<resource*>(new texture(_fpath));
+				new_res = new texture(_fpath);
+				break;
+			case resource_type::WAV:
 				break;
 		}
 
 		if (new_res)
 		{
-			persistant_resources.emplace(_fpath, new_res);
+			if (new_res->GetIsResourceLoaded()) 
+			{
+				persistant_resources.emplace(_fpath, new_res);
+			}
+			else 
+			{
+				delete new_res;
+			}
 		}
+	}
+}
+
+void resource_manager::UnloadResource(std::string _fpath)
+{
+	if (IsResourceLoaded(_fpath))
+	{
+		resource* res = persistant_resources[_fpath];
+		persistant_resources.erase(_fpath);
+
+		delete res;
 	}
 }
 

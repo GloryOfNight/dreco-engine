@@ -1,7 +1,6 @@
 #pragma once
 #include "renderer/texture.hxx"
 
-#include <memory>
 #include <string>
 #include <vector>
 
@@ -17,8 +16,8 @@ struct vertex_properties
 
 	std::vector<float> texture_coords = {};
 
-	std::shared_ptr<texture> texture_ptr = nullptr;
+	texture* texture_ptr = nullptr;
 
-	static vertex_properties ModelPlane();
+	static vertex_properties ModelSpritePlane();
 };
 }	// namespace dreco

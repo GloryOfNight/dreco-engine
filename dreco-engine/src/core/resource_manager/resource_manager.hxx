@@ -18,6 +18,8 @@ public:
 
 	void LoadResource(std::string _fpath, resource_type _t);
 
+	void UnloadResource(std::string _fpath);
+
 	// can return nullptr when resource with _fpath was not found
 	resource* GetResource(const std::string _fpath);
 

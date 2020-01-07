@@ -12,14 +12,14 @@
 using namespace dreco;
 
 mesh_object::mesh_object(
-	const vertex_properties& _v, const shader_properties& _shader_prop)
+	const vertex_properties& _v, const shader_properties& _s)
 {
 	GenerateVBO_Vert(_v.vertexes);
 	GenerateIBO_Elem(_v.vert_elem);
 	GenerateVBO_TexCoord(_v.texture_coords);
-	texture_ptr = _v.texture_ptr.get();
+	SetTexture(_v.texture_ptr);
 
-	mesh_shader = CreateShader(_shader_prop);
+	mesh_shader = CreateShader(_s);
 }
 
 mesh_object::~mesh_object()
@@ -90,9 +90,9 @@ void mesh_object::UpdateModelTransform()
 	GetShader()->SetUniform("u_projection", proj);
 }
 
-void mesh_object::SetTexture(texture& _t)
+void mesh_object::SetTexture(texture* _t)
 {
-	texture_ptr = &_t;
+	texture_ptr = _t;
 }
 
 void mesh_object::SetObjectIndex(const int& _c)

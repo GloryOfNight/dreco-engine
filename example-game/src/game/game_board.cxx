@@ -114,7 +114,7 @@ void game_board::CreateBoard()
 	const dreco::shader_properties shader_prop =
 		dreco::shader_properties(vert_src.c_str(), frag_src.c_str());
 
-	dreco::vertex_properties vert_prop = dreco::vertex_properties::ModelPlane();
+	dreco::vertex_properties vert_prop = dreco::vertex_properties::ModelSpritePlane();
 
 	LoadGemTextures();
 

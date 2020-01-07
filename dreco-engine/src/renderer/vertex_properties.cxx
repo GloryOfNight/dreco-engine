@@ -6,7 +6,7 @@ vertex_properties::vertex_properties()
 {
 }
 
-vertex_properties vertex_properties::ModelPlane()
+vertex_properties vertex_properties::ModelSpritePlane()
 {
 	vertex_properties model = vertex_properties();
 

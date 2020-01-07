@@ -23,14 +23,10 @@ vec2 math_utils::UnProject(const vec2& _screen_coord, const vec2& _viewport_size
 mat2x3 math_utils::CreateProjectionMatrix2D(
 	const float right, const float left, const float top, const float bottom)
 {
-	const float far = 1.0f;
-	const float near = -1.0f;
-
 	mat2x3 proj = mat2x3::identiry();
 
 	proj.mat[0][0] = 2.0f / (right - left);
 	proj.mat[1][1] = 2.0f / (top - bottom);
-	//proj.mat[2][2] = 2.0f / (far - near);
 
 	return proj;
 }

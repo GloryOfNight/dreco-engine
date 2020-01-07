@@ -17,7 +17,7 @@ texture::texture(const std::string_view _path) : resource(resource_type::TEXTURE
 
 	if (!res_texture)
 	{
-		std::cerr << "GenerateTexture(): Invalid path: " << _path << std::endl;
+		std::cerr << "texture(): Failed with Invalid path: " << _path << std::endl;
 		return;
 	}
 
@@ -33,11 +33,16 @@ texture::texture(const std::string_view _path) : resource(resource_type::TEXTURE
 	GL_CHECK();
 
 	SDL_FreeSurface(res_texture);
+
+	is_resource_loaded = true;
 }
 
 texture::~texture()
 {
-	glDeleteTextures(1, &texture_id);
+	if (GetIsResourceLoaded())
+	{
+		glDeleteTextures(1, &texture_id);
+	}
 }
 
 uint32_t texture::GetTextureId() const

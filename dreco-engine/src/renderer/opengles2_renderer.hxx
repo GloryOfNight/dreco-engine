@@ -34,7 +34,7 @@ public:
 
 	void UpdateViewportSize();
 
-	int GetStencilIndexFromPixel(const vec2& _p_coord);
+	int GetColorIndexFromPixel(const vec2& _p_coord);
 
 	void DrawScene(const bool _is_color_pass);
 

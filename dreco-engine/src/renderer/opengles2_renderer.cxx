@@ -75,7 +75,7 @@ void opengles2_renderer::UpdateViewportSize()
 	glViewport(0, 0, w, h);
 }
 
-int opengles2_renderer::GetStencilIndexFromPixel(const vec2& _p_coord)
+int opengles2_renderer::GetColorIndexFromPixel(const vec2& _p_coord)
 {
 	uint8_t rgb[4];
 	int win_h;
