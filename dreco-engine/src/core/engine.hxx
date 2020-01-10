@@ -7,10 +7,11 @@
 #endif
 
 #include "engine_properties.hxx"
-#include "resource_manager/resource_manager.hxx"
 #include "game_objects/game_base.hxx"
 #include "renderer/opengles2_renderer.hxx"
+#include "resource_manager.hxx"
 #include "sdl_event_manager.hxx"
+#include "audio_manager.hxx"
 #include "types.hxx"
 
 #include <stdint.h>
@@ -46,6 +47,8 @@ public:
 
 	resource_manager* GetResourceManager() const;
 
+	audio_manager* GetAudioManager() const;
+
 private:
 	void Tick(const float& DeltaTime);
 
@@ -55,18 +58,22 @@ private:
 
 	resource_manager* CreateResourceManager();
 
+	audio_manager* CreateAudioManager();
+
 	uint32_t last_tick_time = 0;
 
 	bool is_engine_initialized = false;
 
 	bool keep_main_loop = false;
 
-	sdl_event_manager* event_manager = nullptr;
-
 	game_base* owned_game = nullptr;
 
 	opengles2_renderer* renderer = nullptr;
 
-	resource_manager* res_manager = nullptr;
+	sdl_event_manager* event_manager = nullptr;
+
+	resource_manager* resource_manager_ = nullptr;
+
+	audio_manager* audio_manager_ = nullptr;
 };
 }	 // namespace dreco

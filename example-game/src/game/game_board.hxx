@@ -30,7 +30,10 @@ public:
 
 	board_cell* GetCellFromPosition(const dreco::int_vec2& _p) const;
 
-private:
+private:	
+	uint8_t reciently_removed_gems_count = 0;
+	float reciently_removed_gems_timer = 0.1f;
+
 	void LoadGemTextures();
 
 	game_instance* gi;

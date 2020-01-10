@@ -1,3 +1,4 @@
 /build/*
 /src/main/SDL2/SDL2/*
 /src/main/SDL2/SDL2_image/*
+/src/main/SDL2/SDL2_mixer/*

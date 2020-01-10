@@ -11,6 +11,8 @@ class game_object;
 
 class resource_manager;
 
+class audio_manager;
+
 class game_base
 {
 public:
@@ -37,15 +39,18 @@ public:
 	bool IsWindowInFocus() const;
 
 	vec2 GetMouseScreenPos() const;
-	
+
 	vec2 ScreenToWorld(const vec2& _screen_coor) const;
 
 	game_object* TryGetObectFromScreen(const vec2& _coor);
 
 	resource_manager* GetResourceManager() const;
+
+	audio_manager* GetAudioManager() const;
+
 private:
 	engine* game_engine = nullptr;
 
 	game_world* current_world = nullptr;
 };
-}	// namespace dreco
+}	 // namespace dreco

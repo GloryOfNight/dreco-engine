@@ -20,6 +20,7 @@ public class MainActivity extends SDLActivity
                 "hidapi",
                 "SDL2",
                 "SDL2_image",
+                "SDL2_mixer",
                 "dreco-engine",
                 "example-game"
         };

@@ -3,8 +3,10 @@
 
 #ifdef __ANDROID__
 #include "SDL_audio.h"
+#include "SDL_mixer.h"
 #else
 #include "SDL2/SDL_audio.h"
+#include "SDL2/SDL_mixer.h"
 #endif
 
 #include <stdint.h>
@@ -17,13 +19,8 @@ public:
 	audio(const std::string_view _fpath);
 	virtual ~audio();
 
+	Mix_Chunk* GetChunk() const;
 private:
-	SDL_AudioDeviceID device = 0;
-
-	uint32_t lenght;
-
-	uint8_t* buffer;
-
-	SDL_AudioSpec spec;
+	Mix_Chunk* chunk;
 };
 }	 // namespace dreco

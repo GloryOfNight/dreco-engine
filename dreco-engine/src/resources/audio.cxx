@@ -4,33 +4,27 @@
 
 using namespace dreco;
 
-void audio_callback(void* _userdata, Uint8* stream, int len);
-
 audio::audio(const std::string_view _fpath) : resource(resource_type::AUDIO)
 {
-	auto audio = SDL_LoadWAV(_fpath.cbegin(), &spec, &buffer, &lenght);
+	chunk = Mix_LoadWAV(_fpath.cbegin());
+	
+	is_resource_loaded = chunk != nullptr;
 
-	if (audio == nullptr)
+	if (!is_resource_loaded)
 	{
 		std::cerr << "Failed to load file: " << _fpath << std::endl;
-		SDL_FreeWAV(buffer);
-		return;
-	}
-
-	spec.callback = audio_callback;
-	spec.userdata = this;
-
-	is_resource_loaded = true;
+	}	
 }
 
 audio::~audio()
 {
 	if (GetIsResourceLoaded())
 	{
-		SDL_FreeWAV(buffer);
+		Mix_FreeChunk(chunk);
 	}
 }
 
-void audio_callback(void* _userdata, Uint8* stream, int len)
+Mix_Chunk* audio::GetChunk() const 
 {
+	return chunk;
 }

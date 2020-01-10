@@ -114,3 +114,8 @@ resource_manager* game_base::GetResourceManager() const
 {
 	return GetEngine()->GetResourceManager();
 }
+
+audio_manager* game_base::GetAudioManager() const 
+{
+	return GetEngine()->GetAudioManager();
+}

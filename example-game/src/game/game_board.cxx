@@ -1,7 +1,8 @@
 #include "game_board.hxx"
 
 #include "../game_instance.hxx"
-#include "core/resource_manager/resource_manager.hxx"
+#include "core/audio_manager.hxx"
+#include "core/resource_manager.hxx"
 #include "game_objects/game_world.hxx"
 #include "gem.hxx"
 #include "math/transform.hxx"
@@ -31,6 +32,15 @@ void game_board::Init(dreco::game_world& _w)
 	game_object::Init(_w);
 	gi = dynamic_cast<game_instance*>(GetWorld()->GetGameInstance());
 	CreateBoard();
+
+	dreco::resource_manager* res_man = GetGameInstance()->GetResourceManager();
+	res_man->LoadResource("res/audio/wakfumusic.wav", dreco::resource_type::AUDIO);
+	res_man->LoadResource("res/audio/matchsound.wav", dreco::resource_type::AUDIO);
+
+	// start play infinite looped music
+	dreco::audio* a =
+		dynamic_cast<dreco::audio*>(res_man->GetResource("res/audio/wakfumusic.wav"));
+	GetGameInstance()->GetAudioManager()->PlayAudio(*a, 1, -1);
 }
 
 void game_board::Tick(const float& DeltaTime)
@@ -72,6 +82,7 @@ void game_board::Tick(const float& DeltaTime)
 			{
 				gem->OnCollected();
 				collected_gems.push_back(gem);
+				++reciently_removed_gems_count;
 			}
 			else
 			{
@@ -100,6 +111,22 @@ void game_board::Tick(const float& DeltaTime)
 				gem_to_spawn->SetObjectTransform(t);
 				gem_to_spawn->OnReturn();
 			}
+		}
+	}
+
+	if (reciently_removed_gems_count > 0)
+	{
+		reciently_removed_gems_timer -= DeltaTime;
+
+		if (reciently_removed_gems_timer <= 0.0f)
+		{
+			dreco::audio* a = dynamic_cast<dreco::audio*>(
+				GetWorld()->GetGameInstance()->GetResourceManager()->GetResource(
+					"res/audio/matchsound.wav"));
+			GetWorld()->GetGameInstance()->GetAudioManager()->PlayAudio(*a, -1, 0);
+
+			reciently_removed_gems_timer = 0.1f;
+			--reciently_removed_gems_count;
 		}
 	}
 }

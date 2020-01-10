@@ -21,7 +21,8 @@ engine::~engine()
 	{
 		delete renderer;
 		delete event_manager;
-		delete res_manager;
+		delete resource_manager_;
+		delete audio_manager_;
 		SDL_Quit();
 	}
 }
@@ -55,7 +56,9 @@ int engine::Init(const engine_properties& _p)
 	event_manager->AddEventBinding(SDL_QUIT, std::bind(&engine::Event_Quit, this, std::placeholders::_1));
 	event_manager->AddEventBinding(SDL_WINDOWEVENT, std::bind(&engine::Event_Window, this, std::placeholders::_1));
 
-	res_manager = CreateResourceManager();
+	resource_manager_ = CreateResourceManager();
+
+	audio_manager_ = CreateAudioManager();
 
 	is_engine_initialized = true;
 
@@ -132,7 +135,12 @@ game_base* engine::GetOwnedGame() const
 
 resource_manager* engine::GetResourceManager() const 
 {
-	return res_manager;
+	return resource_manager_;
+}
+
+audio_manager* engine::GetAudioManager() const 
+{
+	return audio_manager_;
 }
 
 void engine::Tick(const float& DeltaTime)
@@ -162,4 +170,9 @@ sdl_event_manager* engine::CreateEventManager()
 resource_manager* engine::CreateResourceManager() 
 {
 	return new resource_manager(*this);
+}
+
+audio_manager* engine::CreateAudioManager() 
+{
+	return new audio_manager(*this);
 }

@@ -2,6 +2,9 @@
 
 #include "game_board.hxx"
 #include "gem_fall_component.hxx"
+#include "core/resource_manager.hxx"
+#include "core/audio_manager.hxx"
+
 
 gem::gem(const dreco::vertex_properties& _v, const dreco::shader_properties& _s,
 	game_board& _b)
