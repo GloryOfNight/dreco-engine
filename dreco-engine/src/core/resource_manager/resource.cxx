@@ -10,7 +10,7 @@ resource::~resource()
 {
 }
 
-bool resource::GetIsResourceLoaded() const 
+bool resource::GetIsResourceLoaded() const
 {
-    return is_resource_loaded;
+	return is_resource_loaded;
 }

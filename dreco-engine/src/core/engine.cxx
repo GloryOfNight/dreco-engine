@@ -26,7 +26,7 @@ engine::~engine()
 	}
 }
 
-int engine::Init(engine_properties& _p)
+int engine::Init(const engine_properties& _p)
 {
 	const int sdl_init_result = SDL_Init(SDL_INIT_AUDIO | SDL_INIT_VIDEO);
 

@@ -21,9 +21,9 @@ public:
 	void UnloadResource(std::string _fpath);
 
 	// can return nullptr when resource with _fpath was not found
-	resource* GetResource(const std::string _fpath);
+	resource* GetResource(const std::string _fpath) const;
 
-	bool IsResourceLoaded(const std::string _fpath);
+	bool IsResourceLoaded(const std::string _fpath) const;
 
 private:
 	engine* owner;

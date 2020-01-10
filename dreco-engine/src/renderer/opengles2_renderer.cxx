@@ -22,10 +22,9 @@ opengles2_renderer::~opengles2_renderer()
 
 int opengles2_renderer::Init(const std::string& _window_title)
 {
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_ES);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_ES);
-	SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
 	SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
 	SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
 	SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8);
@@ -61,9 +60,9 @@ int opengles2_renderer::Init(const std::string& _window_title)
 void opengles2_renderer::Tick(const float& DeltaTime)
 {
 	ClearBuffers();
-	DrawScene(false);
+	DrawScene(/*_is_color_pass=*/ false);
 	SwapBuffer();
-	DrawScene(true);
+	DrawScene(/*_is_color_pass=*/ true);
 }
 
 void opengles2_renderer::UpdateViewportSize()
@@ -88,7 +87,7 @@ int opengles2_renderer::GetColorIndexFromPixel(const vec2& _p_coord)
 
 void opengles2_renderer::DrawScene(const bool _is_color_pass)
 {
-	auto world = engine_owner->GetOwnedGame()->GetCurrentWorld();
+	const auto world = engine_owner->GetOwnedGame()->GetCurrentWorld();
 
 	if (world)
 	{

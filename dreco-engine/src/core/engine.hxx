@@ -22,7 +22,7 @@ class engine
 public:
 	engine();
 	~engine();
-	int Init(engine_properties& _p);
+	int Init(const engine_properties& _p);
 
 	void StartMainLoop();
 
