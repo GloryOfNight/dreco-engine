@@ -1,8 +1,9 @@
 #include "resource_manager.hxx"
 
 #include "core/engine.hxx"
-#include "renderer/texture.hxx"
-#include "resource.hxx"
+#include "resources/audio.hxx"
+#include "resources/resource.hxx"
+#include "resources/texture.hxx"
 
 using namespace dreco;
 
@@ -29,7 +30,8 @@ void resource_manager::LoadResource(std::string _fpath, resource_type _t)
 			case resource_type::TEXTURE:
 				new_res = new texture(_fpath);
 				break;
-			case resource_type::WAV:
+			case resource_type::AUDIO:
+				new_res = new audio(_fpath);
 				break;
 		}
 

@@ -2,7 +2,7 @@
 #include "game_object.hxx"
 #include "renderer/shader_gl_base.hxx"
 #include "renderer/shader_properties.hxx"
-#include "renderer/texture.hxx"
+#include "resources/texture.hxx"
 #include "renderer/vertex.hxx"
 #include "renderer/vertex_properties.hxx"
 

@@ -1,9 +1,10 @@
 #pragma once
 #include "board_cell.hxx"
+#include "board_constants.hxx"
 #include "game_objects/game_object.hxx"
 #include "gem_types.hxx"
-#include "renderer/texture.hxx"
-#include "board_constants.hxx"
+#include "resources/texture.hxx"
+#include "resources/audio.hxx"
 
 #include <map>
 #include <vector>

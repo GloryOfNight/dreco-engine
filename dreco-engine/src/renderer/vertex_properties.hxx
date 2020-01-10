@@ -1,5 +1,5 @@
 #pragma once
-#include "renderer/texture.hxx"
+#include "resources/texture.hxx"
 
 #include <string>
 #include <vector>

@@ -1,5 +1,5 @@
 #pragma once
-#include "resource_type.hxx"
+#include "resources/resource_type.hxx"
 
 #include <map>
 #include <string>
