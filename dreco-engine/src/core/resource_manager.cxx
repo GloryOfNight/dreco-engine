@@ -2,6 +2,7 @@
 
 #include "core/engine.hxx"
 #include "resources/audio.hxx"
+#include "resources/music.hxx"
 #include "resources/resource.hxx"
 #include "resources/texture.hxx"
 
@@ -33,6 +34,8 @@ void resource_manager::LoadResource(std::string _fpath, resource_type _t)
 			case resource_type::AUDIO:
 				new_res = new audio(_fpath);
 				break;
+			case resource_type::MUSIC:
+				new_res = new music(_fpath);
 		}
 
 		if (new_res)

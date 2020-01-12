@@ -8,6 +8,7 @@ src/core/resource_manager.cxx
 src/core/audio_manager.cxx
 src/resources/resource.cxx
 src/resources/audio.cxx
+src/resources/music.cxx
 src/resources/texture.cxx
 src/game_objects/camera_base.cxx
 src/game_objects/game_base.cxx

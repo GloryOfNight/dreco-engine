@@ -1,5 +1,6 @@
 #pragma once
 #include "resources/audio.hxx"
+#include "resources/music.hxx"
 
 namespace dreco
 {
@@ -15,6 +16,7 @@ public:
 
     void PlayAudio(audio& _a, int _channel, int _loops);
 
+	void PlayMusic(const music& _m);
 private:
 	engine* owner;
 };

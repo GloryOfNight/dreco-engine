@@ -12,7 +12,7 @@
 using namespace dreco;
 
 mesh_object::mesh_object(
-	const vertex_properties& _v, const shader_properties& _s)
+	const vertex_properties& _v, const shader_properties& _s) : game_object()
 {
 	GenerateVBO_Vert(_v.vertexes);
 	GenerateIBO_Elem(_v.vert_elem);
@@ -55,8 +55,14 @@ void mesh_object::GenerateIBO_Elem(const std::vector<uint8_t>& _e)
 	ibo_elem_indexes = _e.capacity();
 }
 
+void mesh_object::Init(game_world& _w) 
+{
+	game_object::Init(_w);
+}
+
 void mesh_object::Tick(const float& DeltaTime)
 {
+	game_object::Tick(DeltaTime);
 }
 
 void mesh_object::SetIsRendered(const bool _is_render)
@@ -142,9 +148,6 @@ void mesh_object::DrawObjPickColor()
 		glDisableVertexAttribArray(a_pos_loc);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-		GL_CHECK()
-
-		//glUniform1i(u_pick_loc, 0.0f);
 		GL_CHECK()
 	}
 }

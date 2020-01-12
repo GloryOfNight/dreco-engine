@@ -4,14 +4,15 @@
 
 using namespace dreco;
 
-camera_base::camera_base()
+camera_base::camera_base() : game_object()
 {
 }
 
 void camera_base::Init(game_world& _w)
 {
 	game_object::Init(_w);
-	OnScreenSizeUpdate();
+	view = CalculateViewMatrix();
+	projection = CalculateProjectionMatrix();
 }
 
 void camera_base::SetObjectTransform(const transform& _t)

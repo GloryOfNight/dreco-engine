@@ -34,13 +34,13 @@ void game_board::Init(dreco::game_world& _w)
 	CreateBoard();
 
 	dreco::resource_manager* res_man = GetGameInstance()->GetResourceManager();
-	res_man->LoadResource("res/audio/wakfumusic.wav", dreco::resource_type::AUDIO);
 	res_man->LoadResource("res/audio/matchsound.wav", dreco::resource_type::AUDIO);
+	res_man->LoadResource("res/music/wakfumusic.ogg", dreco::resource_type::MUSIC);
 
 	// start play infinite looped music
-	dreco::audio* a =
-		dynamic_cast<dreco::audio*>(res_man->GetResource("res/audio/wakfumusic.wav"));
-	GetGameInstance()->GetAudioManager()->PlayAudio(*a, 1, -1);
+	dreco::music* m =
+		dynamic_cast<dreco::music*>(res_man->GetResource("res/music/wakfumusic.ogg"));
+	GetGameInstance()->GetAudioManager()->PlayMusic(*m);
 }
 
 void game_board::Tick(const float& DeltaTime)

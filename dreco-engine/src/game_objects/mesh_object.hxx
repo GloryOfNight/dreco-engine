@@ -18,7 +18,9 @@ public:
 
 	inline shader_gl_base* GetShader() const;
 
-	void Tick(const float& DeltaTime) override;
+	virtual void Init(game_world& _w) override;
+
+	virtual void Tick(const float& DeltaTime) override;
 
 	void SetIsRendered(const bool _is_render);
 

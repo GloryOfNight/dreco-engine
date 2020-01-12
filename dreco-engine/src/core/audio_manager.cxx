@@ -14,7 +14,7 @@ using namespace dreco;
 
 audio_manager::audio_manager(engine& _e) : owner(&_e)
 {
-	const int res = Mix_OpenAudio(44100, AUDIO_S8, 2, 1024);
+	const int res = Mix_OpenAudio(44100, AUDIO_F32, 2, 1024);
 
 	if (res == -1)
 	{
@@ -38,4 +38,9 @@ int audio_manager::GetChannels() const
 void audio_manager::PlayAudio(audio& _a, int _channel, int _loops)
 {
 	Mix_PlayChannel(_channel, _a.GetChunk(), _loops);
+}
+
+void audio_manager::PlayMusic(const music& _m) 
+{
+	Mix_PlayMusic(_m.GetMusic(), 0);
 }
