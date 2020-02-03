@@ -8,10 +8,14 @@ namespace dreco
     {
         vec3();
 
-        float x = 0.0f;
-        float y = 0.0f;
-        float z = 0.0f;
+        vec3(const float& _x, const float& _y, const float& _z);
 
         vec3 operator*(const mat2x3& _m);
+
+        float x;
+
+        float y;
+
+        float z;
     };
 }

@@ -10,7 +10,7 @@ namespace dreco
 class texture : public resource
 {
 public:
-	texture(const std::string_view _path);
+	texture(const std::string_view& _path);
 	~texture();
 
 	uint32_t GetTextureId() const;

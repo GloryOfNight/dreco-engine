@@ -7,10 +7,13 @@ namespace dreco
 struct transform
 {
     transform();
-    transform(vec2 _t, float _r, vec2 _s);
 
-	vec2 translation = vec2();
-	float rotation = 0.0f;
-	vec2 scale = vec2(1.0, 1.0f);
+    transform(const vec2& _t, const float& _r, const vec2& _s);
+
+	vec2 translation;
+
+	float rotation;
+
+	vec2 scale;
 };
 }	// namespace dreco

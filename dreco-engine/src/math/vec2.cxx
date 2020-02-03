@@ -2,11 +2,11 @@
 
 using namespace dreco;
 
-vec2::vec2()
+vec2::vec2() : x(0.0f), y(0.0f)
 {
 }
 
-vec2::vec2(const float _x, const float _y) : x(_x), y(_y)
+vec2::vec2(const float& _x, const float& _y) : x(_x), y(_y)
 {
 }
 

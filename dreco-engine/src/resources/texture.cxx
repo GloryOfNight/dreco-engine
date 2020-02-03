@@ -11,7 +11,7 @@
 
 using namespace dreco;
 
-texture::texture(const std::string_view _path) : resource(resource_type::TEXTURE)
+texture::texture(const std::string_view& _path) : resource(resource_type::TEXTURE)
 {
 	SDL_Surface* res_texture = IMG_Load(_path.cbegin());
 

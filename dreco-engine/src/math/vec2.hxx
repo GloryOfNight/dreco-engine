@@ -6,10 +6,7 @@ struct vec2
 {
 	vec2();
 
-	vec2(const float _x, const float _y);
-
-	float x = 0.0f;
-	float y = 0.0f;
+	vec2(const float& _x, const float& _y);
 
 	void operator*=(const vec2& _v);
 
@@ -24,5 +21,9 @@ struct vec2
 	void operator+=(const float& _f);
 
 	bool operator==(const vec2& _v);
+
+	float x;
+
+	float y;
 };
 }	 // namespace dreco
