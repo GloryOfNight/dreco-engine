@@ -5,7 +5,6 @@
 #include "game_objects/mesh_object.hxx"
 #include "gl_check.hxx"
 #include "gl_inline_functions.hxx"
-#include "math/vec3.hxx"
 #include "utils/file_utils.hxx"
 
 using namespace dreco;
@@ -85,7 +84,7 @@ int opengles2_renderer::GetColorIndexFromPixel(const vec2& _p_coord)
 	return rgb[0] + rgb[1] * 256 + rgb[2] * 65536;
 }
 
-void opengles2_renderer::DrawScene(const bool _is_color_pass)
+void opengles2_renderer::DrawScene(const bool& _is_color_pass)
 {
 	const auto world = engine_owner->GetOwnedGame()->GetCurrentWorld();
 

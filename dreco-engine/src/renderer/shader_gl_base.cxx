@@ -31,7 +31,7 @@ void shader_gl_base::Use()
 	glUseProgram(program_id);
 }
 
-void shader_gl_base::SetUniform(const std::string_view uniform_name, const mat2x3& _m)
+void shader_gl_base::SetUniform(const std::string_view& uniform_name, const mat2x3& _m)
 {
 	const int u_loc = glGetUniformLocation(program_id, uniform_name.cbegin());
 
@@ -49,12 +49,12 @@ void shader_gl_base::SetUniform(const std::string_view uniform_name, const mat2x
 	glUniformMatrix3fv(u_loc, 1, GL_FALSE, mat3x3_array);
 }
 
-int shader_gl_base::GetUniformLocation(const std::string_view uniform_name) const
+int shader_gl_base::GetUniformLocation(const std::string_view& uniform_name) const
 {
 	return glGetUniformLocation(program_id, uniform_name.cbegin());
 }
 
-int shader_gl_base::GetAttribLocation(const std::string_view uniform_name) const
+int shader_gl_base::GetAttribLocation(const std::string_view& uniform_name) const
 {
 	return glGetAttribLocation(program_id, uniform_name.cbegin());
 }

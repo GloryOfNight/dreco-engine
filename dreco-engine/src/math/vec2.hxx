@@ -8,10 +8,6 @@ struct vec2
 
 	vec2(const float& _x, const float& _y);
 
-	void operator*=(const vec2& _v);
-
-	vec2 operator*(const vec2& _v);
-
 	vec2 operator-(const vec2& _v);
 
 	void operator+=(const vec2& _v);
@@ -22,6 +18,7 @@ struct vec2
 
 	bool operator==(const vec2& _v);
 
+	
 	float x;
 
 	float y;

@@ -65,9 +65,9 @@ void mesh_object::Tick(const float& DeltaTime)
 	game_object::Tick(DeltaTime);
 }
 
-void mesh_object::SetIsRendered(const bool _is_render)
+void mesh_object::SetIsRendered(const bool& _v)
 {
-	bIsRendered = _is_render;
+	bIsRendered = _v;
 }
 
 inline shader_gl_base* mesh_object::GetShader() const

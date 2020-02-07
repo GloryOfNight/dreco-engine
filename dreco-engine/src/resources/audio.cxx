@@ -4,7 +4,7 @@
 
 using namespace dreco;
 
-audio::audio(const std::string_view _fpath) : resource(resource_type::AUDIO)
+audio::audio(const std::string_view& _fpath) : resource(resource_type::AUDIO)
 {
 	chunk = Mix_LoadWAV(_fpath.cbegin());
 	

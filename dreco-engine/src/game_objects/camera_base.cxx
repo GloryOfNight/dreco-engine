@@ -4,14 +4,14 @@
 
 using namespace dreco;
 
-camera_base::camera_base() : game_object()
+camera_base::camera_base()
+	: game_object(), view(CalculateViewMatrix()), projection(mat2x3::identiry())
 {
 }
 
 void camera_base::Init(game_world& _w)
 {
 	game_object::Init(_w);
-	view = CalculateViewMatrix();
 	projection = CalculateProjectionMatrix();
 }
 
@@ -38,8 +38,9 @@ mat2x3 camera_base::GetProjectionMatrix() const
 
 mat2x3 camera_base::CalculateViewMatrix() const
 {
-	return mat2x3::GetTranslationMatrix(object_transform) * 
-	mat2x3::GetRotationMatrix(object_transform) * mat2x3::GetScaleMatrix(object_transform);
+	return mat2x3::GetTranslationMatrix(object_transform) *
+		   mat2x3::GetRotationMatrix(object_transform) *
+		   mat2x3::GetScaleMatrix(object_transform);
 }
 
 mat2x3 camera_base::CalculateProjectionMatrix() const

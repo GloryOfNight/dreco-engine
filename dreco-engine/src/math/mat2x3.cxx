@@ -10,6 +10,11 @@ mat2x3::mat2x3() : mat()
 {
 }
 
+mat2x3::mat2x3(const float _v[2][3])
+	: mat{{_v[0][0], _v[0][1], _v[0][2]}, {_v[1][0], _v[1][1], _v[1][2]}}
+{
+}
+
 mat2x3 mat2x3::identiry()
 {
 	return mat2x3::scale(1.0f, 1.0f);
@@ -17,37 +22,25 @@ mat2x3 mat2x3::identiry()
 
 mat2x3 mat2x3::translate(const vec2& _v)
 {
-	mat2x3 r = mat2x3::identiry();
-
-	r.mat[0][2] = _v.x;
-	r.mat[1][2] = _v.y;
-
-	return r;
+	const float v[2][3] = {{1.0f, 0.0f, _v.x}, {0.0f, 1.0f, _v.y}};
+	return mat2x3(v);
 }
 
 mat2x3 mat2x3::rotate(const float& _t)
 {
-	mat2x3 r = mat2x3::identiry();
-
 	const float cos_t = cos(_t);
 	const float sin_t = sin(_t);
 
-	r.mat[0][0] = cos_t;
-	r.mat[0][1] = sin_t;
-	r.mat[1][0] = -sin_t;
-	r.mat[1][1] = cos_t;
+	const float v[2][3] = {{cos_t, sin_t, 0.0f}, {-sin_t, cos_t, 0.0f}};
 
-	return r;
+	return mat2x3(v);
 }
 
-mat2x3 mat2x3::scale(const float _sx, const float _sy)
+mat2x3 mat2x3::scale(const float& _sx, const float& _sy)
 {
-	mat2x3 r = mat2x3();
+	const float v[2][3] = {{_sx, 0.0f, 0.0f}, {0.0f, _sy, 0.0f}};
 
-	r.mat[0][0] = _sx;
-	r.mat[1][1] = _sy;
-
-	return r;
+	return mat2x3(v);
 }
 
 mat2x3 mat2x3::inverse(const mat2x3& _m)
@@ -56,8 +49,8 @@ mat2x3 mat2x3::inverse(const mat2x3& _m)
 		_m.mat[1][1], _m.mat[1][2], 0.0f, 0.0f, 1.0f};
 
 	const double det = m[0][0] * (m[1][1] * m[2][2] - m[2][1] * m[1][2]) -
-				 m[0][1] * (m[1][0] * m[2][2] - m[1][2] * m[2][0]) +
-				 m[0][2] * (m[1][0] * m[2][1] - m[1][1] * m[2][0]);
+					   m[0][1] * (m[1][0] * m[2][2] - m[1][2] * m[2][0]) +
+					   m[0][2] * (m[1][0] * m[2][1] - m[1][1] * m[2][0]);
 
 	const double inv_det = 1 / det;
 

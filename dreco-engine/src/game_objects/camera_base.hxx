@@ -24,8 +24,8 @@ protected:
 
 	mat2x3 CalculateProjectionMatrix() const;
 
-    mat2x3 view = mat2x3::identiry();
+    mat2x3 view;
 
-    mat2x3 projection = mat2x3::identiry(); 
+    mat2x3 projection; 
 };
 }	// namespace dreco

@@ -36,6 +36,7 @@ void resource_manager::LoadResource(std::string _fpath, resource_type _t)
 				break;
 			case resource_type::MUSIC:
 				new_res = new music(_fpath);
+				break;
 		}
 
 		if (new_res)

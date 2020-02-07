@@ -9,13 +9,15 @@ struct mat2x3
 {
 	mat2x3();
 
+	mat2x3(const float _v[2][3]);
+
 	static mat2x3 identiry();
 
 	static mat2x3 translate(const vec2& _v);
 
 	static mat2x3 rotate(const float& _t);
 
-	static mat2x3 scale(const float _sx, const float _sy);
+	static mat2x3 scale(const float& _sx, const float& _sy);
 
 	static mat2x3 inverse(const mat2x3& _m);
 
