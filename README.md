@@ -5,6 +5,8 @@ Depends on: SDL2, SDL2_image and SDL2_mixer.
 # Improtant notes
 Please note, a lot of work still Work In Progress state.
 
+![UbuntuBuild](https://github.com/GloryOfNight/dreco-engine/workflows/Ubuntu-18.04/badge.svg)
+
 # Install dependencies - Debian/Ubuntu and etc
 > sudo apt-get update
 
