@@ -16,6 +16,12 @@ struct shader_properties
 	{
 	}
 
+	~shader_properties() 
+	{
+		delete vert_src;
+		delete frag_src;
+	}
+
 	const char* vert_src = nullptr;
 	const char* frag_src = nullptr;
 };

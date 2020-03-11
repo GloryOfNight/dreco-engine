@@ -16,14 +16,14 @@ public:
 	resource_manager(engine& _e);
 	~resource_manager();
 
-	void LoadResource(std::string _fpath, resource_type _t);
+	void LoadResource(const char* _fpath, resource_type _t);
 
-	void UnloadResource(std::string _fpath);
+	void UnloadResource(const char* _fpath);
 
 	// can return nullptr when resource with _fpath was not found
-	resource* GetResource(const std::string _fpath) const;
+	resource* GetResource(const char* _fpath) const;
 
-	bool IsResourceLoaded(const std::string _fpath) const;
+	bool IsResourceLoaded(const char* _fpath) const;
 
 private:
 	engine* owner;

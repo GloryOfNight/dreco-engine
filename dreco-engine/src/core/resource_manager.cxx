@@ -20,7 +20,7 @@ resource_manager::~resource_manager()
 	}
 }
 
-void resource_manager::LoadResource(std::string _fpath, resource_type _t)
+void resource_manager::LoadResource(const char* _fpath, resource_type _t)
 {
 	if (!IsResourceLoaded(_fpath))
 	{
@@ -53,7 +53,7 @@ void resource_manager::LoadResource(std::string _fpath, resource_type _t)
 	}
 }
 
-void resource_manager::UnloadResource(std::string _fpath)
+void resource_manager::UnloadResource(const char* _fpath)
 {
 	if (IsResourceLoaded(_fpath))
 	{
@@ -64,7 +64,7 @@ void resource_manager::UnloadResource(std::string _fpath)
 	}
 }
 
-resource* resource_manager::GetResource(const std::string _fpath) const
+resource* resource_manager::GetResource(const char* _fpath) const
 {
 	const bool is_loaded = IsResourceLoaded(_fpath);
 
@@ -76,7 +76,7 @@ resource* resource_manager::GetResource(const std::string _fpath) const
 	return nullptr;
 }
 
-bool resource_manager::IsResourceLoaded(const std::string _fpath) const
+bool resource_manager::IsResourceLoaded(const char* _fpath) const
 {
 	return persistant_resources.find(_fpath) != persistant_resources.end();
 }

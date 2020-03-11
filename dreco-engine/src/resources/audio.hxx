@@ -14,7 +14,7 @@ namespace dreco
 class audio : public resource
 {
 public:
-	audio(const std::string_view& _fpath);
+	audio(const char* _fpath);
 	virtual ~audio();
 
 	Mix_Chunk* GetChunk() const;

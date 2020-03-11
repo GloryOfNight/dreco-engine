@@ -17,7 +17,6 @@ mesh_object::mesh_object(
 	GenerateVBO_Vert(_v.vertexes);
 	GenerateIBO_Elem(_v.vert_elem);
 	GenerateVBO_TexCoord(_v.texture_coords);
-	SetTexture(_v.texture_ptr);
 
 	mesh_shader = CreateShader(_s);
 }

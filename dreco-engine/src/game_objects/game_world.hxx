@@ -23,13 +23,13 @@ public:
 
 	game_base* GetGameInstance() const;
 
-	game_object* GetObject(const std::string _obj_name) const;
+	game_object* GetObject(const char* _name) const;
 
 	camera_base* GetPlayerCamera() const;
 
 	const world_objects_map& GetWorldObjects() const;
 
-	void RegisterObject(const std::string _obj_name, game_object& _obj);
+	void RegisterObject(const char* _name, game_object& _obj);
 
 protected:
 	virtual void CreatePlayerCamera();

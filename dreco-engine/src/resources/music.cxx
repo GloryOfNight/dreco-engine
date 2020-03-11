@@ -3,9 +3,9 @@
 
 using namespace dreco;
 
-music::music(const std::string_view& _fpath) : resource(resource_type::MUSIC)
+music::music(const char* _fpath) : resource(resource_type::MUSIC)
 {
-    music_file = Mix_LoadMUS(_fpath.cbegin());
+    music_file = Mix_LoadMUS(_fpath);
 
     is_resource_loaded = music_file != nullptr;
 

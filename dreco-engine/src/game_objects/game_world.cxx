@@ -35,9 +35,9 @@ game_base* game_world::GetGameInstance() const
 	return gi_owner;
 }
 
-game_object* game_world::GetObject(const std::string _obj_name) const
+game_object* game_world::GetObject(const char* _name) const
 {
-    return world_objects.at(_obj_name);
+    return world_objects.at(_name);
 }
 
 camera_base* game_world::GetPlayerCamera() const 
@@ -56,9 +56,9 @@ const world_objects_map& game_world::GetWorldObjects() const
     return world_objects;
 } 
 
-void game_world::RegisterObject(const std::string _obj_name, game_object& _obj) 
+void game_world::RegisterObject(const char* _name, game_object& _obj) 
 {
-    world_objects.emplace(_obj_name, &_obj);
+    world_objects.emplace(_name, &_obj);
 
     _obj.Init(*this);
 }

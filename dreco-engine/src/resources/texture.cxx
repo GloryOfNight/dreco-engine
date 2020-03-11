@@ -11,13 +11,13 @@
 
 using namespace dreco;
 
-texture::texture(const std::string_view& _path) : resource(resource_type::TEXTURE)
+texture::texture(const char* _fpath) : resource(resource_type::TEXTURE)
 {
-	SDL_Surface* res_texture = IMG_Load(_path.cbegin());
+	SDL_Surface* res_texture = IMG_Load(_fpath);
 
 	if (!res_texture)
 	{
-		std::cerr << "texture(): Failed with Invalid path: " << _path << std::endl;
+		std::cerr << "texture(): Failed with Invalid path: " << IMG_GetError() << std::endl;
 		return;
 	}
 

@@ -6,6 +6,6 @@ namespace dreco
 class file_utils
 {
 public:
-	static std::string LoadSourceFromFile(const char* _fpath);
+	static char* LoadSourceFromFile(const char* _fpath);
 };
 }	// namespace dreco

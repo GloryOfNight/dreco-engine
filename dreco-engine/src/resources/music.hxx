@@ -14,7 +14,7 @@ namespace dreco
 class music : public resource
 {
 public:
-	music(const std::string_view& _fpath);
+	music(const char* _fpath);
 	~music();
 
 	Mix_Music* GetMusic() const;

@@ -4,15 +4,15 @@
 
 using namespace dreco;
 
-audio::audio(const std::string_view& _fpath) : resource(resource_type::AUDIO)
+audio::audio(const char* _fpath) : resource(resource_type::AUDIO)
 {
-	chunk = Mix_LoadWAV(_fpath.cbegin());
+	chunk = Mix_LoadWAV(_fpath);
 	
 	is_resource_loaded = chunk != nullptr;
 
 	if (!is_resource_loaded)
 	{
-		std::cerr << "Failed to load file: " << _fpath << std::endl;
+		std::cerr << "Failed to load file: " << Mix_GetError() << std::endl;
 	}	
 }
 

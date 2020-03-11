@@ -138,8 +138,7 @@ void game_board::CreateBoard()
 	const auto frag_src =
 		dreco::file_utils::LoadSourceFromFile("res/shaders/default_shader.frag");
 
-	const dreco::shader_properties shader_prop =
-		dreco::shader_properties(vert_src.c_str(), frag_src.c_str());
+	const dreco::shader_properties shader_prop(vert_src, frag_src);
 
 	dreco::vertex_properties vert_prop = dreco::vertex_properties::ModelSpritePlane();
 
@@ -158,9 +157,9 @@ void game_board::CreateBoard()
 
 		gem* cur_gem = new gem(vert_prop, shader_prop, *this);
 		gems[i] = cur_gem;
-
-		const std::string obj_name = "gem_" + std::to_string(i);
-		GetWorld()->RegisterObject(obj_name, *cur_gem);
+		
+		const char name[]{'g', 'e', 'm', '_', static_cast<char>(i)};
+		GetWorld()->RegisterObject(&name[0], *cur_gem);
 		gem_trans.translation =
 			dreco::vec2(BOARD_TILE_SPACE * x - BOARD_CENTER_OFFSET_WIDTH,
 				BOARD_TILE_SPACE * y - BOARD_CENTER_OFFSET_HEIGHT);
@@ -196,7 +195,7 @@ dreco::texture* game_board::GetGemTexture(const gem_types& _t) const
 			break;
 	}
 
-	auto res = res_man->GetResource(tex_path);
+	auto res = res_man->GetResource(tex_path.c_str());
 
 	return dynamic_cast<dreco::texture*>(res);
 }

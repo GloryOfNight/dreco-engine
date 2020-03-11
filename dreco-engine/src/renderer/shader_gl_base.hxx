@@ -23,11 +23,11 @@ public:
 
 	void Use();
 
-	void SetUniform(const std::string_view& uniform_name, const mat2x3& _m);
+	void SetUniform(const char* uniform_name, const mat2x3& _m);
 
-	int GetUniformLocation(const std::string_view& uniform_name) const;
+	int GetUniformLocation(const char* uniform_name) const;
 
-	int GetAttribLocation(const std::string_view& uniform_name) const;
+	int GetAttribLocation(const char* uniform_name) const;
 
 private:
 	GLuint CompileShader(GLenum _s_type, const char* _src);
