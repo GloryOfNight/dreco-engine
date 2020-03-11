@@ -30,5 +30,6 @@ private:
 	dreco::game_object* selected_object = nullptr;	
 
 	bool bMouseDown = false;
+	
 	dreco::vec2 LastMousePos;
 };
