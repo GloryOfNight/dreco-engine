@@ -96,10 +96,10 @@ game_object* game_base::TryGetObectFromScreen(const vec2& _coor)
 
 	if (stencil_index != 0 && current_world)
 	{
-		const auto wos = current_world->GetWorldObjects();
-		for (auto o : wos)
+		const auto objects = current_world->GetWorldObjectsRef();
+		for (auto obj : objects)
 		{
-			mesh_object* mesh = dynamic_cast<mesh_object*>(o.second);
+			mesh_object* mesh = dynamic_cast<mesh_object*>(obj.second);
 			if (mesh && mesh->GetObjectIndex() == stencil_index)
 			{
 				return mesh;

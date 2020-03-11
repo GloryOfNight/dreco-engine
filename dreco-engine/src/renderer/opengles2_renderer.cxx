@@ -90,12 +90,12 @@ void opengles2_renderer::DrawScene(const bool& _is_color_pass)
 
 	if (world)
 	{
-		const world_objects_map& wos = world->GetWorldObjects();
+		const world_objects_map& world_objects = world->GetWorldObjectsRef();
 
 		int index = 1;
-		for (auto o : wos)
+		for (auto obj : world_objects)
 		{
-			mesh_object* mesh = dynamic_cast<mesh_object*>(o.second);
+			mesh_object* mesh = dynamic_cast<mesh_object*>(obj.second);
 			if (mesh)
 			{
 				mesh->SetObjectIndex(index);

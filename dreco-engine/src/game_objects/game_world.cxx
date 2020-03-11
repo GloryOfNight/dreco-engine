@@ -51,7 +51,7 @@ void game_world::CreatePlayerCamera()
     player_camera->Init(*this);
 }
 
-const world_objects_map& game_world::GetWorldObjects() const
+const world_objects_map& game_world::GetWorldObjectsRef() const
 {
     return world_objects;
 } 

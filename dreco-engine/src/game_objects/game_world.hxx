@@ -27,7 +27,7 @@ public:
 
 	camera_base* GetPlayerCamera() const;
 
-	const world_objects_map& GetWorldObjects() const;
+	const world_objects_map& GetWorldObjectsRef() const;
 
 	void RegisterObject(const char* _name, game_object& _obj);
 
