@@ -62,8 +62,9 @@ int shader_gl_base::GetAttribLocation(const char* uniform_name) const
 GLuint shader_gl_base::CompileShader(GLenum _s_type, const char* _src)
 {
 	GLuint shader_id = glCreateShader(_s_type);
-
-	glShaderSource(shader_id, 1, &_src, nullptr);
+	const GLchar* src = _src;
+	
+	glShaderSource(shader_id, 1, &src, nullptr);
 	GL_CHECK();
 
 	glCompileShader(shader_id);
@@ -77,16 +78,16 @@ GLuint shader_gl_base::CompileShader(GLenum _s_type, const char* _src)
 		GLint info_len = 0;
 		glGetShaderiv(shader_id, GL_INFO_LOG_LENGTH, &info_len);
 		GL_CHECK();
-		std::vector<char> info_log(static_cast<size_t>(info_len));
-		glGetShaderInfoLog(shader_id, info_len, nullptr, info_log.data());
+		char info_log[info_len];
+		glGetShaderInfoLog(shader_id, info_len, nullptr, info_log);
 		GL_CHECK();
 		glDeleteShader(shader_id);
 		GL_CHECK();
-		const std::string shader_type_name =
+		const char* shader_type_name =
 			_s_type == GL_VERTEX_SHADER ? "vertex" : "fragment";
 
 		std::cerr << "Error compiling shader: " << shader_type_name << ". With: \n"
-				  << info_log.data();
+				  << info_log;
 
 		return 0;
 	}
