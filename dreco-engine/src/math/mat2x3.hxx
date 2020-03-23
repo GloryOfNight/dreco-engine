@@ -1,5 +1,5 @@
 #pragma once
-#include "vec2.hxx"
+#include "vectors.hxx"
 
 namespace dreco
 {

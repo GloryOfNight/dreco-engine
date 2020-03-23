@@ -6,7 +6,7 @@
 #endif
 #include "game_objects/game_base.hxx"
 #include "game_objects/mesh_object.hxx"
-#include "math/vec2.hxx"
+#include "math/vectors.hxx"
 #include "world.hxx"
 
 #include <stdint.h>

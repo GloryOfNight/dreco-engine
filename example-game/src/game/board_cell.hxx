@@ -1,7 +1,6 @@
 #pragma once
 #include "cell_states.hxx"
-#include "math/vec2.hxx"
-#include "math/int_vec2.hxx"
+#include "math/vectors.hxx"
 
 class game_board;
 
