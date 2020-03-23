@@ -55,6 +55,13 @@ struct point2D
 		return *this;
 	}
 
+	point2D<T> operator-=(const point2D<T>& _o) 
+	{
+		this->x -= _o.x;
+		this->y -= _o.y;
+		return *this;
+	}
+
 	T x;
 	T y;
 };

@@ -19,12 +19,12 @@ void game_object::Tick(const float& DeltaTime)
 {
 }
 
-transform game_object::GetObjectTransform() const
+transform game_object::GetTransform() const
 {
     return object_transform;
 }
 
-void game_object::SetObjectTransform(const transform& _t) 
+void game_object::SetTransform(const transform& _t) 
 {
     object_transform = _t;
 }

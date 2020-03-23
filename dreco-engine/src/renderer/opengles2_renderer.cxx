@@ -59,9 +59,8 @@ int opengles2_renderer::Init(const std::string& _window_title)
 void opengles2_renderer::Tick(const float& DeltaTime)
 {
 	ClearBuffers();
-	DrawScene(/*_is_color_pass=*/ false);
+	DrawScene();
 	SwapBuffer();
-	DrawScene(/*_is_color_pass=*/ true);
 }
 
 void opengles2_renderer::UpdateViewportSize()
@@ -84,7 +83,7 @@ int opengles2_renderer::GetColorIndexFromPixel(const vec2& _p_coord)
 	return rgb[0] + rgb[1] * 256 + rgb[2] * 65536;
 }
 
-void opengles2_renderer::DrawScene(const bool& _is_color_pass)
+void opengles2_renderer::DrawScene()
 {
 	const auto world = engine_owner->GetOwnedGame()->GetCurrentWorld();
 
@@ -100,7 +99,7 @@ void opengles2_renderer::DrawScene(const bool& _is_color_pass)
 			{
 				mesh->SetObjectIndex(index);
 				++index;
-				!_is_color_pass ? mesh->StartDraw() : mesh->DrawObjPickColor();
+				mesh->StartDraw();
 			}
 		}
 	}

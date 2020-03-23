@@ -11,8 +11,8 @@
 
 using namespace dreco;
 
-mesh_object::mesh_object(
-	const vertex_properties& _v, const shader_properties& _s) : game_object()
+mesh_object::mesh_object(const vertex_properties& _v, const shader_properties& _s)
+	: game_object(), vert_info(_v)
 {
 	GenerateVBO_Vert(_v.vertexes);
 	GenerateIBO_Elem(_v.vert_elem);
@@ -54,7 +54,7 @@ void mesh_object::GenerateIBO_Elem(const std::vector<uint8_t>& _e)
 	ibo_elem_indexes = _e.capacity();
 }
 
-void mesh_object::Init(game_world& _w) 
+void mesh_object::Init(game_world& _w)
 {
 	game_object::Init(_w);
 }
@@ -83,16 +83,47 @@ void mesh_object::UpdateModelTransform()
 {
 	GetShader()->Use();
 
-	const transform t = GetObjectTransform();
-
-	const mat2x3 model = mat2x3::GetTranslationMatrix(t) * mat2x3::GetRotationMatrix(t) *
-						 mat2x3::GetScaleMatrix(t);
+	const mat2x3 model = mat2x3::GetModelMatrix(GetTransform());
 	const mat2x3 view = GetWorld()->GetPlayerCamera()->GetViewMatrix();
 	const mat2x3 modelview = view * model;
 	GetShader()->SetUniform("u_modelview", modelview);
 
 	const auto proj = GetWorld()->GetPlayerCamera()->GetProjectionMatrix();
 	GetShader()->SetUniform("u_projection", proj);
+}
+
+bool mesh_object::GetIsPointInBounds(const vec2& _p)
+{
+	const mat2x3 model = mat2x3::GetModelMatrix(GetTransform());
+
+	// retrieve all mesh points
+	vec2 mesh_points[vert_info.vert_elem.size()];
+	for (uint8_t i = 0; i < vert_info.vert_elem.size(); ++i)
+	{
+		const uint16_t k = vert_info.vert_elem[i] * 3;
+		mesh_points[i] = vec2(vert_info.vertexes[k], vert_info.vertexes[k + 1]);
+	}
+
+	// check each triangle is point in it
+	for (uint8_t i = 0; i < vert_info.vert_elem.size() / 3; ++i)
+	{
+		vec2 a = model * mesh_points[i * 3];
+		vec2 b = model * mesh_points[i * 3 + 1];
+		vec2 c = model * mesh_points[i * 3 + 2];
+
+		float r1 = (a.x - _p.x) * (b.y - a.y) - (b.x - a.x) * (a.y - _p.y);
+		float r2 = (b.x - _p.x) * (c.y - b.y) - (c.x - b.x) * (b.y - _p.y);
+		float r3 = (c.x - _p.x) * (a.y - c.y) - (a.x - c.x) * (c.y - _p.y);
+
+		if (((r1 > 0.0f && r2 > 0.0f && r3 > 0.0f) ||
+				(r1 < 0.0f && r2 < 0.0f && r3 < 0.0f)) &&
+			(r1 != 0.0f && r2 != 0.0f && r3 != 0.0f))
+		{
+			return true;
+		}
+	}
+
+	return false;
 }
 
 void mesh_object::SetTexture(texture* _t)
@@ -108,47 +139,6 @@ void mesh_object::SetObjectIndex(const int& _c)
 int mesh_object::GetObjectIndex() const
 {
 	return obj_index;
-}
-
-void mesh_object::DrawObjPickColor()
-{
-	UpdateModelTransform();
-	if (bIsRendered)
-	{	
-		GetShader()->Use();
-
-		GLfloat rgb[3];
-		rgb[0] = ((obj_index & 0x000000FF) >> 0) / 255.0f;
-		rgb[1] = ((obj_index & 0x0000FF00) >> 8) / 255.0f;
-		rgb[2] = ((obj_index & 0x00FF0000) >> 16) / 255.0f;
-
-		int u_pick_loc = GetShader()->GetUniformLocation("pick_color");
-		glUniform3f(u_pick_loc, rgb[0], rgb[1], rgb[2]);
-
-		int is_color = GetShader()->GetUniformLocation("is_color");
-		glUniform1i(is_color, 1);
-		GL_CHECK()
-
-		glBindBuffer(GL_ARRAY_BUFFER, vbo_vert);
-		GL_CHECK()
-		int a_pos_loc = GetShader()->GetAttribLocation("a_position");
-		glVertexAttribPointer(a_pos_loc, 3, GL_FLOAT, GL_FALSE, 0, 0);
-		GL_CHECK()
-		glEnableVertexAttribArray(a_pos_loc);
-		GL_CHECK()
-
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo_elem);
-		int size;
-		glGetBufferParameteriv(GL_ELEMENT_ARRAY_BUFFER, GL_BUFFER_SIZE, &size);
-		GL_CHECK()
-		glDrawElements(GL_TRIANGLES, ibo_elem_indexes, GL_UNSIGNED_BYTE, 0);
-		GL_CHECK()
-
-		glDisableVertexAttribArray(a_pos_loc);
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-		GL_CHECK()
-	}
 }
 
 void mesh_object::StartDraw()
@@ -168,6 +158,7 @@ void mesh_object::Draw()
 	{
 		int is_color = GetShader()->GetUniformLocation("is_color");
 		glUniform1i(is_color, 0);
+		GL_CHECK()
 
 		glActiveTexture(GL_TEXTURE0 + texture_ptr->GetTextureId());
 		GL_CHECK()

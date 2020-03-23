@@ -78,7 +78,7 @@ void gem_fall_component::OnStartFall()
 
 void gem_fall_component::ProcessFall(const float& DeltaTime)
 {
-	auto t = owner.GetObjectTransform();
+	auto t = owner.GetTransform();
 	t.translation.y -= GEM_FALL_SPEED * DeltaTime;
 
 	if (t.translation.y <= next_cell->translation.y)
@@ -88,5 +88,5 @@ void gem_fall_component::ProcessFall(const float& DeltaTime)
 		is_in_fall = false;
 		TryFall(/* set_delay */ false);
 	}
-	owner.SetObjectTransform(t);
+	owner.SetTransform(t);
 }

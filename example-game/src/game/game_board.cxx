@@ -105,10 +105,10 @@ void game_board::Tick(const float& DeltaTime)
 				gem_to_spawn->SetGemType(static_cast<gem_types>(rand() % 5));
 				gem_to_spawn->SetCurrentCell(cell_to_spawn_in);
 				cell_to_spawn_in->SetCurrentGem(gem_to_spawn);
-				auto t = gem_to_spawn->GetObjectTransform();
+				auto t = gem_to_spawn->GetTransform();
 				t.translation = cell_to_spawn_in->translation;
 				t.translation.y += BOARD_TILE_SPACE;
-				gem_to_spawn->SetObjectTransform(t);
+				gem_to_spawn->SetTransform(t);
 				gem_to_spawn->OnReturn();
 			}
 		}
@@ -164,7 +164,7 @@ void game_board::CreateBoard()
 			dreco::vec2(BOARD_TILE_SPACE * x - BOARD_CENTER_OFFSET_WIDTH,
 				BOARD_TILE_SPACE * y - BOARD_CENTER_OFFSET_HEIGHT);
 
-		cur_gem->SetObjectTransform(gem_trans);
+		cur_gem->SetTransform(gem_trans);
 		cur_gem->SetGemType(static_cast<gem_types>(rand() % 5));
 		cur_gem->SetCurrentCell(cells[x][y]);
 		cells[x][y]->SetCurrentGem(cur_gem);

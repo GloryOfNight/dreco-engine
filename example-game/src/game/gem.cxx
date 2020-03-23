@@ -54,9 +54,9 @@ void gem::SetIsSelected(const bool _v)
 {
 	selected = _v;
 
-	auto t = GetObjectTransform();
+	auto t = GetTransform();
 	t.scale += _v ? 0.03 : -0.03;
-	SetObjectTransform(t);
+	SetTransform(t);
 }
 
 bool gem::GetIsSelected() const

@@ -84,23 +84,19 @@ vec2 game_base::ScreenToWorld(const vec2& _screen_coor) const
 {
 	const vec2 window_size = GetWindowSize();
 	const mat2x3 proj_mat = GetCurrentWorld()->GetPlayerCamera()->GetProjectionMatrix();
-
 	return math_utils::UnProject(_screen_coor, window_size,
 		GetCurrentWorld()->GetPlayerCamera()->GetViewMatrix(), proj_mat);
 }
 
 game_object* game_base::TryGetObectFromScreen(const vec2& _coor)
 {
-	const uint8_t stencil_index =
-		game_engine->GetRenderer()->GetColorIndexFromPixel(_coor);
-
-	if (stencil_index != 0 && current_world)
+	if (current_world)
 	{
 		const auto objects = current_world->GetWorldObjectsRef();
 		for (auto obj : objects)
 		{
 			mesh_object* mesh = dynamic_cast<mesh_object*>(obj.second);
-			if (mesh && mesh->GetObjectIndex() == stencil_index)
+			if (mesh && mesh->GetIsPointInBounds(ScreenToWorld(_coor)))
 			{
 				return mesh;
 			}

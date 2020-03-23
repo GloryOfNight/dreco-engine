@@ -36,7 +36,7 @@ public:
 
 	int GetColorIndexFromPixel(const vec2& _p_coord);
 
-	void DrawScene(const bool& _is_color_pass);
+	void DrawScene();
 
 	SDL_Window* GetWindow() const;
 private:

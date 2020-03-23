@@ -34,7 +34,7 @@ public:
 
 	int GetObjectIndex() const;
 
-	void DrawObjPickColor();
+	bool GetIsPointInBounds(const vec2& _p);
 
 protected:
 	virtual void Draw();
@@ -46,6 +46,8 @@ protected:
 	virtual shader_gl_base* CreateShader(const shader_properties& _p);
 
 private:
+	vertex_properties vert_info;
+
 	int obj_index = 0;
 
 	texture* texture_ptr = nullptr;

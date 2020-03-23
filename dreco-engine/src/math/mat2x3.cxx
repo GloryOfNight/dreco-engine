@@ -65,6 +65,16 @@ mat2x3 mat2x3::inverse(const mat2x3& _m)
 	return res;
 }
 
+vec2 dreco::operator*(const mat2x3& _m, const vec2& _v)
+{
+	vec2 res;
+
+	res.x = (_m.mat[0][0] * _v.x) + (_m.mat[0][1] * _v.y) + _m.mat[0][2];
+	res.y = (_m.mat[1][0] * _v.x) + (_m.mat[1][1] * _v.y) + _m.mat[1][2];
+
+	return res;
+}
+
 mat2x3 dreco::operator*(const mat2x3& _m1, const mat2x3& _m2)
 {
 	mat2x3 r = mat2x3();
@@ -82,17 +92,23 @@ mat2x3 dreco::operator*(const mat2x3& _m1, const mat2x3& _m2)
 	return r;
 }
 
-mat2x3 mat2x3::GetTranslationMatrix(const transform& _t)
+mat2x3 mat2x3::GetModelMatrix(const transform& _t)
 {
-	return mat2x3::translate(_t.translation);
+	return GetTranslationMatrix(_t.translation) * GetRotationMatrix(_t.rotation) *
+		   GetScaleMatrix(_t.scale);
 }
 
-mat2x3 mat2x3::GetRotationMatrix(const transform& _t)
+mat2x3 mat2x3::GetTranslationMatrix(const vec2& _tr)
 {
-	return mat2x3::rotate(_t.rotation);
+	return mat2x3::translate(_tr);
 }
 
-mat2x3 mat2x3::GetScaleMatrix(const transform& _t)
+mat2x3 mat2x3::GetRotationMatrix(const float& _rot)
 {
-	return mat2x3::scale(_t.scale.x, _t.scale.y);
+	return mat2x3::rotate(_rot);
+}
+
+mat2x3 mat2x3::GetScaleMatrix(const vec2& _sc)
+{
+	return mat2x3::scale(_sc.x, _sc.y);
 }

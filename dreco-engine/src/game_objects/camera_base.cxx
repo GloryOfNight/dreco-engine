@@ -15,9 +15,9 @@ void camera_base::Init(game_world& _w)
 	projection = CalculateProjectionMatrix();
 }
 
-void camera_base::SetObjectTransform(const transform& _t)
+void camera_base::SetTransform(const transform& _t)
 {
-	game_object::SetObjectTransform(_t);
+	game_object::SetTransform(_t);
 	view = CalculateViewMatrix();
 }
 
@@ -38,9 +38,7 @@ mat2x3 camera_base::GetProjectionMatrix() const
 
 mat2x3 camera_base::CalculateViewMatrix() const
 {
-	return mat2x3::GetTranslationMatrix(object_transform) *
-		   mat2x3::GetRotationMatrix(object_transform) *
-		   mat2x3::GetScaleMatrix(object_transform);
+	return mat2x3::GetModelMatrix(GetTransform());
 }
 
 mat2x3 camera_base::CalculateProjectionMatrix() const

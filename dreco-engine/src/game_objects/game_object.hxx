@@ -15,9 +15,9 @@ public:
 
 	virtual void Tick(const float& DeltaTime);
 
-	transform GetObjectTransform() const;
+	transform GetTransform() const;
 
-	virtual void SetObjectTransform(const transform& _t);
+	virtual void SetTransform(const transform& _t);
 
 	game_world* GetWorld() const;
 
