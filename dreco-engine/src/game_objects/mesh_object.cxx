@@ -92,28 +92,29 @@ void mesh_object::UpdateModelTransform()
 	GetShader()->SetUniform("u_projection", proj);
 }
 
-bool mesh_object::GetIsPointInBounds(const vec2& _p)
+bool mesh_object::GetIsPointInBounds(const vec2& _p) const
 {
 	const mat2x3 model = mat2x3::GetModelMatrix(GetTransform());
 
 	// retrieve all mesh points
-	vec2 mesh_points[vert_info.vert_elem.size()];
-	for (uint8_t i = 0; i < vert_info.vert_elem.size(); ++i)
+	const size_t elem_size = vert_info.vert_elem.size();
+	vec2 mesh_points[elem_size];
+	for (uint8_t i = 0; i < elem_size; ++i)
 	{
 		const uint16_t k = vert_info.vert_elem[i] * 3;
 		mesh_points[i] = vec2(vert_info.vertexes[k], vert_info.vertexes[k + 1]);
 	}
 
 	// check each triangle is point in it
-	for (uint8_t i = 0; i < vert_info.vert_elem.size() / 3; ++i)
+	for (uint8_t i = 0; i < elem_size / 3; ++i)
 	{
-		vec2 a = model * mesh_points[i * 3];
-		vec2 b = model * mesh_points[i * 3 + 1];
-		vec2 c = model * mesh_points[i * 3 + 2];
+		const vec2 a = model * mesh_points[i * 3];
+		const vec2 b = model * mesh_points[i * 3 + 1];
+		const vec2 c = model * mesh_points[i * 3 + 2];
 
-		float r1 = (a.x - _p.x) * (b.y - a.y) - (b.x - a.x) * (a.y - _p.y);
-		float r2 = (b.x - _p.x) * (c.y - b.y) - (c.x - b.x) * (b.y - _p.y);
-		float r3 = (c.x - _p.x) * (a.y - c.y) - (a.x - c.x) * (c.y - _p.y);
+		const float r1 = (a.x - _p.x) * (b.y - a.y) - (b.x - a.x) * (a.y - _p.y);
+		const float r2 = (b.x - _p.x) * (c.y - b.y) - (c.x - b.x) * (b.y - _p.y);
+		const float r3 = (c.x - _p.x) * (a.y - c.y) - (a.x - c.x) * (c.y - _p.y);
 
 		if (((r1 > 0.0f && r2 > 0.0f && r3 > 0.0f) ||
 				(r1 < 0.0f && r2 < 0.0f && r3 < 0.0f)) &&

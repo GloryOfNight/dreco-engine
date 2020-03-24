@@ -88,15 +88,16 @@ vec2 game_base::ScreenToWorld(const vec2& _screen_coor) const
 		GetCurrentWorld()->GetPlayerCamera()->GetViewMatrix(), proj_mat);
 }
 
-game_object* game_base::TryGetObectFromScreen(const vec2& _coor)
+game_object* game_base::TryGetObectFromScreen(const vec2& _screen_coor)
 {
 	if (current_world)
 	{
 		const auto objects = current_world->GetWorldObjectsRef();
+		const vec2 world_coor = ScreenToWorld(_screen_coor);
 		for (auto obj : objects)
 		{
 			mesh_object* mesh = dynamic_cast<mesh_object*>(obj.second);
-			if (mesh && mesh->GetIsPointInBounds(ScreenToWorld(_coor)))
+			if (mesh && mesh->GetIsPointInBounds(world_coor))
 			{
 				return mesh;
 			}

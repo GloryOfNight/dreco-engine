@@ -42,7 +42,7 @@ public:
 
 	vec2 ScreenToWorld(const vec2& _screen_coor) const;
 
-	game_object* TryGetObectFromScreen(const vec2& _coor);
+	game_object* TryGetObectFromScreen(const vec2& _screen_coor);
 
 	resource_manager* GetResourceManager() const;
 

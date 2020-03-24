@@ -34,7 +34,7 @@ public:
 
 	int GetObjectIndex() const;
 
-	bool GetIsPointInBounds(const vec2& _p);
+	bool GetIsPointInBounds(const vec2& _p) const;
 
 protected:
 	virtual void Draw();
