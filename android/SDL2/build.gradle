@@ -25,6 +25,7 @@ android {
             path 'src/main/SDL2/Android.mk'
         }
     }
+    ndkVersion = '20.1.5948944'
 }
 
 dependencies {
