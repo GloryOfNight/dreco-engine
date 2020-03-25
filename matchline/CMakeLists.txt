@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.7)
-project(example-game)
+project(matchline)
 
 set (SOURCE_LIST 
 src/game_main.cxx

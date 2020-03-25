@@ -8,4 +8,4 @@ file(COPY ${PROJECT_SOURCE_DIR}/android/SDL2/src/main/SDL2/SDL2/android-project/
 endif()
 
 add_subdirectory(dreco-engine)
-add_subdirectory(example-game) 
+add_subdirectory(matchline) 

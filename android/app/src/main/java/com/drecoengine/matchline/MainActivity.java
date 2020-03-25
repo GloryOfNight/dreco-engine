@@ -1,9 +1,4 @@
-package com.gloryofnight.examplegame;
-
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.os.Bundle;
-import android.widget.TextView;
+package com.drecoengine.matchline;
 
 import org.libsdl.app.SDLActivity;
 
@@ -22,7 +17,7 @@ public class MainActivity extends SDLActivity
                 "SDL2_image",
                 "SDL2_mixer",
                 "dreco-engine",
-                "example-game"
+                "matchline"
         };
     }
 }
