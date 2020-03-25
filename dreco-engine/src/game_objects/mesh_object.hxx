@@ -22,6 +22,8 @@ public:
 
 	virtual void Tick(const float& DeltaTime) override;
 
+	bool GetIsRendered() const;
+
 	void SetIsRendered(const bool& _v);
 
 	void UpdateModelTransform();

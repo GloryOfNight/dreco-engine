@@ -6,7 +6,6 @@
 #include "resources/texture.hxx"
 #include "resources/audio.hxx"
 
-#include <map>
 #include <vector>
 
 class gem;

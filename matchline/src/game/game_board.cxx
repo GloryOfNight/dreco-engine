@@ -38,9 +38,9 @@ void game_board::Init(dreco::game_world& _w)
 	res_man->LoadResource("res/music/wakfumusic.ogg", dreco::resource_type::MUSIC);
 
 	// start play infinite looped music
-	dreco::music* m =
-		dynamic_cast<dreco::music*>(res_man->GetResource("res/music/wakfumusic.ogg"));
-	GetGameInstance()->GetAudioManager()->PlayMusic(*m);
+	//dreco::music* m =
+	//	dynamic_cast<dreco::music*>(res_man->GetResource("res/music/wakfumusic.ogg"));
+	//GetGameInstance()->GetAudioManager()->PlayMusic(*m);
 }
 
 void game_board::Tick(const float& DeltaTime)
@@ -50,14 +50,14 @@ void game_board::Tick(const float& DeltaTime)
 
 	if (is_mouse_down && selected_gem && !selected_gem->GetIsSelected())
 	{
-		if (selected_gems.size() == 0)
+		if (selected_gems.empty())
 		{
 			selected_gems.push_back(selected_gem);
 			selected_gem->SetIsSelected(true);
 		}
 		else
 		{
-			gem* last_selected_gem = selected_gems[selected_gems.size() - 1];
+			gem* last_selected_gem = selected_gems.back();
 			dreco::int_vec2 pos_offset = last_selected_gem->GetCell()->GetPosition() -
 										 selected_gem->GetCell()->GetPosition();
 
@@ -73,7 +73,7 @@ void game_board::Tick(const float& DeltaTime)
 			}
 		}
 	}
-	else if (!is_mouse_down)
+	else if (!is_mouse_down && !selected_gems.empty())
 	{
 		const bool can_be_collected = selected_gems.size() > 2;
 		for (auto gem : selected_gems)
@@ -91,6 +91,7 @@ void game_board::Tick(const float& DeltaTime)
 		}
 		selected_gems.clear();
 	}
+
 	if (collected_gems.size() > 0)
 	{
 		for (uint8_t w = 0; w < BOARD_HEIGHT; ++w)
@@ -113,7 +114,8 @@ void game_board::Tick(const float& DeltaTime)
 			}
 		}
 	}
-
+	
+	// simple login for sound playing
 	if (reciently_removed_gems_count > 0)
 	{
 		reciently_removed_gems_timer -= DeltaTime;

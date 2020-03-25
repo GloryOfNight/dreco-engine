@@ -97,7 +97,7 @@ game_object* game_base::TryGetObectFromScreen(const vec2& _screen_coor)
 		for (auto obj : objects)
 		{
 			mesh_object* mesh = dynamic_cast<mesh_object*>(obj.second);
-			if (mesh && mesh->GetIsPointInBounds(world_coor))
+			if (mesh && mesh->GetIsRendered() && mesh->GetIsPointInBounds(world_coor))
 			{
 				return mesh;
 			}
