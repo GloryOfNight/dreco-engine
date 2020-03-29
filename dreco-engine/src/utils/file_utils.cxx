@@ -12,9 +12,7 @@
 #endif
 using namespace dreco;
 
-char* file_utils::LoadSourceFromFile(const char* _fpath)
+void file_utils::LoadSourceFromFile(const char* _file_path, char* _out_src, size_t* _out_len)
 {
-	char* data = static_cast<char*>(SDL_LoadFile(_fpath, nullptr));
-	
-	return data;
+	_out_src = static_cast<char*>(SDL_LoadFile(_file_path, _out_len));
 }

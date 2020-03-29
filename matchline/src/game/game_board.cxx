@@ -38,9 +38,9 @@ void game_board::Init(dreco::game_world& _w)
 	res_man->LoadResource("res/music/wakfumusic.ogg", dreco::resource_type::MUSIC);
 
 	// start play infinite looped music
-	//dreco::music* m =
+	// dreco::music* m =
 	//	dynamic_cast<dreco::music*>(res_man->GetResource("res/music/wakfumusic.ogg"));
-	//GetGameInstance()->GetAudioManager()->PlayMusic(*m);
+	// GetGameInstance()->GetAudioManager()->PlayMusic(*m);
 }
 
 void game_board::Tick(const float& DeltaTime)
@@ -114,7 +114,7 @@ void game_board::Tick(const float& DeltaTime)
 			}
 		}
 	}
-	
+
 	// simple login for sound playing
 	if (reciently_removed_gems_count > 0)
 	{
@@ -135,11 +135,10 @@ void game_board::Tick(const float& DeltaTime)
 
 void game_board::CreateBoard()
 {
-	const auto vert_src =
-		dreco::file_utils::LoadSourceFromFile("res/shaders/default_shader.vert");
-	const auto frag_src =
-		dreco::file_utils::LoadSourceFromFile("res/shaders/default_shader.frag");
-
+	char* vert_src;
+	dreco::file_utils::LoadSourceFromFile("res/shaders/default_shader.vert", vert_src);
+	char* frag_src;
+	dreco::file_utils::LoadSourceFromFile("res/shaders/default_shader.frag", frag_src);
 	const dreco::shader_properties shader_prop(vert_src, frag_src);
 
 	dreco::vertex_properties vert_prop = dreco::vertex_properties::ModelSpritePlane();
@@ -159,7 +158,7 @@ void game_board::CreateBoard()
 
 		gem* cur_gem = new gem(vert_prop, shader_prop, *this);
 		gems[i] = cur_gem;
-		
+
 		const char name[]{'g', 'e', 'm', '_', static_cast<char>(i)};
 		GetWorld()->RegisterObject(&name[0], *cur_gem);
 		gem_trans.translation =
