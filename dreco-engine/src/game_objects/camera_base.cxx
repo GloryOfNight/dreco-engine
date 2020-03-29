@@ -4,14 +4,15 @@
 
 using namespace dreco;
 
-camera_base::camera_base()
-	: game_object(), view(CalculateViewMatrix()), projection(mat2x3::identiry())
+camera_base::camera_base(game_world* _w) : game_object{_w}, view{}, projection{}
 {
 }
 
-void camera_base::Init(game_world& _w)
+void camera_base::Begin()
 {
-	game_object::Init(_w);
+	game_object::Begin();
+	
+	view = CalculateViewMatrix();
 	projection = CalculateProjectionMatrix();
 }
 

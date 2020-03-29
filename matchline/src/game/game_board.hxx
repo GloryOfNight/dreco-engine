@@ -15,11 +15,11 @@ class game_instance;
 class game_board : public dreco::game_object
 {
 public:
-	game_board();
+	game_board(dreco::game_world* _w);
 
 	virtual ~game_board() override;
 
-	virtual void Init(dreco::game_world& _w) override;
+	virtual void Begin() override;
 
 	virtual void Tick(const float& DeltaTime) override;
 

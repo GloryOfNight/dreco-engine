@@ -7,11 +7,11 @@ namespace dreco
 class game_object
 {
 public:
-	game_object();
+	game_object(game_world* _w);
 
 	virtual ~game_object();
 
-	virtual void Init(game_world& _w);
+	virtual void Begin();
 
 	virtual void Tick(const float& DeltaTime);
 
@@ -23,10 +23,14 @@ public:
 
 	game_base* GetGameInstance() const;
 
+	bool GetIsBegined() const;
+
 protected:
-	transform object_transform = transform();
+	transform object_transform;
 
 private:
-	game_world* world = nullptr;
+	bool IsBegined;
+
+	game_world* world;
 };
 }	// namespace dreco

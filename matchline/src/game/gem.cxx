@@ -6,9 +6,9 @@
 #include "core/audio_manager.hxx"
 
 
-gem::gem(const dreco::vertex_properties& _v, const dreco::shader_properties& _s,
+gem::gem(dreco::game_world* _w, const dreco::vertex_properties& _v, const dreco::shader_properties& _s,
 	game_board& _b)
-	: dreco::mesh_object(_v, _s)
+	: dreco::mesh_object(_w, _v, _s)
 	, board(&_b)
 	, fall_component(new gem_fall_component(*this))
 {

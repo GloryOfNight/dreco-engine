@@ -4,8 +4,10 @@
 
 using namespace dreco;
 
-game_world::game_world(game_base& _gi) : gi_owner(&_gi)
+game_world::game_world(game_base* _gi) : gi_owner(_gi)
 {
+    player_camera = new camera_base(this);
+    RegisterObject("camera", *player_camera);
 }
 
 game_world::~game_world()
@@ -14,18 +16,17 @@ game_world::~game_world()
     {
         delete obj.second;
     }
-    delete player_camera;
-}
-
-void game_world::Init()
-{
-    CreatePlayerCamera();
 }
 
 void game_world::Tick(const float& DeltaTime)
 {
     for (auto object : world_objects) 
     {
+        if (!object.second->GetIsBegined()) 
+        {
+            object.second->Begin();
+        }
+
         object.second->Tick(DeltaTime);
     }
 }
@@ -45,12 +46,6 @@ camera_base* game_world::GetPlayerCamera() const
     return player_camera;
 }
 
-void game_world::CreatePlayerCamera()  
-{
-    player_camera = new camera_base();
-    player_camera->Init(*this);
-}
-
 const world_objects_map& game_world::GetWorldObjectsRef() const
 {
     return world_objects;
@@ -59,6 +54,4 @@ const world_objects_map& game_world::GetWorldObjectsRef() const
 void game_world::RegisterObject(const char* _name, game_object& _obj) 
 {
     world_objects.emplace(_name, &_obj);
-
-    _obj.Init(*this);
 }

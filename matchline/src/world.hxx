@@ -1,12 +1,12 @@
 #pragma once
 #include "game_objects/game_world.hxx"
 
+class game_instance;
+
 class world : public dreco::game_world 
 {
     public:
-    using game_world::game_world;
-
-    virtual void Init() override;
+    world(game_instance* gi);
 
     virtual void Tick(const float& DeltaTime) override;
 };

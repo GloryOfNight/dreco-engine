@@ -17,8 +17,6 @@ public:
 	game_instance(dreco::engine& _e);
 	~game_instance();
 
-	void Init() override;
-
 	void Tick(const float& DeltaTime) override;
 
 	void event_MouseButton(const SDL_Event& _e);

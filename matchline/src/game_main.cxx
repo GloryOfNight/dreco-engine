@@ -18,7 +18,6 @@ int main()
 	if (init_res == dreco::INIT_SUCCESS)
 	{
 		dreco::game_base* game = new game_instance(*engine);
-		game->Init();
 		engine->RegisterOwnedGame(game);
 		engine->StartMainLoop();
 		// on main loop finished

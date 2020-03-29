@@ -14,10 +14,8 @@ typedef std::map<std::string, game_object*> world_objects_map;
 class game_world
 {
 public:
-	game_world(game_base& _gi);
+	game_world(game_base* _gi);
 	virtual ~game_world();
-
-	virtual void Init();
 
 	virtual void Tick(const float& DeltaTime);
 
@@ -30,9 +28,6 @@ public:
 	const world_objects_map& GetWorldObjectsRef() const;
 
 	void RegisterObject(const char* _name, game_object& _obj);
-
-protected:
-	virtual void CreatePlayerCamera();
 
 private:
 	camera_base* player_camera = nullptr;

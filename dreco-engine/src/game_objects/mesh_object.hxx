@@ -13,12 +13,10 @@ namespace dreco
 class mesh_object : public game_object
 {
 public:
-	mesh_object(const vertex_properties& _v, const shader_properties& _s);
+	mesh_object(game_world* _w, const vertex_properties& _v, const shader_properties& _s);
 	~mesh_object();
 
 	inline shader_gl_base* GetShader() const;
-
-	virtual void Init(game_world& _w) override;
 
 	virtual void Tick(const float& DeltaTime) override;
 

@@ -12,23 +12,18 @@
 
 game_instance::game_instance(dreco::engine& _e) : game_base(_e)
 {
-}
-
-game_instance::~game_instance()
-{
-}
-
-void game_instance::Init()
-{
 	GetEngine()->GetEventManager()->AddEventBinding(SDL_MOUSEBUTTONDOWN,
 		std::bind(&game_instance::event_MouseButton, this, std::placeholders::_1));
 	GetEngine()->GetEventManager()->AddEventBinding(SDL_MOUSEBUTTONUP,
 		std::bind(&game_instance::event_MouseButton, this, std::placeholders::_1));
 
-	dreco::game_world* new_world = new world(*this);
-	new_world->Init();
+	dreco::game_world* new_world = new world(this);
 
 	SetCurrentWorld(new_world);
+}
+
+game_instance::~game_instance()
+{
 }
 
 void game_instance::Tick(const float& DeltaTime)

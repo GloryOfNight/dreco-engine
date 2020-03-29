@@ -20,8 +20,6 @@ public:
 
 	virtual ~game_base();
 
-	virtual void Init();
-
 	virtual void Tick(const float& DeltaTime);
 
 	engine* GetEngine() const;

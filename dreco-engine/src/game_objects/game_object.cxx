@@ -2,17 +2,18 @@
 
 using namespace dreco;
 
-game_object::game_object() 
+game_object::game_object(game_world* _w)
+	: object_transform(transform()), IsBegined{false}, world(_w)
 {
 }
 
-game_object::~game_object() 
+game_object::~game_object()
 {
 }
 
-void game_object::Init(game_world& _w)
+void game_object::Begin()
 {
-    world = &_w;
+    IsBegined = true;
 }
 
 void game_object::Tick(const float& DeltaTime)
@@ -21,20 +22,25 @@ void game_object::Tick(const float& DeltaTime)
 
 transform game_object::GetTransform() const
 {
-    return object_transform;
+	return object_transform;
 }
 
-void game_object::SetTransform(const transform& _t) 
+void game_object::SetTransform(const transform& _t)
 {
-    object_transform = _t;
+	object_transform = _t;
 }
 
 game_world* game_object::GetWorld() const
 {
-    return world;
+	return world;
 }
 
 game_base* game_object::GetGameInstance() const
 {
-    return world->GetGameInstance();
+	return world->GetGameInstance();
+}
+
+bool game_object::GetIsBegined() const 
+{
+    return IsBegined;
 }

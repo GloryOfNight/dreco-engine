@@ -19,10 +19,6 @@ game_base::~game_base()
 		delete current_world;
 }
 
-void game_base::Init()
-{
-}
-
 void game_base::Tick(const float& DeltaTime)
 {
 	if (current_world)

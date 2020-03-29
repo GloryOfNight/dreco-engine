@@ -7,10 +7,10 @@ namespace dreco
 class camera_base : public game_object
 {
 public:
-	camera_base();
+	camera_base(game_world* _w);
 
-	virtual void Init(game_world& _w) override;
-
+	virtual void Begin() override;
+	
 	virtual void SetTransform(const transform& _t) override;
 	
 	virtual void OnScreenSizeUpdate();

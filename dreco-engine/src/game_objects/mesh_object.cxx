@@ -11,8 +11,8 @@
 
 using namespace dreco;
 
-mesh_object::mesh_object(const vertex_properties& _v, const shader_properties& _s)
-	: game_object(), vert_info(_v)
+mesh_object::mesh_object(game_world* _w, const vertex_properties& _v, const shader_properties& _s)
+	: game_object(_w), vert_info(_v)
 {
 	GenerateVBO_Vert(_v.vertexes);
 	GenerateIBO_Elem(_v.vert_elem);
@@ -52,11 +52,6 @@ void mesh_object::GenerateIBO_Elem(const std::vector<uint8_t>& _e)
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, _e.capacity() * sizeof(uint8_t), &_e.front(),
 		GL_STATIC_DRAW);
 	ibo_elem_indexes = _e.capacity();
-}
-
-void mesh_object::Init(game_world& _w)
-{
-	game_object::Init(_w);
 }
 
 void mesh_object::Tick(const float& DeltaTime)

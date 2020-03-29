@@ -12,7 +12,7 @@
 
 #include <string>
 
-game_board::game_board()
+game_board::game_board(dreco::game_world* _w) : game_object(_w)
 {
 }
 
@@ -27,9 +27,9 @@ game_board::~game_board()
 	}
 }
 
-void game_board::Init(dreco::game_world& _w)
+void game_board::Begin()
 {
-	game_object::Init(_w);
+	game_object::Begin();
 	gi = dynamic_cast<game_instance*>(GetWorld()->GetGameInstance());
 	CreateBoard();
 
@@ -156,7 +156,7 @@ void game_board::CreateBoard()
 		const uint8_t y = i >= BOARD_WIDTH ? i / BOARD_WIDTH : 0;
 		cells[x][y] = new board_cell(*this, dreco::int_vec2(x, y));
 
-		gem* cur_gem = new gem(vert_prop, shader_prop, *this);
+		gem* cur_gem = new gem(GetWorld(), vert_prop, shader_prop, *this);
 		gems[i] = cur_gem;
 
 		const char name[]{'g', 'e', 'm', '_', static_cast<char>(i)};
