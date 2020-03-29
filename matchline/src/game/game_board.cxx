@@ -136,9 +136,9 @@ void game_board::Tick(const float& DeltaTime)
 void game_board::CreateBoard()
 {
 	char* vert_src;
-	dreco::file_utils::LoadSourceFromFile("res/shaders/default_shader.vert", vert_src);
+	dreco::file_utils::LoadSourceFromFile("res/shaders/default_shader.vert", &vert_src);
 	char* frag_src;
-	dreco::file_utils::LoadSourceFromFile("res/shaders/default_shader.frag", frag_src);
+	dreco::file_utils::LoadSourceFromFile("res/shaders/default_shader.frag", &frag_src);
 	const dreco::shader_properties shader_prop(vert_src, frag_src);
 
 	dreco::vertex_properties vert_prop = dreco::vertex_properties::ModelSpritePlane();
