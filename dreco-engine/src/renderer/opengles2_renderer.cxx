@@ -91,14 +91,11 @@ void opengles2_renderer::DrawScene()
 	{
 		const world_objects_map& world_objects = world->GetWorldObjectsRef();
 
-		int index = 1;
 		for (auto obj : world_objects)
 		{
 			mesh_object* mesh = dynamic_cast<mesh_object*>(obj.second);
 			if (mesh)
 			{
-				mesh->SetObjectIndex(index);
-				++index;
 				mesh->StartDraw();
 			}
 		}

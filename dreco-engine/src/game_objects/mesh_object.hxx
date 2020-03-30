@@ -30,10 +30,6 @@ public:
 
 	void SetTexture(texture* _t);
 
-	void SetObjectIndex(const int& _c);
-
-	int GetObjectIndex() const;
-
 	bool GetIsPointInBounds(const vec2& _p) const;
 
 protected:
@@ -47,8 +43,6 @@ protected:
 
 private:
 	vertex_properties vert_info;
-
-	int obj_index = 0;
 
 	texture* texture_ptr = nullptr;
 

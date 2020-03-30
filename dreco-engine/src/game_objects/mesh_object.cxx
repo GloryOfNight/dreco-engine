@@ -132,16 +132,6 @@ void mesh_object::SetTexture(texture* _t)
 	texture_ptr = _t;
 }
 
-void mesh_object::SetObjectIndex(const int& _c)
-{
-	obj_index = _c;
-}
-
-int mesh_object::GetObjectIndex() const
-{
-	return obj_index;
-}
-
 void mesh_object::StartDraw()
 {
 	if (bIsRendered)
