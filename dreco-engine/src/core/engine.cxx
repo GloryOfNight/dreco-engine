@@ -158,7 +158,7 @@ float engine::GetNewDeltaTime()
 	const uint64_t now{SDL_GetPerformanceCounter()};
 
 	const float deltatime =
-		static_cast<float>(now - last_tick_time) / static_cast<float>(now);
+		static_cast<float>(now - last_tick_time) / static_cast<float>(SDL_GetPerformanceFrequency());
 
 	last_tick_time = now;
 
