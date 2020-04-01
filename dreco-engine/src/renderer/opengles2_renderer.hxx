@@ -10,11 +10,14 @@
 #include "SDL2/SDL_opengl_glext.h"
 #endif
 
+#include "gl_mesh_buffers_info.hxx"
+#include "mesh_data.hxx"
 #include "shader_gl_base.hxx"
 #include "vertex.hxx"
 
-#include <vector>
 #include <string>
+#include <map>
+#include <vector>
 
 namespace dreco
 {
@@ -39,15 +42,22 @@ public:
 	void DrawScene();
 
 	SDL_Window* GetWindow() const;
+
+	void AddMeshData(mesh_data* _mesh_data);
+
+	gl_mesh_buffers_info GetMeshDataBufferInfo(const mesh_data* _mesh_data) const;
+
 private:
 	void SwapBuffer();
 
 	void ClearBuffers();
-	
+
+	std::map<mesh_data*, gl_mesh_buffers_info> meshes_buffers_info{};
+
 	engine* engine_owner = nullptr;
 
 	SDL_GLContext gl_context = nullptr;
 
 	SDL_Window* window = nullptr;
 };
-}	// namespace dreco
+}	 // namespace dreco

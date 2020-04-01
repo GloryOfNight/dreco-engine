@@ -17,6 +17,9 @@ opengles2_renderer::~opengles2_renderer()
 {
 	SDL_GL_DeleteContext(gl_context);
 	SDL_DestroyWindow(window);
+
+	for (auto i : meshes_buffers_info)
+		delete i.first;
 }
 
 int opengles2_renderer::Init(const std::string& _window_title)
@@ -102,6 +105,58 @@ void opengles2_renderer::DrawScene()
 	}
 }
 
+SDL_Window* opengles2_renderer::GetWindow() const
+{
+	return window;
+}
+
+void opengles2_renderer::AddMeshData(mesh_data* _mesh_data)
+{
+	if (_mesh_data && meshes_buffers_info.end() == meshes_buffers_info.find(_mesh_data))
+	{
+		GLuint buffs[3];
+		glGenBuffers(3, buffs);
+
+		gl_mesh_buffers_info buff_info{buffs[0], buffs[1], buffs[2]};
+
+		/*
+		glBindBuffer(GL_ARRAY_BUFFER, buff_info.vbo_vertex);
+		glBufferData(GL_ARRAY_BUFFER, _mesh_data->vertexes_size, &_mesh_data->vertexes[0],
+			GL_STATIC_DRAW);
+		GL_CHECK();
+
+		glBindBuffer(GL_ARRAY_BUFFER, buff_info.vbo_tc);
+		glBufferData(GL_ARRAY_BUFFER, _mesh_data->texture_coordinates_size,
+			&_mesh_data->texture_coordinates[0], GL_STATIC_DRAW);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		GL_CHECK();
+
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buff_info.ibo_element);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, _mesh_data->elements_size,
+			&_mesh_data->elements[0], GL_STATIC_DRAW);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+		GL_CHECK();
+		*/
+	
+		meshes_buffers_info.emplace(_mesh_data, buff_info);
+	}
+}
+
+gl_mesh_buffers_info opengles2_renderer::GetMeshDataBufferInfo(
+	const mesh_data* _mesh_data) const
+{
+	// for some reason .at() and operator[] with map not compiling here
+	// if you know why, please contact @GloryOfNight github
+	for (const auto i : meshes_buffers_info)
+	{
+		if (i.first == _mesh_data)
+		{
+			return i.second;
+		}
+	}
+	return gl_mesh_buffers_info(0,0,0);
+}
+
 void opengles2_renderer::SwapBuffer()
 {
 	SDL_GL_SwapWindow(engine_owner->GetWindow());
@@ -112,9 +167,4 @@ void opengles2_renderer::ClearBuffers()
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
 	GL_CHECK();
-}
-
-SDL_Window* opengles2_renderer::GetWindow() const
-{
-	return window;
 }

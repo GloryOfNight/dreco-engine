@@ -7,8 +7,10 @@
 #include "gem.hxx"
 #include "math/transform.hxx"
 #include "renderer/shader_properties.hxx"
-#include "renderer/vertex_properties.hxx"
+#include "renderer/mesh_data.hxx"
 #include "utils/file_utils.hxx"
+#include "core/engine.hxx"
+#include "renderer/opengles2_renderer.hxx"
 
 #include <string>
 
@@ -141,7 +143,8 @@ void game_board::CreateBoard()
 	dreco::file_utils::LoadSourceFromFile("res/shaders/default_shader.frag", &frag_src);
 	const dreco::shader_properties shader_prop(vert_src, frag_src);
 
-	dreco::vertex_properties vert_prop = dreco::vertex_properties::ModelSpritePlane();
+	dreco::mesh_data* mesh = dreco::mesh_data::CreateSpritePlane();
+	GetGameInstance()->GetEngine()->GetRenderer()->AddMeshData(mesh);
 
 	LoadGemTextures();
 
@@ -156,7 +159,7 @@ void game_board::CreateBoard()
 		const uint8_t y = i >= BOARD_WIDTH ? i / BOARD_WIDTH : 0;
 		cells[x][y] = new board_cell(*this, dreco::int_vec2(x, y));
 
-		gem* cur_gem = new gem(GetWorld(), vert_prop, shader_prop, *this);
+		gem* cur_gem = new gem(GetWorld(), mesh, shader_prop, *this);
 		gems[i] = cur_gem;
 
 		const char name[]{'g', 'e', 'm', '_', static_cast<char>(i)};
