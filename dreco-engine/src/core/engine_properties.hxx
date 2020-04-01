@@ -5,6 +5,6 @@ namespace dreco
 {
 struct engine_properties
 {
-	std::string window_title = "Title";
+	const char* window_title = "Title";
 };
 }	// namespace dreco

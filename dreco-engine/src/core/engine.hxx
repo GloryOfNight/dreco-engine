@@ -6,12 +6,12 @@
 #include "SDL2/SDL.h"
 #endif
 
+#include "audio_manager.hxx"
 #include "engine_properties.hxx"
 #include "game_objects/game_base.hxx"
 #include "renderer/opengles2_renderer.hxx"
 #include "resource_manager.hxx"
 #include "sdl_event_manager.hxx"
-#include "audio_manager.hxx"
 #include "types.hxx"
 
 #include <stdint.h>
@@ -52,15 +52,15 @@ public:
 private:
 	void Tick(const float& DeltaTime);
 
-	float GetNewDeltaTime();
+	inline float GetNewDeltaTime();
 
-	sdl_event_manager* CreateEventManager();
+	inline sdl_event_manager* CreateEventManager();
 
-	resource_manager* CreateResourceManager();
+	inline resource_manager* CreateResourceManager();
 
-	audio_manager* CreateAudioManager();
+	inline audio_manager* CreateAudioManager();
 
-	uint32_t last_tick_time = 0;
+	uint64_t last_tick_time = 0;
 
 	bool is_engine_initialized = false;
 

@@ -5,7 +5,6 @@
 #include "resources/texture.hxx"
 #include "renderer/mesh_data.hxx"
 #include "renderer/vertex.hxx"
-#include "renderer/vertex_properties.hxx"
 
 #include <vector>
 

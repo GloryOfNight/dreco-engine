@@ -1,18 +1,17 @@
 #include "engine.hxx"
 
+#include "game_objects/camera_base.hxx"
+#include "game_objects/game_world.hxx"
+
 #include <functional>
 #include <iostream>
 #include <stdexcept>
 
-#include "game_objects/game_world.hxx"
-#include "game_objects/camera_base.hxx"
-
 // its ok to use global namespace in cxx
 using namespace dreco;
 
-engine::engine()
+engine::engine() : last_tick_time{SDL_GetPerformanceCounter()}
 {
-	last_tick_time = SDL_GetPerformanceCounter();
 }
 
 engine::~engine()
@@ -41,10 +40,11 @@ int engine::Init(const engine_properties& _p)
 
 	renderer = new opengles2_renderer(*this);
 	const int renderer_init_res = renderer->Init(_p.window_title);
-	
+
 	if (renderer_init_res == INIT_FAILED)
 	{
-		std::cerr << "Init(): Renderer initialize failed: " << SDL_GetError() << std::endl;
+		std::cerr << "Init(): Renderer initialize failed: " << SDL_GetError()
+				  << std::endl;
 		delete this;
 		std::runtime_error("Failed to initialize renderer");
 		return INIT_FAILED;
@@ -52,9 +52,12 @@ int engine::Init(const engine_properties& _p)
 
 	event_manager = CreateEventManager();
 
-	event_manager->AddKeyBinding(SDLK_ESCAPE, std::bind(&engine::Key_Escape, this, std::placeholders::_1));
-	event_manager->AddEventBinding(SDL_QUIT, std::bind(&engine::Event_Quit, this, std::placeholders::_1));
-	event_manager->AddEventBinding(SDL_WINDOWEVENT, std::bind(&engine::Event_Window, this, std::placeholders::_1));
+	event_manager->AddKeyBinding(
+		SDLK_ESCAPE, std::bind(&engine::Key_Escape, this, std::placeholders::_1));
+	event_manager->AddEventBinding(
+		SDL_QUIT, std::bind(&engine::Event_Quit, this, std::placeholders::_1));
+	event_manager->AddEventBinding(
+		SDL_WINDOWEVENT, std::bind(&engine::Event_Window, this, std::placeholders::_1));
 
 	resource_manager_ = CreateResourceManager();
 
@@ -73,11 +76,11 @@ void engine::StartMainLoop()
 
 		while (keep_main_loop)
 		{
-			const auto DeltaTime = GetNewDeltaTime();
+			const float DeltaTime{GetNewDeltaTime()};
 			Tick(DeltaTime);
 		}
 	}
-	else 
+	else
 	{
 		std::cerr << "StartMainLoop(): Egnine must be initialized!" << std::endl;
 		return;
@@ -101,7 +104,7 @@ void engine::Event_Quit(const SDL_Event& _e)
 
 void engine::Event_Window(const SDL_Event& _e)
 {
-	if (_e.window.event == SDL_WINDOWEVENT_RESIZED) 
+	if (_e.window.event == SDL_WINDOWEVENT_RESIZED)
 	{
 		renderer->UpdateViewportSize();
 		owned_game->OnWindowResize();
@@ -128,17 +131,17 @@ opengles2_renderer* engine::GetRenderer() const
 	return renderer;
 }
 
-game_base* engine::GetOwnedGame() const 
+game_base* engine::GetOwnedGame() const
 {
 	return owned_game;
 }
 
-resource_manager* engine::GetResourceManager() const 
+resource_manager* engine::GetResourceManager() const
 {
 	return resource_manager_;
 }
 
-audio_manager* engine::GetAudioManager() const 
+audio_manager* engine::GetAudioManager() const
 {
 	return audio_manager_;
 }
@@ -152,10 +155,10 @@ void engine::Tick(const float& DeltaTime)
 
 float engine::GetNewDeltaTime()
 {
-	const uint32_t now = SDL_GetPerformanceCounter();
+	const uint64_t now{SDL_GetPerformanceCounter()};
 
-	const float deltatime = static_cast<float>(now - last_tick_time) 
-	/ static_cast<float>(SDL_GetPerformanceFrequency());
+	const float deltatime =
+		static_cast<float>(now - last_tick_time) / static_cast<float>(now);
 
 	last_tick_time = now;
 
@@ -167,12 +170,12 @@ sdl_event_manager* engine::CreateEventManager()
 	return new sdl_event_manager;
 }
 
-resource_manager* engine::CreateResourceManager() 
+resource_manager* engine::CreateResourceManager()
 {
 	return new resource_manager(*this);
 }
 
-audio_manager* engine::CreateAudioManager() 
+audio_manager* engine::CreateAudioManager()
 {
 	return new audio_manager(*this);
 }

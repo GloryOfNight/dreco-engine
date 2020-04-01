@@ -29,7 +29,7 @@ public:
 	opengles2_renderer(engine& _e);
 	~opengles2_renderer();
 
-	int Init(const std::string& _window_title);
+	int Init(const char* _title);
 
 	void DrawVertexArray(const std::vector<vertex>& _v, const mat2x3& _m);
 
