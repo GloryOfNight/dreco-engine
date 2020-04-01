@@ -5,7 +5,7 @@ namespace dreco
 {
 struct mesh_data
 {
-	mesh_data(float* _vertexes, const size_t& _vertexes_size, uint* _elements,
+	mesh_data(float* _vertexes, const size_t& _vertexes_size, uint16_t* _elements,
 		const size_t& _elements_size, float* _texture_coordinates,
 		const size_t& _texture_coordinates_size)
 		: vertexes{_vertexes}
@@ -43,7 +43,7 @@ struct mesh_data
 		};
 
 		const size_t elements_size = 6;
-		uint* elements = new uint[elements_size] 
+		uint16_t* elements = new uint16_t[elements_size] 
 		{
 			0, 1, 2,
 			0, 2, 3
@@ -68,7 +68,7 @@ struct mesh_data
 	float* vertexes;
 	const size_t vertexes_size;
 
-	uint* elements;
+	uint16_t* elements;
 	const size_t elements_size;
 
 	float* texture_coordinates;

@@ -19,7 +19,14 @@ opengles2_renderer::~opengles2_renderer()
 	SDL_DestroyWindow(window);
 
 	for (auto i : meshes_buffers_info)
+	{
+		const gl_mesh_buffers_info& buff_info = i.second;
+		glDeleteBuffers(1, &buff_info.vbo_vertex);
+		glDeleteBuffers(1, &buff_info.vbo_tc);
+		glDeleteBuffers(1, &buff_info.ibo_element);
+
 		delete i.first;
+	}
 }
 
 int opengles2_renderer::Init(const std::string& _window_title)
@@ -119,25 +126,28 @@ void opengles2_renderer::AddMeshData(mesh_data* _mesh_data)
 
 		gl_mesh_buffers_info buff_info{buffs[0], buffs[1], buffs[2]};
 
-		/*
 		glBindBuffer(GL_ARRAY_BUFFER, buff_info.vbo_vertex);
-		glBufferData(GL_ARRAY_BUFFER, _mesh_data->vertexes_size, &_mesh_data->vertexes[0],
-			GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER,
+			_mesh_data->vertexes_size * sizeof(_mesh_data->vertexes[0]),
+			&_mesh_data->vertexes[0], GL_STATIC_DRAW);
 		GL_CHECK();
 
 		glBindBuffer(GL_ARRAY_BUFFER, buff_info.vbo_tc);
-		glBufferData(GL_ARRAY_BUFFER, _mesh_data->texture_coordinates_size,
+		glBufferData(GL_ARRAY_BUFFER,
+			_mesh_data->texture_coordinates_size *
+				sizeof(_mesh_data->texture_coordinates[0]),
 			&_mesh_data->texture_coordinates[0], GL_STATIC_DRAW);
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		GL_CHECK();
 
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buff_info.ibo_element);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, _mesh_data->elements_size,
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER,
+			_mesh_data->elements_size * sizeof(_mesh_data->elements[0]),
 			&_mesh_data->elements[0], GL_STATIC_DRAW);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 		GL_CHECK();
-		*/
-	
+
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
 		meshes_buffers_info.emplace(_mesh_data, buff_info);
 	}
 }
@@ -154,7 +164,7 @@ gl_mesh_buffers_info opengles2_renderer::GetMeshDataBufferInfo(
 			return i.second;
 		}
 	}
-	return gl_mesh_buffers_info(0,0,0);
+	return gl_mesh_buffers_info(0, 0, 0);
 }
 
 void opengles2_renderer::SwapBuffer()

@@ -117,10 +117,6 @@ void mesh_object::Draw()
 
 	if (texture_ptr)
 	{
-		int is_color = GetShader()->GetUniformLocation("is_color");
-		glUniform1i(is_color, 0);
-		GL_CHECK()
-
 		glActiveTexture(GL_TEXTURE0 + texture_ptr->GetTextureId());
 		GL_CHECK()
 		glBindTexture(GL_TEXTURE_2D, texture_ptr->GetTextureId());
@@ -152,7 +148,7 @@ void mesh_object::Draw()
 	int size;
 	glGetBufferParameteriv(GL_ELEMENT_ARRAY_BUFFER, GL_BUFFER_SIZE, &size);
 	GL_CHECK()
-	glDrawElements(GL_TRIANGLES, mesh->elements_size, GL_UNSIGNED_BYTE, 0);
+	glDrawElements(GL_TRIANGLES, mesh->elements_size, GL_UNSIGNED_SHORT, 0);
 	GL_CHECK()
 
 	glDisableVertexAttribArray(a_pos_loc);
