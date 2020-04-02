@@ -152,17 +152,17 @@ void game_board::CreateBoard()
 
 	const uint16_t TOTAL_GEMS = BOARD_WIDTH * BOARD_HEIGHT;
 
-	for (uint8_t i = 0; i < TOTAL_GEMS; ++i)
+	for (uint16_t i = 0; i < TOTAL_GEMS; ++i)
 	{
-		const uint8_t x = i >= BOARD_WIDTH ? i - ((i / BOARD_WIDTH) * BOARD_WIDTH) : i;
-		const uint8_t y = i >= BOARD_WIDTH ? i / BOARD_WIDTH : 0;
+		const uint16_t x = i >= BOARD_WIDTH ? i - ((i / BOARD_WIDTH) * BOARD_WIDTH) : i;
+		const uint16_t y = i >= BOARD_WIDTH ? i / BOARD_WIDTH : 0;
 		cells[x][y] = new board_cell(*this, dreco::int_vec2(x, y));
 
 		gem* cur_gem = new gem(GetWorld(), mesh, shader_info, *this);
 		gems[i] = cur_gem;
 
 		const std::string name = "gem_" + std::to_string(i);
-		GetWorld()->RegisterObject(name.data(), *cur_gem);
+		GetWorld()->RegisterObject(name.c_str(), *cur_gem);
 		gem_trans.translation =
 			dreco::vec2(BOARD_TILE_SPACE * x - BOARD_CENTER_OFFSET_WIDTH,
 				BOARD_TILE_SPACE * y - BOARD_CENTER_OFFSET_HEIGHT);
