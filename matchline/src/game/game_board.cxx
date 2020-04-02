@@ -161,8 +161,8 @@ void game_board::CreateBoard()
 		gem* cur_gem = new gem(GetWorld(), mesh, shader_info, *this);
 		gems[i] = cur_gem;
 
-		const char name[]{'g', 'e', 'm', '_', static_cast<char>(i)};
-		GetWorld()->RegisterObject(&name[0], *cur_gem);
+		const std::string name = "gem_" + std::to_string(i);
+		GetWorld()->RegisterObject(name.data(), *cur_gem);
 		gem_trans.translation =
 			dreco::vec2(BOARD_TILE_SPACE * x - BOARD_CENTER_OFFSET_WIDTH,
 				BOARD_TILE_SPACE * y - BOARD_CENTER_OFFSET_HEIGHT);
