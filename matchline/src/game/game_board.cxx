@@ -8,7 +8,7 @@
 #include "gem.hxx"
 #include "math/transform.hxx"
 #include "renderer/mesh_data.hxx"
-#include "renderer/opengles2_renderer.hxx"
+#include "renderer/gl_es2_renderer.hxx"
 #include "resources_paths.hxx"
 #include "utils/file_utils.hxx"
 

@@ -9,7 +9,7 @@
 #include "audio_manager.hxx"
 #include "engine_properties.hxx"
 #include "game_objects/game_base.hxx"
-#include "renderer/opengles2_renderer.hxx"
+#include "renderer/gl_es2_renderer.hxx"
 #include "resource_manager.hxx"
 #include "sdl_event_manager.hxx"
 #include "types.hxx"
@@ -41,7 +41,7 @@ public:
 
 	SDL_Window* GetWindow() const;
 
-	opengles2_renderer* GetRenderer() const;
+	gl_es2_renderer* GetRenderer() const;
 
 	game_base* GetOwnedGame() const;
 
@@ -68,7 +68,7 @@ private:
 
 	game_base* owned_game = nullptr;
 
-	opengles2_renderer* renderer = nullptr;
+	gl_es2_renderer* renderer = nullptr;
 
 	sdl_event_manager* event_manager = nullptr;
 

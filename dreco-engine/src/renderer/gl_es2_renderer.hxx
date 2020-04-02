@@ -22,11 +22,11 @@ namespace dreco
 {
 class engine;
 
-class opengles2_renderer
+class gl_es2_renderer
 {
 public:
-	opengles2_renderer(engine& _e);
-	~opengles2_renderer();
+	gl_es2_renderer(engine& _e);
+	~gl_es2_renderer();
 
 	int Init(const char* _title);
 

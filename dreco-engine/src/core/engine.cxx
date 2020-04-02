@@ -38,7 +38,7 @@ int engine::Init(const engine_properties& _p)
 		return INIT_FAILED;
 	}
 
-	renderer = new opengles2_renderer(*this);
+	renderer = new gl_es2_renderer(*this);
 	const int renderer_init_res = renderer->Init(_p.window_title);
 
 	if (renderer_init_res == INIT_FAILED)
@@ -126,7 +126,7 @@ SDL_Window* engine::GetWindow() const
 	return renderer->GetWindow();
 }
 
-opengles2_renderer* engine::GetRenderer() const
+gl_es2_renderer* engine::GetRenderer() const
 {
 	return renderer;
 }

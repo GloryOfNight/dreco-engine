@@ -18,7 +18,7 @@ src/game_objects/game_object.cxx
 src/game_objects/mesh_object.cxx
 src/math/mat2x3.cxx
 src/math/transform.cxx
-src/renderer/opengles2_renderer.cxx
+src/renderer/gl_es2_renderer.cxx
 src/renderer/gl_shader_base.cxx
 src/utils/file_utils.cxx
 src/utils/math_utils.cxx)

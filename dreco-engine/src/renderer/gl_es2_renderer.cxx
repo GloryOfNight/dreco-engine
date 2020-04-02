@@ -1,4 +1,4 @@
-#include "opengles2_renderer.hxx"
+#include "gl_es2_renderer.hxx"
 
 #include "core/engine.hxx"
 #include "game_objects/game_world.hxx"
@@ -9,11 +9,11 @@
 
 using namespace dreco;
 
-opengles2_renderer::opengles2_renderer(engine& _e) : engine_owner(&_e)
+gl_es2_renderer::gl_es2_renderer(engine& _e) : engine_owner(&_e)
 {
 }
 
-opengles2_renderer::~opengles2_renderer()
+gl_es2_renderer::~gl_es2_renderer()
 {
 	SDL_GL_DeleteContext(gl_context);
 	SDL_DestroyWindow(window);
@@ -29,7 +29,7 @@ opengles2_renderer::~opengles2_renderer()
 	}
 }
 
-int opengles2_renderer::Init(const char* _title)
+int gl_es2_renderer::Init(const char* _title)
 {
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_ES);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
@@ -66,14 +66,14 @@ int opengles2_renderer::Init(const char* _title)
 	return INIT_SUCCESS;
 }
 
-void opengles2_renderer::Tick(const float& DeltaTime)
+void gl_es2_renderer::Tick(const float& DeltaTime)
 {
 	ClearBuffers();
 	DrawScene();
 	SwapBuffer();
 }
 
-void opengles2_renderer::UpdateViewportSize()
+void gl_es2_renderer::UpdateViewportSize()
 {
 	int w = 0;
 	int h = 0;
@@ -82,7 +82,7 @@ void opengles2_renderer::UpdateViewportSize()
 	glViewport(0, 0, w, h);
 }
 
-int opengles2_renderer::GetColorIndexFromPixel(const vec2& _p_coord)
+int gl_es2_renderer::GetColorIndexFromPixel(const vec2& _p_coord)
 {
 	uint8_t rgb[4];
 	int win_h;
@@ -93,7 +93,7 @@ int opengles2_renderer::GetColorIndexFromPixel(const vec2& _p_coord)
 	return rgb[0] + rgb[1] * 256 + rgb[2] * 65536;
 }
 
-void opengles2_renderer::DrawScene()
+void gl_es2_renderer::DrawScene()
 {
 	const auto world = engine_owner->GetOwnedGame()->GetCurrentWorld();
 
@@ -112,12 +112,12 @@ void opengles2_renderer::DrawScene()
 	}
 }
 
-SDL_Window* opengles2_renderer::GetWindow() const
+SDL_Window* gl_es2_renderer::GetWindow() const
 {
 	return window;
 }
 
-void opengles2_renderer::AddMeshData(mesh_data* _mesh_data)
+void gl_es2_renderer::AddMeshData(mesh_data* _mesh_data)
 {
 	if (_mesh_data && meshes_buffers_info.end() == meshes_buffers_info.find(_mesh_data))
 	{
@@ -152,7 +152,7 @@ void opengles2_renderer::AddMeshData(mesh_data* _mesh_data)
 	}
 }
 
-gl_mesh_buffers_info opengles2_renderer::GetMeshDataBufferInfo(
+gl_mesh_buffers_info gl_es2_renderer::GetMeshDataBufferInfo(
 	const mesh_data* _mesh_data) const
 {
 	// for some reason .at() and operator[] with map not compiling here
@@ -167,12 +167,12 @@ gl_mesh_buffers_info opengles2_renderer::GetMeshDataBufferInfo(
 	return gl_mesh_buffers_info(0, 0, 0);
 }
 
-void opengles2_renderer::SwapBuffer()
+void gl_es2_renderer::SwapBuffer()
 {
 	SDL_GL_SwapWindow(engine_owner->GetWindow());
 }
 
-void opengles2_renderer::ClearBuffers()
+void gl_es2_renderer::ClearBuffers()
 {
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
