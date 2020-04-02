@@ -9,6 +9,7 @@ src/core/audio_manager.cxx
 src/resources/resource.cxx
 src/resources/audio.cxx
 src/resources/music.cxx
+src/resources/file_source.cxx
 src/resources/texture.cxx
 src/game_objects/camera_base.cxx
 src/game_objects/game_base.cxx
@@ -18,7 +19,7 @@ src/game_objects/mesh_object.cxx
 src/math/mat2x3.cxx
 src/math/transform.cxx
 src/renderer/opengles2_renderer.cxx
-src/renderer/shader_gl_base.cxx
+src/renderer/gl_shader_base.cxx
 src/utils/file_utils.cxx
 src/utils/math_utils.cxx)
 

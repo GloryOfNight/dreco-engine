@@ -13,7 +13,7 @@
 using namespace dreco;
 
 mesh_object::mesh_object(
-	game_world* _w, const mesh_data* _mesh_data, const shader_properties& _s)
+	game_world* _w, const mesh_data* _mesh_data, const gl_shader_info& _s)
 	: game_object(_w), mesh(_mesh_data)
 {
 	mesh_shader = CreateShader(_s);
@@ -39,14 +39,14 @@ void mesh_object::SetIsRendered(const bool& _v)
 	bIsRendered = _v;
 }
 
-inline shader_gl_base* mesh_object::GetShader() const
+inline gl_shader_base* mesh_object::GetShader() const
 {
 	return mesh_shader;
 }
 
-shader_gl_base* mesh_object::CreateShader(const shader_properties& _p)
+gl_shader_base* mesh_object::CreateShader(const gl_shader_info& _p)
 {
-	return new shader_gl_base(_p);
+	return new gl_shader_base(_p, GetResourceManager());
 }
 
 void mesh_object::UpdateModelTransform()

@@ -40,6 +40,11 @@ game_base* game_object::GetGameInstance() const
 	return world->GetGameInstance();
 }
 
+resource_manager* game_object::GetResourceManager() const 
+{
+	return GetGameInstance()->GetResourceManager();
+}
+
 bool game_object::GetIsBegined() const 
 {
     return IsBegined;

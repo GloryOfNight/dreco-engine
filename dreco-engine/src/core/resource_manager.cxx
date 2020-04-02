@@ -2,6 +2,7 @@
 
 #include "core/engine.hxx"
 #include "resources/audio.hxx"
+#include "resources/file_source.hxx"
 #include "resources/music.hxx"
 #include "resources/resource.hxx"
 #include "resources/texture.hxx"
@@ -36,6 +37,9 @@ void resource_manager::LoadResource(const char* _fpath, resource_type _t)
 				break;
 			case resource_type::MUSIC:
 				new_res = new music(_fpath);
+				break;
+			case resource_type::SOURCE_FILE:
+				new_res = new file_source(_fpath);
 				break;
 		}
 
@@ -79,4 +83,13 @@ resource* resource_manager::GetResource(const char* _fpath) const
 bool resource_manager::IsResourceLoaded(const char* _fpath) const
 {
 	return persistant_resources.find(_fpath) != persistant_resources.end();
+}
+
+void resource_manager::GetFileSource(const char* _fpath, const char** _source, size_t* _size) 
+{
+	const file_source* file_res = dynamic_cast<file_source*>(GetResource(_fpath));
+	if (file_res && file_res->GetIsResourceLoaded()) 
+	{
+		file_res->GetSource(_source, _size);
+	}
 }

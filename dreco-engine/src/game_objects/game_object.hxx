@@ -23,6 +23,8 @@ public:
 
 	game_base* GetGameInstance() const;
 
+	resource_manager* GetResourceManager() const;
+
 	bool GetIsBegined() const;
 
 protected:

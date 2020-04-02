@@ -7,7 +7,8 @@
 #endif
 
 #include "math/mat2x3.hxx"
-#include "shader_properties.hxx"
+#include "gl_shader_info.hxx"
+#include "core/resource_manager.hxx"
 
 #include <string_view>
 #include <tuple>
@@ -15,11 +16,11 @@
 
 namespace dreco
 {
-class shader_gl_base
+class gl_shader_base
 {
 public:
-	shader_gl_base(const shader_properties& _p);
-	~shader_gl_base();
+	gl_shader_base(const gl_shader_info& _info, resource_manager* _rm);
+	~gl_shader_base();
 
 	void Use();
 
@@ -30,8 +31,10 @@ public:
 	int GetAttribLocation(const char* uniform_name) const;
 
 private:
-	GLuint CompileShader(GLenum _s_type, const char* _src);
+	GLuint CompileShader(GLenum _s_type, const char* _src, const size_t* _size);
 	GLuint LinkShaderProgram();
+
+	resource_manager* res_manager = nullptr;
 
 	GLuint vert_shader_id = 0;
 	GLuint frag_shader_id = 0;

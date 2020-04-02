@@ -2,15 +2,15 @@
 
 #include "../game_instance.hxx"
 #include "core/audio_manager.hxx"
+#include "core/engine.hxx"
 #include "core/resource_manager.hxx"
 #include "game_objects/game_world.hxx"
 #include "gem.hxx"
 #include "math/transform.hxx"
-#include "renderer/shader_properties.hxx"
 #include "renderer/mesh_data.hxx"
-#include "utils/file_utils.hxx"
-#include "core/engine.hxx"
 #include "renderer/opengles2_renderer.hxx"
+#include "resources_paths.hxx"
+#include "utils/file_utils.hxx"
 
 #include <string>
 
@@ -32,13 +32,17 @@ game_board::~game_board()
 void game_board::Begin()
 {
 	game_object::Begin();
+	
+	dreco::resource_manager* res_man = GetGameInstance()->GetResourceManager();
+	res_man->LoadResource(gem_shader_vert_path, dreco::resource_type::SOURCE_FILE);
+	res_man->LoadResource(gem_shader_frag_path, dreco::resource_type::SOURCE_FILE);
+	
 	gi = dynamic_cast<game_instance*>(GetWorld()->GetGameInstance());
 	CreateBoard();
 
-	dreco::resource_manager* res_man = GetGameInstance()->GetResourceManager();
+	
 	res_man->LoadResource("res/audio/matchsound.wav", dreco::resource_type::AUDIO);
 	res_man->LoadResource("res/music/wakfumusic.ogg", dreco::resource_type::MUSIC);
-
 	// start play infinite looped music
 	// dreco::music* m =
 	//	dynamic_cast<dreco::music*>(res_man->GetResource("res/music/wakfumusic.ogg"));
@@ -125,8 +129,7 @@ void game_board::Tick(const float& DeltaTime)
 		if (reciently_removed_gems_timer <= 0.0f)
 		{
 			dreco::audio* a = dynamic_cast<dreco::audio*>(
-				GetWorld()->GetGameInstance()->GetResourceManager()->GetResource(
-					"res/audio/matchsound.wav"));
+				GetResourceManager()->GetResource("res/audio/matchsound.wav"));
 			GetWorld()->GetGameInstance()->GetAudioManager()->PlayAudio(*a, -1, 0);
 
 			reciently_removed_gems_timer = 0.1f;
@@ -137,14 +140,10 @@ void game_board::Tick(const float& DeltaTime)
 
 void game_board::CreateBoard()
 {
-	char* vert_src;
-	dreco::file_utils::LoadSourceFromFile("res/shaders/default_shader.vert", &vert_src);
-	char* frag_src;
-	dreco::file_utils::LoadSourceFromFile("res/shaders/default_shader.frag", &frag_src);
-	const dreco::shader_properties shader_prop(vert_src, frag_src);
-
 	dreco::mesh_data* mesh = dreco::mesh_data::CreateSpritePlane();
 	GetGameInstance()->GetEngine()->GetRenderer()->AddMeshData(mesh);
+	dreco::gl_shader_info shader_info{
+		gem_shader_vert_path, gem_shader_frag_path, gem_shader_bin_path};
 
 	LoadGemTextures();
 
@@ -159,7 +158,7 @@ void game_board::CreateBoard()
 		const uint8_t y = i >= BOARD_WIDTH ? i / BOARD_WIDTH : 0;
 		cells[x][y] = new board_cell(*this, dreco::int_vec2(x, y));
 
-		gem* cur_gem = new gem(GetWorld(), mesh, shader_prop, *this);
+		gem* cur_gem = new gem(GetWorld(), mesh, shader_info, *this);
 		gems[i] = cur_gem;
 
 		const char name[]{'g', 'e', 'm', '_', static_cast<char>(i)};

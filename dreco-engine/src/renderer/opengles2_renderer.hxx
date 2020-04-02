@@ -12,8 +12,7 @@
 
 #include "gl_mesh_buffers_info.hxx"
 #include "mesh_data.hxx"
-#include "shader_gl_base.hxx"
-#include "vertex.hxx"
+#include "gl_shader_base.hxx"
 
 #include <string>
 #include <map>
@@ -30,8 +29,6 @@ public:
 	~opengles2_renderer();
 
 	int Init(const char* _title);
-
-	void DrawVertexArray(const std::vector<vertex>& _v, const mat2x3& _m);
 
 	void Tick(const float& DeltaTime);
 

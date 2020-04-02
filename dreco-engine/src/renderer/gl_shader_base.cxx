@@ -1,43 +1,47 @@
-#include "shader_gl_base.hxx"
+#include "gl_shader_base.hxx"
 
 #include "gl_check.hxx"
 #include "gl_inline_functions.hxx"
+#include "resources/file_source.hxx"
 
 using namespace dreco;
 
-shader_gl_base::shader_gl_base(const shader_properties& _p)
+gl_shader_base::gl_shader_base(const gl_shader_info& _info, resource_manager* _rm)
 {
-	vert_shader_id = CompileShader(GL_VERTEX_SHADER, _p.vert_src);
-	frag_shader_id = CompileShader(GL_FRAGMENT_SHADER, _p.frag_src);
+	const char* shader_source;
+	size_t shader_size;
 
-	if (vert_shader_id == 0 || frag_shader_id == 0)
-	{
-		std::cerr << "Compilation failed;" << std::endl;
-		return;
-	}
+	_rm->GetFileSource(_info.vertex_shader_path, &shader_source, &shader_size);
+	if (shader_source)
+		vert_shader_id = CompileShader(GL_VERTEX_SHADER, shader_source, &shader_size);
+		
+	_rm->GetFileSource(_info.fragment_shader_path, &shader_source, &shader_size);
+	if (shader_source)
+		frag_shader_id = CompileShader(GL_FRAGMENT_SHADER, shader_source, &shader_size);
 
 	program_id = LinkShaderProgram();
 }
 
-shader_gl_base::~shader_gl_base()
+gl_shader_base::~gl_shader_base()
 {
 	glDeleteShader(vert_shader_id);
 	glDeleteShader(frag_shader_id);
 	glDeleteProgram(program_id);
 }
 
-void shader_gl_base::Use()
+void gl_shader_base::Use()
 {
 	glUseProgram(program_id);
 }
 
-void shader_gl_base::SetUniform(const char* uniform_name, const mat2x3& _m)
+void gl_shader_base::SetUniform(const char* uniform_name, const mat2x3& _m)
 {
 	const int u_loc = glGetUniformLocation(program_id, uniform_name);
 
 	if (u_loc == -1)
 	{
-		std::cerr << "SetUniform(): Couldn't get uniform: " << std::string(uniform_name) << std::endl;
+		std::cerr << "SetUniform(): Couldn't get uniform: " << std::string(uniform_name)
+				  << std::endl;
 		return;
 	}
 
@@ -49,21 +53,22 @@ void shader_gl_base::SetUniform(const char* uniform_name, const mat2x3& _m)
 	glUniformMatrix3fv(u_loc, 1, GL_FALSE, mat3x3_array);
 }
 
-int shader_gl_base::GetUniformLocation(const char* uniform_name) const
+int gl_shader_base::GetUniformLocation(const char* uniform_name) const
 {
 	return glGetUniformLocation(program_id, uniform_name);
 }
 
-int shader_gl_base::GetAttribLocation(const char* uniform_name) const
+int gl_shader_base::GetAttribLocation(const char* uniform_name) const
 {
 	return glGetAttribLocation(program_id, uniform_name);
 }
 
-GLuint shader_gl_base::CompileShader(GLenum _s_type, const char* _src)
+GLuint gl_shader_base::CompileShader(
+	GLenum _s_type, const char* _src, const size_t* _size)
 {
 	GLuint shader_id = glCreateShader(_s_type);
 	const GLchar* src = _src;
-	
+
 	glShaderSource(shader_id, 1, &src, nullptr);
 	GL_CHECK();
 
@@ -95,7 +100,7 @@ GLuint shader_gl_base::CompileShader(GLenum _s_type, const char* _src)
 	return shader_id;
 }
 
-GLuint shader_gl_base::LinkShaderProgram()
+GLuint gl_shader_base::LinkShaderProgram()
 {
 	GLuint local_program_id = glCreateProgram();
 	GL_CHECK();
@@ -105,9 +110,11 @@ GLuint shader_gl_base::LinkShaderProgram()
 		throw std::runtime_error("Failed to glCreateProgram(), can't link program");
 	}
 
-	glAttachShader(local_program_id, vert_shader_id);
+	if (GL_FALSE != vert_shader_id)
+		glAttachShader(local_program_id, vert_shader_id);
 	GL_CHECK();
-	glAttachShader(local_program_id, frag_shader_id);
+	if (GL_FALSE != frag_shader_id)
+		glAttachShader(local_program_id, frag_shader_id);
 	GL_CHECK();
 
 	glLinkProgram(local_program_id);

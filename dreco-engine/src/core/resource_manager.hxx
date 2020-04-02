@@ -25,6 +25,8 @@ public:
 
 	bool IsResourceLoaded(const char* _fpath) const;
 
+	void GetFileSource(const char* _fpath, const char** _source, size_t* _size);
+	
 private:
 	engine* owner;
 

@@ -6,7 +6,7 @@
 #include "core/audio_manager.hxx"
 
 
-gem::gem(dreco::game_world* _w, const dreco::mesh_data* _mesh_data, const dreco::shader_properties& _s,
+gem::gem(dreco::game_world* _w, const dreco::mesh_data* _mesh_data, const dreco::gl_shader_info& _s,
 	game_board& _b)
 	: dreco::mesh_object(_w, _mesh_data, _s)
 	, board(&_b)

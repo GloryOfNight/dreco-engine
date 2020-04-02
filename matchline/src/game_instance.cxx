@@ -4,8 +4,6 @@
 #include "core/sdl_event_manager.hxx"
 #include "game_objects/camera_base.hxx"
 #include "math/mat2x3.hxx"
-#include "renderer/shader_properties.hxx"
-#include "renderer/vertex.hxx"
 #include "utils/file_utils.hxx"
 
 #include <vector>

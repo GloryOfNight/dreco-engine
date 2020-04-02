@@ -10,7 +10,7 @@ class gem_fall_component;
 class gem : public dreco::mesh_object
 {
 public:
-	gem(dreco::game_world* _w, const dreco::mesh_data* _mesh_data, const dreco::shader_properties& _s,
+	gem(dreco::game_world* _w, const dreco::mesh_data* _mesh_data, const dreco::gl_shader_info& _s,
 		game_board& _b);
 
 	~gem();
